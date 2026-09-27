@@ -1,0 +1,204 @@
+[
+  {
+    "id": "alex",
+    "name": "Alex",
+    "age": 32,
+    "city": "Paris",
+    "kinks": [
+      "Leather",
+      "Denim"
+    ],
+    "role": "Dom",
+    "intent": "suivi",
+    "pace": "Prendre le temps",
+    "quote": "Un café sans regarder l’heure. Et l’envie de se revoir.",
+    "bio": "Les échanges francs, le cuir et les dimanches à deux.",
+    "photo": "https://static.wixstatic.com/media/739d69_8f8ce9ef74c34d25803f679a3f8127e4~mv2.jpg/v1/fill/w_480%2Ch_720%2Cal_c%2Cq_80%2Cusm_0.66_1.00_0.01%2Cenc_avif%2Cquality_auto/739d69_8f8ce9ef74c34d25803f679a3f8127e4~mv2.jpg",
+    "code": "KQ-7M4X9P"
+  },
+  {
+    "id": "tom",
+    "name": "Tom",
+    "age": 28,
+    "city": "Lyon",
+    "kinks": [
+      "Sportswear"
+    ],
+    "role": "Switch",
+    "intent": "verre",
+    "pace": "Se rencontrer bientôt",
+    "quote": "Un verre après le sport. On voit où le feeling nous mène.",
+    "bio": "Baskets aux pieds, esprit ouvert. Le premier rendez-vous peut rester tout simple.",
+    "photo": "https://mr-riegillio.com/cdn/shop/articles/sylven-meets-rj-585763.jpg?v=1607874225&width=1200",
+    "code": "KQ-8N2R6T"
+  },
+  {
+    "id": "max",
+    "name": "Max",
+    "age": 35,
+    "city": "Bordeaux",
+    "kinks": [
+      "Rubber",
+      "Bondage"
+    ],
+    "role": "Switch",
+    "intent": "explorer",
+    "pace": "Prendre le temps",
+    "quote": "Partager la passion du gear, puis inventer nos propres codes.",
+    "bio": "Collectionneur de matières et amateur de conversations qui durent.",
+    "photo": "https://www.invinciblerubber.com/image/cache/catalog/SU056_h-840x840.jpg",
+    "code": "KQ-3W9F5A"
+  },
+  {
+    "id": "leo",
+    "name": "Léo",
+    "age": 30,
+    "city": "Paris",
+    "kinks": [
+      "Sportswear",
+      "Denim"
+    ],
+    "role": "Sans étiquette",
+    "intent": "verre",
+    "pace": "Se rencontrer bientôt",
+    "quote": "Une terrasse, deux sourires, aucune idée préconçue.",
+    "bio": "J’aime la spontanéité, le nylon et les gens qui écoutent.",
+    "photo": "https://www.scallychav.co.uk/cdn/shop/files/FDCA6A7D-D889-4DFA-AD34-30F6174243C3.jpg?v=1778270620&width=1445",
+    "code": "KQ-6B2D8H"
+  },
+  {
+    "id": "noe",
+    "name": "Noé",
+    "age": 26,
+    "city": "Lille",
+    "kinks": [
+      "Denim",
+      "Leather"
+    ],
+    "role": "Sub",
+    "intent": "suivi",
+    "pace": "Prendre le temps",
+    "quote": "Le même rire. Et peut-être le même prochain week-end.",
+    "bio": "Plutôt introverti au début. Les choses simples font les meilleures histoires.",
+    "photo": null,
+    "code": "KQ-DEMO05"
+  },
+  {
+    "id": "sacha",
+    "name": "Sacha",
+    "age": 38,
+    "city": "Paris",
+    "kinks": [
+      "Bondage",
+      "Rubber"
+    ],
+    "role": "Dom",
+    "intent": "explorer",
+    "pace": "Prendre le temps",
+    "quote": "Apprendre les envies de l’autre avant tout le reste.",
+    "bio": "Curieux, patient, attaché à la confiance et à la discussion.",
+    "photo": null,
+    "code": "KQ-DEMO06"
+  },
+  {
+    "id": "eli",
+    "name": "Eli",
+    "age": 29,
+    "city": "Nantes",
+    "kinks": [
+      "Puppy",
+      "Sportswear"
+    ],
+    "role": "Switch",
+    "intent": "verre",
+    "pace": "Se rencontrer bientôt",
+    "quote": "Un premier verre et beaucoup d’autodérision.",
+    "bio": "J’aime jouer, sortir de mes habitudes et rencontrer des personnalités singulières.",
+    "photo": null,
+    "code": "KQ-DEMO07"
+  },
+  {
+    "id": "adam",
+    "name": "Adam",
+    "age": 42,
+    "city": "Marseille",
+    "kinks": [
+      "Leather",
+      "Denim"
+    ],
+    "role": "Dom",
+    "intent": "suivi",
+    "pace": "Prendre le temps",
+    "quote": "Quelqu’un avec qui les petits rituels deviennent précieux.",
+    "bio": "La mer, le cuir patiné, un bon dîner et le plaisir de prendre le temps.",
+    "photo": null,
+    "code": "KQ-DEMO08"
+  },
+  {
+    "id": "yan",
+    "name": "Yan",
+    "age": 33,
+    "city": "Lyon",
+    "kinks": [
+      "Rubber",
+      "Sportswear"
+    ],
+    "role": "Sub",
+    "intent": "explorer",
+    "pace": "Se rencontrer bientôt",
+    "quote": "Tu me fais découvrir ton univers ? Je te raconte le mien.",
+    "bio": "Une nouvelle rencontre commence pour moi par une vraie conversation.",
+    "photo": null,
+    "code": "KQ-DEMO09"
+  },
+  {
+    "id": "milo",
+    "name": "Milo",
+    "age": 24,
+    "city": "Bordeaux",
+    "kinks": [
+      "Denim"
+    ],
+    "role": "Sans étiquette",
+    "intent": "verre",
+    "pace": "Prendre le temps",
+    "quote": "Pas besoin de tout savoir pour avoir envie de découvrir.",
+    "bio": "Nouveau dans ces univers. J’apprécie qu’on puisse poser des questions simplement.",
+    "photo": null,
+    "code": "KQ-DEMO10"
+  },
+  {
+    "id": "raph",
+    "name": "Raph",
+    "age": 46,
+    "city": "Paris",
+    "kinks": [
+      "Leather",
+      "Bondage"
+    ],
+    "role": "Switch",
+    "intent": "suivi",
+    "pace": "Se rencontrer bientôt",
+    "quote": "Garder la curiosité du premier rendez-vous, même après dix.",
+    "bio": "Je cherche une complicité qui laisse de la place à chacun.",
+    "photo": null,
+    "code": "KQ-DEMO11"
+  },
+  {
+    "id": "jules",
+    "name": "Jules",
+    "age": 31,
+    "city": "Nantes",
+    "kinks": [
+      "Puppy",
+      "Rubber"
+    ],
+    "role": "Sans étiquette",
+    "intent": "explorer",
+    "pace": "Prendre le temps",
+    "quote": "Une envie commune, et toute une personne à découvrir.",
+    "bio": "J’aime les échanges légers qui deviennent des conversations profondes.",
+    "photo": null,
+    "code": "KQ-DEMO12"
+  }
+]

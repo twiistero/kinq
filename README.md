@@ -1,26 +1,16 @@
-# Kinq — home, direction 01
+# KINQ
 
-Prototype HTML/CSS/JS responsive, sans dépendance de build.
+KINQ est servi par **Node.js** (`server.mjs`) : pages publiques, espace membre, journal et studio d’administration. Les données et la logique métier passent par **FastAPI** (`backend/app/main.py`) et sont conservées dans **PostgreSQL**. La composition de production est dans `compose.yaml`. Le HTML/CSS/JS existant est conservé comme gabarit pour préserver le design ; les pages HTML, les 159 entrées du lexique, les 13 événements et les 12 profils fictifs sont importés dans PostgreSQL par `backend/app/init_db.py`.
 
-## NO TABOO — journal
+Les comptes membres utilisent un code à six chiffres envoyé par Resend. Le profil, les Pins, les Hooks et les photos soumises à modération sont enregistrés en base. Le studio `/admin/` est accessible à `olestang@theethercompany.com` par code e-mail ; l’authentification Google Workspace reste optionnelle. Les autres membres du Workspace disposent au départ d’un rôle lecture seule si OAuth est configuré. Les six articles historiques NO TABOO conservent leurs URLs et leur mise en page ; les nouveaux articles sont créés dans le studio et diffusés depuis PostgreSQL.
 
-Le journal a sa propre page d’accueil (`guides.html`) et six articles avec URL dédiée. Les cartes de la home ouvrent directement ces articles. L’accueil organise la lecture par curiosité, conversation et rencontre, avec des liens vers les univers, le lexique, les profils et les actions compte/application du prototype.
+## Démarrage
 
-Le fil d’Ariane est construit une seule fois dans `shell.js`, au même endroit sous l’en-tête sur toutes les pages publiques, y compris l’accueil. Les articles donnent leur rubrique et leur titre via les attributs `data-breadcrumb-*` générés par `build-journal.py`.
+Copier `.env.example` vers `.env`, générer les secrets propres à KINQ, puis lancer `docker compose up --build -d`. Définir `KINQ_PUBLIC_ORIGIN=https://kinq-app.com` en production, et router le domaine HTTPS vers le service `web` sur son port interne 4173. Les secrets restent dans l’environnement Coolify et ne vont jamais dans Git. Si Google OAuth est activé, créer un client KINQ avec le callback exact `https://kinq-app.com/api/admin/auth/callback`.
 
-Les deux premiers articles conservent leur texte intégral dans `content/no-taboo/`, mis en page par `scripts/render_first_article.py` et `scripts/render_second_article.py`. Leurs métadonnées et les autres articles se trouvent dans `scripts/build-journal.py` : lancer `python3 scripts/build-journal.py` après modification. Le champ optionnel `summary` alimente l’espace sous le titre de chaque carte ; `deck` reste le sous-titre de la page d’article. Ce script régénère l’accueil et les six pages, et maintient les liens des cartes de la home. `scripts/create-pages.py` ne régénère plus le journal.
+Le schéma est créé au démarrage. Les sauvegardes PostgreSQL et les migrations versionnées sont nécessaires avant toute évolution destructive du schéma. Les photos historiques d’illustration restent soumises aux droits de publication indiqués dans `docs/photo-sources.md`.
 
-Démarrage : `python3 -m http.server 4173 --bind 127.0.0.1`
-
-- Home : http://127.0.0.1:4173/
-- Sélecteur desktop/mobile : http://127.0.0.1:4173/preview.html
-- Captures : previews/home-desktop.png et previews/home-mobile.png
-
-Interactions : filtres d’univers, Hook et Épingles en mémoire de session, fiches de profils fictifs, copie du code, menu mobile, lectures éditoriales et modales de présentation. Aucun compte réel, envoi, géolocalisation ou backend. Liens de relation illustrés sur les profils ; invitations non implémentées. Les codes sont des exemples fixes.
-
-Les photographies de test illustrent des personnages fictifs et ne représentent pas les préférences des personnes photographiées. Sources et contexte détaillés dans la section Direction 02. Polices Google Fonts et photos chargées à distance.
-
-Vérifications : rendu à 1440 px, 390 px et absence de débordement à 360 px ; images chargées ; filtres, Hook, Épingler, fiche de profil, menu mobile et modale d’inscription. Pas de déploiement.
+## Historique du design
 
 ## Direction 02
 

@@ -43,8 +43,8 @@ function updatePreview() {
   const city = !data.has('hideCity') ? text(data.get('city')) : '';
   preview.querySelector('h2').textContent = `${pseudo}, ${age >= 18 && age <= 99 ? age : '18+'}${city ? ` · ${city}` : ''}`;
   preview.querySelector('.my-profile-avatar').classList.toggle('is-discreet',data.has('discreet'));
-  preview.querySelector('.my-profile-photo-state').textContent = data.has('discreet') ? 'Album privé · sur demande' : 'Photo publique possible · plus tard';
-  preview.querySelector('.my-profile-state').innerHTML = `<svg aria-hidden="true"><use href="#${data.has('invisible') ? 'lock' : 'search'}"/></svg> ${data.has('invisible') ? 'Mode invisible · par code ou lien' : 'Visible dans la recherche (simulation)'}`;
+  preview.querySelector('.my-profile-photo-state').textContent = data.has('discreet') ? 'Album privé · sur demande' : 'Photo publique après validation';
+  preview.querySelector('.my-profile-state').innerHTML = `<svg aria-hidden="true"><use href="#${data.has('invisible') ? 'lock' : 'search'}"/></svg> ${data.has('invisible') ? 'Mode invisible · par code ou lien' : 'Visible dans la recherche'}`;
   preview.querySelector('.my-profile-bio').textContent = text(data.get('bio'));
   const tags = preview.querySelector('.my-profile-tags');
   tags.replaceChildren(...[...data.getAll('style'), ...data.getAll('practice')].map(kink => {const chip = document.createElement('span'); chip.textContent = kink; return chip;}));
@@ -66,9 +66,8 @@ form.addEventListener('change', event => {
   markProfileDirty();
   updatePreview();
 });
-form.addEventListener('reset', () => requestAnimationFrame(() => { try { sessionStorage.removeItem('kinq-demo-my-profile'); } catch {} featured.querySelectorAll('input').forEach(input => input.checked = false); markProfileDirty(); updateRelationLookup(); updatePreview(); }));
+form.addEventListener('reset', () => requestAnimationFrame(() => { featured.querySelectorAll('input').forEach(input => input.checked = false); markProfileDirty(); updateRelationLookup(); updatePreview(); window.kinqSaveProfile?.(); }));
 document.querySelector('#preview-profile').addEventListener('click', () => {updatePreview();preview.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',block:'start'});});
-try { const saved = JSON.parse(sessionStorage.getItem('kinq-demo-my-profile') || 'null'); if (Array.isArray(saved)) [...form.querySelectorAll('input,select,textarea')].forEach((el, i) => { const item = saved[i]; if (!item || item.name !== el.name || el.type === 'file') return; if (el.type === 'checkbox' || el.type === 'radio') el.checked = item.checked; else el.value = item.value; }); } catch {}
 updatePreview();
 
 const validateProfile = document.querySelector('#validate-profile');
@@ -80,7 +79,7 @@ validateProfile.addEventListener('click', () => {
   validateProfile.classList.add('is-validated');
   validateProfile.querySelector('span').textContent = 'Profil modifié !';
   updatePreview();
-  try { sessionStorage.setItem('kinq-demo-my-profile', JSON.stringify([...form.querySelectorAll('input,select,textarea')].map(el => ({name:el.name, value:el.type === 'file' ? '' : el.value, checked:el.checked})))); } catch {}
+  window.kinqSaveProfile?.();
 });
 
 // Local lookup illustrates the request flow with the four existing fictional profiles.

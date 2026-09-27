@@ -1,0 +1,52 @@
+services:
+  web:
+    build: .
+    expose:
+      - "4173"
+    environment:
+      KINQ_API_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4173/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg://kinq:${KINQ_DB_PASSWORD}@db:5432/kinq
+      KINQ_GOOGLE_CLIENT_ID: ${KINQ_GOOGLE_CLIENT_ID}
+      KINQ_GOOGLE_CLIENT_SECRET: ${KINQ_GOOGLE_CLIENT_SECRET}
+      KINQ_OWNER_EMAIL: ${KINQ_OWNER_EMAIL}
+      KINQ_SESSION_SECRET: ${KINQ_SESSION_SECRET}
+      KINQ_UPLOAD_KEY: ${KINQ_UPLOAD_KEY}
+      KINQ_PUBLIC_ORIGIN: ${KINQ_PUBLIC_ORIGIN:-http://127.0.0.1:4173}
+      KINQ_RESEND_API_KEY: ${KINQ_RESEND_API_KEY}
+      KINQ_RESEND_FROM: ${KINQ_RESEND_FROM:-KINQ <connexion@kinq-app.com>}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz',timeout=2)"]
+      interval: 10s
+      timeout: 4s
+      retries: 10
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: kinq
+      POSTGRES_USER: kinq
+      POSTGRES_PASSWORD: ${KINQ_DB_PASSWORD}
+    volumes:
+      - kinq-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kinq -d kinq"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+volumes:
+  kinq-postgres:
