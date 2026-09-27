@@ -1,0 +1,54 @@
+[
+  {
+    "id": "maspalomas-fetish-pride-2026",
+    "name": "Maspalomas Fetish Pride",
+    "start": "2026-10-01",
+    "end": "2026-10-12",
+    "city": "Maspalomas",
+    "country": "Espagne",
+    "scope": "europe",
+    "kind": "Festival",
+    "summary": "Plusieurs jours de rencontres, soirées et activités autour des différents univers fetish.",
+    "source": "https://maspalomasfetishpride.es/tickets/",
+    "verified_on": "2026-09-27"
+  },
+  {
+    "id": "redzone-underwear-2026-10-23",
+    "name": "Underwear au REDZONE",
+    "start": "2026-10-23T18:00:00+02:00",
+    "end": "2026-10-24T04:00:00+02:00",
+    "city": "Paris",
+    "country": "France",
+    "scope": "france",
+    "kind": "Soirée",
+    "summary": "Une soirée underwear annoncée par le REDZONE. Les modalités d’accès sont à confirmer auprès de l’organisateur.",
+    "source": "https://redzone-bar.com/agenda/",
+    "verified_on": "2026-09-27"
+  },
+  {
+    "id": "beyond-darklands-2027",
+    "name": "Beyond Darklands",
+    "start": "2027-02-16",
+    "end": "2027-02-22",
+    "city": "Anvers",
+    "country": "Belgique",
+    "scope": "europe",
+    "kind": "Festival",
+    "summary": "Une semaine de festival fetish avec soirées, rencontres et programmation en ville.",
+    "source": "https://darklands.be/",
+    "verified_on": "2026-09-27"
+  },
+  {
+    "id": "kinkx-2027",
+    "name": "KinkX",
+    "start": "2027-05-14",
+    "end": "2027-05-17",
+    "city": "Paris",
+    "country": "France",
+    "scope": "france",
+    "kind": "Festival",
+    "summary": "Un week-end parisien de soirées fetish. La programmation 2027 reste à confirmer par l’organisateur.",
+    "source": "https://kinkx.fr/",
+    "verified_on": "2026-09-27"
+  }
+]
