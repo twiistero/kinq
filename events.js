@@ -105,17 +105,6 @@
   const proposalStatus = document.querySelector('#event-proposal-status');
   const proposalSuccess = document.querySelector('#event-proposal-success');
   const nameKey = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim().toLowerCase().replace(/\s+/g, ' ');
-  const pendingKey = 'kinq-event-proposals';
-
-  function pendingProposals() {
-    try {
-      const value = JSON.parse(sessionStorage.getItem(pendingKey) || '[]');
-      return Array.isArray(value) ? value : [];
-    } catch {
-      return [];
-    }
-  }
-
   document.querySelector('#open-event-proposal').addEventListener('click', () => {
     proposalStatus.textContent = '';
     proposalForm.hidden = false;
@@ -150,20 +139,15 @@
     const duplicate = item => nameKey(item.name) === nameKey(proposal.name)
       && nameKey(item.city) === nameKey(proposal.city)
       && item.start?.slice(0, 10) === proposal.date;
-    const pending = pendingProposals();
-    if (records.some(duplicate) || pending.some(duplicate)) {
-      proposalStatus.textContent = 'Cet événement à cette date figure déjà dans l’agenda ou dans tes propositions de cet aperçu.';
+    if (records.some(duplicate)) {
+      proposalStatus.textContent = 'Cet événement à cette date figure déjà dans l’agenda.';
       return;
     }
-    pending.push({ ...proposal, start: proposal.date, createdAt: new Date().toISOString() });
-    try {
-      sessionStorage.setItem(pendingKey, JSON.stringify(pending));
-    } catch {
-      proposalStatus.textContent = 'Impossible de conserver cette proposition dans ce navigateur.';
-      return;
-    }
+    const subject = `Proposition d'event Kinq — ${proposal.name}`;
+    const body = `Bonjour Kinq,\n\nJe propose cet événement pour l'agenda :\n\nNom : ${proposal.name}\nVille : ${proposal.city}\nDate : ${proposal.date}\nLien officiel : ${url.href}\nE-mail de contact : ${proposal.email}\n\nCette proposition reste soumise à vérification et au contrôle des doublons.`;
     proposalForm.hidden = true;
     proposalSuccess.hidden = false;
+    window.location.href = `mailto:hello@kinq-app.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     document.querySelector('#event-proposal-another').focus();
   });
 })();

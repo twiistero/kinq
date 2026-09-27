@@ -1,6 +1,7 @@
 [
-  {"id":"redzone","name":"REDZONE Paris","url":"https://redzone-bar.com/agenda/","scope":"france"},
-  {"id":"maspalomas","name":"Maspalomas Fetish Pride","url":"https://maspalomasfetishpride.es/agenda/","scope":"europe","monitor":false},
-  {"id":"darklands","name":"Beyond Darklands","url":"https://darklands.be/program/","scope":"europe"},
-  {"id":"kinkx","name":"KinkX","url":"https://kinkx.fr/","scope":"france"}
+  {"id":"fetish-lyon","name":"Association Fetish Lyon","adapter":"tribe","url":"https://fetishlyon.fr/wp-json/tribe/events/v1/events","page":"https://fetishlyon.fr/evenements/","scope":"france","city":"Lyon","country":"France","timezone":"Europe/Paris","monitor":false},
+  {"id":"maspalomas","name":"Maspalomas Fetish Pride","adapter":"wordpress_acf","url":"https://maspalomasfetishpride.es/wp-json/wp/v2/event","page":"https://maspalomasfetishpride.es/agenda/","scope":"europe","city":"Maspalomas","country":"Espagne","timezone":"Atlantic/Canary","monitor":false},
+  {"id":"darklands","name":"Beyond Darklands","adapter":"darklands_program","url":"https://darklands.be/program/","scope":"europe","city":"Anvers","country":"Belgique","timezone":"Europe/Brussels","monitor":false},
+  {"id":"redzone","name":"REDZONE Paris","url":"https://redzone-bar.com/agenda/","scope":"france","monitor":true},
+  {"id":"kinkx","name":"KinkX","url":"https://kinkx.fr/","scope":"france","monitor":true}
 ]
