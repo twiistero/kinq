@@ -464,6 +464,9 @@ def close_member_account(request: Request, member: Member = Depends(current_memb
 
 
 def erase_member(db: Session, member: Member):
+    challenge = db.get(MemberCode, member.email)
+    if challenge:
+        db.delete(challenge)
     profile = db.get(MemberProfile, member.id)
     if profile:
         db.delete(profile)
@@ -688,7 +691,7 @@ def change_role(staff_id: int, body: RoleChange, owner: Staff = Depends(admin), 
 
 
 @app.get("/api/admin/members")
-def members(_: Staff = Depends(current_staff), db: Session = Depends(db_session)):
+def members(_: Staff = Depends(editor), db: Session = Depends(db_session)):
     return [{"id": m.id, "email": m.email, "name": m.name, "status": effective_member_status(m), "ban_until": m.ban_until, "deleted_at": m.deleted_at} for m in db.scalars(select(Member).order_by(Member.id.desc()).limit(200))]
 
 
@@ -775,12 +778,12 @@ async def upload_photo(member_id: int = Form(), photo: UploadFile = File(), x_ki
 
 
 @app.get("/api/admin/photos")
-def photo_queue(_: Staff = Depends(current_staff), db: Session = Depends(db_session)):
+def photo_queue(_: Staff = Depends(editor), db: Session = Depends(db_session)):
     return [{"id": p.id, "member_id": p.member_id, "status": p.status, "created_at": p.created_at} for p in db.scalars(select(Photo).where(Photo.status == "pending").order_by(Photo.created_at).limit(100))]
 
 
 @app.get("/api/admin/photos/{photo_id}/preview")
-def photo_preview(photo_id: str, _: Staff = Depends(current_staff), db: Session = Depends(db_session)):
+def photo_preview(photo_id: str, _: Staff = Depends(editor), db: Session = Depends(db_session)):
     p = db.get(Photo, photo_id)
     if not p or p.status == "deleted":
         raise HTTPException(404)
@@ -885,7 +888,7 @@ def published_article(slug: str, db: Session = Depends(db_session)):
 
 
 @app.get("/api/admin/comments")
-def comments(_: Staff = Depends(current_staff), db: Session = Depends(db_session)):
+def comments(_: Staff = Depends(editor), db: Session = Depends(db_session)):
     return [{"id": c.id, "article_id": c.article_id, "member_id": c.member_id, "body": c.body, "status": c.status} for c in db.scalars(select(Comment).order_by(Comment.id.desc()).limit(200))]
 
 
