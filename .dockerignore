@@ -2,9 +2,11 @@
 .github
 .venv
 node_modules
+.next
+public
 previews
 docs
-scripts
+legacy-pages
 __pycache__
 *.pyc
 .env

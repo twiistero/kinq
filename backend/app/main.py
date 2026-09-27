@@ -96,10 +96,10 @@ class Audit(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
 
-class PublicPage(Base):
-    __tablename__ = "public_pages"
+class PageDocument(Base):
+    __tablename__ = "page_documents"
     path: Mapped[str] = mapped_column(String(180), primary_key=True)
-    html: Mapped[str] = mapped_column(Text)
+    data: Mapped[dict] = mapped_column(JSON)
     source_hash: Mapped[str] = mapped_column(String(64))
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
@@ -151,14 +151,6 @@ class DemoProfile(Base):
     __tablename__ = "demo_profiles"
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     data: Mapped[dict] = mapped_column(JSON)
-
-
-class LexiconEntry(Base):
-    __tablename__ = "lexicon_entries"
-    key: Mapped[str] = mapped_column(String(120), primary_key=True)
-    category: Mapped[str] = mapped_column(String(40))
-    position: Mapped[int] = mapped_column()
-    card_html: Mapped[str] = mapped_column(Text)
 
 
 class MemberSignal(Base):
@@ -218,21 +210,14 @@ def health():
     return {"ok": True}
 
 
-@app.get("/api/pages/{page_path:path}")
-def public_page(page_path: str, db: Session = Depends(db_session)):
-    if not page_path or "/" in page_path or not page_path.endswith(".html"):
+@app.get("/api/documents/{page_path:path}")
+def page_document(page_path: str, db: Session = Depends(db_session)):
+    if not page_path or "/" in page_path or (page_path != "admin" and not page_path.endswith(".html")):
         raise HTTPException(404)
-    page = db.get(PublicPage, page_path)
+    page = db.get(PageDocument, page_path)
     if not page:
         raise HTTPException(404)
-    output = page.html
-    if page_path == "events.html":
-        cards = "\n".join(event.data["card_html"] for event in sorted(db.scalars(select(Event)).all(), key=lambda event: event.data["start"]))
-        output = re.sub(r"(?s)(<!-- EVENTS:START -->).*?(<!-- EVENTS:END -->)", lambda m: m[1] + "\n" + cards + "\n" + m[2], output, count=1)
-    if page_path == "lexique.html":
-        cards = "\n".join(entry.card_html for entry in db.scalars(select(LexiconEntry).order_by(LexiconEntry.position)))
-        output = re.sub(r'(?s)(<div class="terms lex-terms">).*?(</div>)', lambda m: m[1] + "\n" + cards + "\n" + m[2], output, count=1)
-    return {"html": output}
+    return page.data
 
 
 @app.get("/api/events")

@@ -1,12 +1,14 @@
 # KINQ
 
-KINQ est servi par **Node.js** (`server.mjs`) : pages publiques, espace membre, journal et studio d’administration. Les données et la logique métier passent par **FastAPI** (`backend/app/main.py`) et sont conservées dans **PostgreSQL**. La composition de production est dans `compose.yaml`. Le HTML/CSS/JS existant est conservé comme gabarit pour préserver le design ; les pages HTML, les 159 entrées du lexique, les 13 événements et les 12 profils fictifs sont importés dans PostgreSQL par `backend/app/init_db.py`.
+KINQ est rendu par **Next.js/React sur Node.js** (`app/`) : pages publiques, espace membre, journal et studio d’administration. Les données et la logique métier passent par **FastAPI** (`backend/app/main.py`) et sont conservées dans **PostgreSQL**. La composition de production est dans `compose.yaml`. Les 27 pages ont été converties en documents structurés (`content/page-documents.json`) importés dans PostgreSQL. Les anciens fichiers HTML sont archivés dans `legacy-pages/` et exclus des images de production. Les feuilles de style et scripts de parcours existants sont conservés pour maintenir le design et les interactions.
 
 Les comptes membres utilisent un code à six chiffres envoyé par Resend. Le profil, les Pins, les Hooks et les photos soumises à modération sont enregistrés en base. Le studio `/admin/` est accessible à `olestang@theethercompany.com` par code e-mail ; l’authentification Google Workspace reste optionnelle. Les autres membres du Workspace disposent au départ d’un rôle lecture seule si OAuth est configuré. Les six articles historiques NO TABOO conservent leurs URLs et leur mise en page ; les nouveaux articles sont créés dans le studio et diffusés depuis PostgreSQL.
 
 ## Démarrage
 
 Copier `.env.example` vers `.env`, générer les secrets propres à KINQ, puis lancer `docker compose up --build -d`. Définir `KINQ_PUBLIC_ORIGIN=https://kinq-app.com` en production, et router le domaine HTTPS vers le service `web` sur son port interne 4173. Les secrets restent dans l’environnement Coolify et ne vont jamais dans Git. Si Google OAuth est activé, créer un client KINQ avec le callback exact `https://kinq-app.com/api/admin/auth/callback`.
+
+Pour modifier un document de page archivé, lancer `npm run pages:build` avant le commit. Next.js récupère les documents depuis l’API FastAPI ; il ne sert aucun fichier `.html` du dépôt.
 
 Le schéma est créé au démarrage. Les sauvegardes PostgreSQL et les migrations versionnées sont nécessaires avant toute évolution destructive du schéma. Les photos historiques d’illustration restent soumises aux droits de publication indiqués dans `docs/photo-sources.md`.
 

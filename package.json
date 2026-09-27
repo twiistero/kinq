@@ -1,1 +1,22 @@
-{"name":"kinq-web","private":true,"version":"0.1.0","type":"module","scripts":{"start":"node server.mjs"},"engines":{"node":">=20"}}
+{
+  "name": "kinq-web",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "pages:build": "node scripts/build-page-documents.mjs",
+    "assets:prepare": "node scripts/prepare-public.mjs",
+    "predev": "npm run assets:prepare",
+    "dev": "next dev -p 4173",
+    "prebuild": "npm run assets:prepare",
+    "build": "next build",
+    "start": "next start -p 4173"
+  },
+  "dependencies": {
+    "next": "16.3.6",
+    "parse5": "8.0.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "engines": {"node": ">=22"}
+}
