@@ -1440,6 +1440,27 @@
     }
   },
   {
+    "id": "fetish-strasbourg-5962",
+    "status": "pending",
+    "mode": "new",
+    "target_id": null,
+    "first_seen": "2026-09-27",
+    "event": {
+      "id": "fetish-strasbourg-5962",
+      "source_id": "fetish-strasbourg",
+      "origin_id": "5962",
+      "name": "Fetish Social SPECIAL",
+      "start": "2027-01-30T21:30+01:00",
+      "end": "2027-01-31T03:00+01:00",
+      "city": "Strasbourg",
+      "country": "France",
+      "scope": "france",
+      "kind": "Soirée",
+      "summary": "Événement annoncé par Fetish Social Strasbourg. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
+      "source": "https://fss-fetish.com/evenements/fetish-social-special/"
+    }
+  },
+  {
     "id": "darklands-homecoming-2027",
     "status": "pending",
     "mode": "new",
@@ -1557,6 +1578,27 @@
       "kind": "Soirée",
       "summary": "Événement annoncé par Beyond Darklands. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
       "source": "https://darklands.be/party/fury/"
+    }
+  },
+  {
+    "id": "fetish-strasbourg-5965",
+    "status": "pending",
+    "mode": "new",
+    "target_id": null,
+    "first_seen": "2026-09-27",
+    "event": {
+      "id": "fetish-strasbourg-5965",
+      "source_id": "fetish-strasbourg",
+      "origin_id": "5965",
+      "name": "Fetish Social",
+      "start": "2027-03-27T21:30+01:00",
+      "end": "2027-03-28T03:00+02:00",
+      "city": "Strasbourg",
+      "country": "France",
+      "scope": "france",
+      "kind": "Soirée",
+      "summary": "Événement annoncé par Fetish Social Strasbourg. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
+      "source": "https://fss-fetish.com/evenements/fetish-social-6/"
     }
   }
 ]

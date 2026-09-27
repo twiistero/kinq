@@ -15,7 +15,7 @@ import sys
 import unicodedata
 from urllib.parse import urlencode, urlparse, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
-from zoneinfo import ZoneInfo
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCES = ROOT / "content" / "event-sources.json"
@@ -124,11 +124,16 @@ def collect_tribe(source, today):
         query = urlencode({"per_page": 50, "page": page, "start_date": today.isoformat()})
         payload, _ = fetch_json(f"{source['url']}?{query}")
         for item in payload.get("events", []):
-            if item.get("status") != "publish":
+            if item.get("status") != "publish" or re.search(r"\b(annul[ée]e?|report[ée]e?)\b", plain(item.get("title", "")), re.IGNORECASE):
                 continue
             try:
-                start = local_datetime(item["start_date"], item.get("timezone") or source["timezone"])
-                end = local_datetime(item["end_date"], item.get("timezone") or source["timezone"])
+                timezone = item.get("timezone") or source["timezone"]
+                try:
+                    ZoneInfo(timezone)
+                except ZoneInfoNotFoundError:
+                    timezone = source["timezone"]
+                start = local_datetime(item["start_date"], timezone)
+                end = local_datetime(item["end_date"], timezone)
                 if item.get("all_day"):
                     start, end = start.date(), end.date()
             except (KeyError, TypeError, ValueError):

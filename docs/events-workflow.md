@@ -1,14 +1,14 @@
 # Events — collecte et publication
 
-Périmètre initial : événements fetish publics en France, et grands rendez-vous européens pertinents pour Kinq. Les petites soirées passent par une validation rapide avant publication.
+Périmètre visé : événements fetish publics dans toute la France, et grands rendez-vous européens pertinents pour Kinq. La couverture actuelle dépend des organisateurs suivis ; elle ne prétend pas recenser toutes les soirées françaises. Les petites soirées passent par une validation rapide avant publication.
 
 ## Collecte en ligne
 
 - `content/events.json` contient uniquement les événements approuvés et sourcés.
 - `python3 scripts/build-events.py` met à jour les cartes HTML de `events.html`.
 - `events.js` masque les dates dépassées et filtre France / Europe dans le navigateur.
-- `python3 scripts/collect-events.py --write` lit les flux publics structurés de Fetish Lyon et Maspalomas Fetish Pride, ainsi que les soirées datées du programme Darklands. Il conserve les annonces inédites ou modifiées dans `content/event-candidates.json`, avec leur fiche officielle. Les doublons sont comparés par origine, URL, puis nom + ville + date.
-- `python3 scripts/check-event-sources.py` surveille les pages non structurées REDZONE et KinkX. Il ajoute un signal dans `content/event-review.json` lorsqu'une page change ; ce signal ne constitue pas une fiche d'événement.
+- `python3 scripts/collect-events.py --write` lit les flux publics structurés de Fetish Lyon, Fetish Social Strasbourg et Maspalomas Fetish Pride, ainsi que les soirées datées du programme Darklands. Il conserve les annonces inédites ou modifiées dans `content/event-candidates.json`, avec leur fiche officielle. Les doublons sont comparés par origine, URL, puis nom + ville + date.
+- `python3 scripts/check-event-sources.py` surveille les pages non structurées REDZONE, KinkX, Le Poteau Rose et Nuit Dèmonia. Il ajoute un signal dans `content/event-review.json` lorsqu'une page change ; ce signal ne constitue pas une fiche d'événement.
 - `.github/workflows/events-collect.yml` lance chaque jour les deux collectes et enregistre les annonces en attente dans le dépôt GitHub. La tâche peut aussi être lancée manuellement dans GitHub Actions. Elle ne modifie jamais `content/events.json` ni `events.html`.
 
 Le workflow utilise l'autorisation `contents: write` du `GITHUB_TOKEN`. Un premier lancement manuel permet de vérifier l'accès des runners aux sites des organisateurs et l'écriture dans la branche principale. La collecte ne peut trouver qu'une annonce publique, datée et accessible depuis une source suivie ; les petites soirées sans page officielle doivent être proposées par leur organisateur.
@@ -25,7 +25,7 @@ Une annonce disparue de sa source passe au statut `source_missing` et ne peut pa
 
 ## Pipeline cible
 
-1. Ajouter les organisateurs locaux ville par ville dans `content/event-sources.json` lorsqu'ils publient un flux daté stable.
+1. Ajouter les organisateurs locaux ville par ville dans `content/event-sources.json` lorsqu'ils publient un flux daté stable. Toulouse et Paris sont aussi suivis par signalement de changement ; Bordeaux reste à raccorder à une source datée accessible. Aucun balayage du web ne garantit tous les événements de France.
 2. Créer une file de réception serveur pour le formulaire « proposer un event », avec contrôle anti-spam et anti-doublon. Le formulaire ouvre actuellement un e-mail prérempli à hello@kinq-app.com ; l’envoi dépend de l’application e-mail du visiteur et la modération se fait dans la boîte de réception.
 3. Ajouter une revue périodique des annulations et des changements de lieu/conditions pour les fiches déjà publiées.
 4. Une page propre par événement pourra être générée après validation, avec date de dernière vérification, données structurées `Event` et inclusion dans un sitemap. Ces données servent à la visibilité dans la recherche ; elles ne découvrent pas de nouveaux événements pour l'agenda.

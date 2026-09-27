@@ -43,6 +43,19 @@
     "verified_on": "2026-09-27"
   },
   {
+    "id": "maison-kinky-toulouse-2026",
+    "name": "Maison Kinky",
+    "start": "2026-10-11T14:00+02:00",
+    "end": "2026-10-12T00:00+02:00",
+    "city": "Toulouse",
+    "country": "France",
+    "scope": "france",
+    "kind": "Marché & soirée",
+    "summary": "Une journée kinky et fetish au Bikini : marché et ateliers l’après-midi, DJ set et performances en soirée. Événement réservé aux adultes ; billetterie chez l’organisateur.",
+    "source": "https://lepoteaurose.fr/kinky-market/",
+    "verified_on": "2026-09-27"
+  },
+  {
     "id": "redzone-underwear-2026-10-23",
     "name": "Underwear au REDZONE",
     "start": "2026-10-23T18:00:00+02:00",
@@ -53,6 +66,34 @@
     "kind": "Soirée",
     "summary": "Une soirée underwear annoncée par le REDZONE. Les modalités d’accès sont à confirmer auprès de l’organisateur.",
     "source": "https://redzone-bar.com/agenda/",
+    "verified_on": "2026-09-27"
+  },
+  {
+    "id": "fetish-strasbourg-4691",
+    "source_id": "fetish-strasbourg",
+    "origin_id": "4691",
+    "name": "Vendredi Apéro-Resto",
+    "start": "2026-10-23T19:30+02:00",
+    "end": "2026-10-23T23:00+02:00",
+    "city": "Strasbourg",
+    "country": "France",
+    "scope": "france",
+    "kind": "Rencontre",
+    "summary": "Un apéro restaurant convivial organisé par Fetish Social Strasbourg. Inscription obligatoire ; le lieu et les modalités seront précisés par l’organisateur.",
+    "source": "https://fss-fetish.com/evenements/vendredi-apero-resto-5/",
+    "verified_on": "2026-09-27"
+  },
+  {
+    "id": "nuit-demonia-fetish-circus-2026",
+    "name": "Nuit Dèmonia – Fetish Circus",
+    "start": "2026-10-24T22:30+02:00",
+    "end": "2026-10-25T05:30+01:00",
+    "city": "Paris",
+    "country": "France",
+    "scope": "france",
+    "kind": "Soirée",
+    "summary": "Clubbing, performances et espaces BDSM à La Palmeraie. Billet et tenue fetish conformes au dress code strict requis ; événement réservé aux adultes.",
+    "source": "https://www.nuitdemonia.com/nuit-demonia-fetish-circus/",
     "verified_on": "2026-09-27"
   },
   {
@@ -98,6 +139,21 @@
     "kind": "Soirée",
     "summary": "Une nuit fetish, BDSM et clubbing à Lyon. Billet et dress code strict requis ; soirée réservée aux personnes queer s’identifiant au masculin, selon les conditions de l’organisateur.",
     "source": "https://fetishlyon.fr/evenement/%f0%9f%94%9e-weekend-tied-up-6-soiree-tied-up-6-%f0%9f%94%9e/",
+    "verified_on": "2026-09-27"
+  },
+  {
+    "id": "fetish-strasbourg-5911",
+    "source_id": "fetish-strasbourg",
+    "origin_id": "5911",
+    "name": "Fetish Social",
+    "start": "2026-11-28T21:30+01:00",
+    "end": "2026-11-29T03:00+01:00",
+    "city": "Strasbourg",
+    "country": "France",
+    "scope": "france",
+    "kind": "Soirée",
+    "summary": "Une soirée sociale fetish au Café Grognon, autour du cuir, du latex, du sportswear et d’autres univers. Accueil prévu pour les personnes qui découvrent la communauté.",
+    "source": "https://fss-fetish.com/evenements/fetish-social-5/",
     "verified_on": "2026-09-27"
   },
   {
