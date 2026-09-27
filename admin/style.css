@@ -21,3 +21,23 @@
 #login #owner-login-status{font-size:13px;line-height:1.5;color:#8b2b20;margin:14px 0 0;min-height:0}
 #workspace .intro h1{font-size:clamp(52px,7.5vw,110px)}
 @media(max-width:600px){#login{padding:72px 0 60px}#login h1{font-size:clamp(36px,9.8vw,58px)}.google-login{min-width:0;width:100%}.brand{font-size:36px;gap:5px}.brand .brand-mark{width:33px;height:33px;border-radius:8px}.brand .brand-mark img{width:28px;height:28px}.brand .brand-label{font-size:8px;margin-left:5px}}
+
+/* Positive actions fill from left to right on hover, click and keyboard focus. */
+:is(.google-login,.primary,.action,.controls button[data-decision="approved"]){
+  background-color:var(--ink);
+  background-image:linear-gradient(var(--lime),var(--lime));
+  background-repeat:no-repeat;
+  background-position:left center;
+  background-size:0% 100%;
+  transition:background-size .34s cubic-bezier(.22,.61,.36,1),color .25s;
+}
+.controls button[data-decision="approved"]{background-color:transparent}
+:is(.google-login,.primary,.action,.controls button[data-decision="approved"]):is(:hover,:active,:focus-visible){
+  background-color:var(--ink);
+  background-size:100% 100%;
+  color:var(--ink);
+}
+.controls button[data-decision="approved"]:is(:hover,:active,:focus-visible){background-color:transparent}
+@media(prefers-reduced-motion:reduce){
+  :is(.google-login,.primary,.action,.controls button[data-decision="approved"]){transition:none}
+}
