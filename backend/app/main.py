@@ -6,6 +6,7 @@ import uuid
 import hashlib
 import hmac
 import html
+import base64
 from datetime import datetime, timedelta, timezone
 from urllib.parse import urlencode
 
@@ -121,15 +122,6 @@ class MemberCode(Base):
     attempts: Mapped[int] = mapped_column(default=0)
     consent: Mapped[bool] = mapped_column(Boolean, default=False)
     member_id: Mapped[int | None] = mapped_column(ForeignKey("members.id"), nullable=True)
-
-
-class StaffCode(Base):
-    __tablename__ = "staff_codes"
-    email: Mapped[str] = mapped_column(String(255), primary_key=True)
-    digest: Mapped[str] = mapped_column(String(64))
-    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
-    sent_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
-    attempts: Mapped[int] = mapped_column(default=0)
 
 
 class MemberProfile(Base):
@@ -504,67 +496,6 @@ async def request_email_change(body: EmailChange, member: Member = Depends(curre
     return {"ok": True}
 
 
-class StaffCodeRequest(BaseModel):
-    email: str
-
-
-@app.post("/api/admin/otp/request")
-async def request_staff_code(body: StaffCodeRequest, request: Request, db: Session = Depends(db_session)):
-    if request.headers.get("origin") != PUBLIC_ORIGIN:
-        raise HTTPException(403)
-    email = normalized_email(body.email)
-    if email != ADMIN_EMAIL or not email.endswith("@theethercompany.com"):
-        return {"ok": True}
-    key = os.environ.get("KINQ_RESEND_API_KEY", "")
-    if not key:
-        raise HTTPException(503, "Envoi des e-mails KINQ non configuré")
-    now = datetime.now(timezone.utc)
-    challenge = db.get(StaffCode, email)
-    if challenge and challenge.sent_at.replace(tzinfo=timezone.utc) > now - timedelta(seconds=60):
-        raise HTTPException(429, "Attends une minute avant de demander un autre code")
-    code = f"{secrets.randbelow(1_000_000):06d}"
-    async with httpx.AsyncClient(timeout=12) as client:
-        result = await client.post("https://api.resend.com/emails",
-            headers={"Authorization": f"Bearer {key}"},
-            json={"from": os.environ.get("KINQ_RESEND_FROM", "KINQ <connexion@kinq-app.com>"),
-                  "to": [email], "subject": "Ton accès au studio KINQ",
-                  "text": f"Ton code d'administration KINQ est {code}. Il expire dans 10 minutes. Si tu n'as rien demandé, ignore ce message."})
-    if result.status_code not in (200, 201):
-        raise HTTPException(502, "Impossible d'envoyer le code")
-    if not challenge:
-        challenge = StaffCode(email=email, digest="", expires_at=now, sent_at=now)
-        db.add(challenge)
-    challenge.digest, challenge.expires_at, challenge.sent_at, challenge.attempts = code_digest("admin:" + email, code), now + timedelta(minutes=10), now, 0
-    db.commit()
-    return {"ok": True}
-
-
-@app.post("/api/admin/otp/verify")
-def verify_staff_code(body: CodeVerify, request: Request, db: Session = Depends(db_session)):
-    if request.headers.get("origin") != PUBLIC_ORIGIN:
-        raise HTTPException(403)
-    email = normalized_email(body.email)
-    challenge = db.get(StaffCode, email)
-    if email != ADMIN_EMAIL or not challenge or challenge.expires_at.replace(tzinfo=timezone.utc) <= datetime.now(timezone.utc) or challenge.attempts >= 5:
-        raise HTTPException(400, "Code expiré ou invalide")
-    challenge.attempts += 1
-    if not re.fullmatch(r"\d{6}", body.code) or not secrets.compare_digest(challenge.digest, code_digest("admin:" + email, body.code)):
-        db.commit()
-        raise HTTPException(400, "Code expiré ou invalide")
-    staff = db.scalar(select(Staff).where(Staff.email == email))
-    if not staff:
-        staff = Staff(google_sub="email:" + hashlib.sha256(email.encode()).hexdigest(), email=email, role="admin")
-        db.add(staff)
-        db.flush()
-    staff.role = "admin"
-    db.delete(challenge)
-    db.commit()
-    request.session.clear()
-    request.session["staff_id"] = staff.id
-    request.session["csrf"] = secrets.token_urlsafe(32)
-    return {"ok": True}
-
-
 @app.post("/api/member/email/verify")
 def verify_email_change(body: EmailChange, member: Member = Depends(current_member), db: Session = Depends(db_session)):
     email = normalized_email(body.email)
@@ -588,37 +519,53 @@ def login(request: Request):
     if not CLIENT_ID or not CLIENT_SECRET or not ADMIN_EMAIL:
         raise HTTPException(503, "OAuth KINQ non configuré")
     state = secrets.token_urlsafe(32)
+    nonce = secrets.token_urlsafe(32)
+    verifier = secrets.token_urlsafe(64)
+    challenge = base64.urlsafe_b64encode(hashlib.sha256(verifier.encode()).digest()).rstrip(b"=").decode()
     request.session["oauth_state"] = state
-    params = {"client_id": CLIENT_ID, "redirect_uri": PUBLIC_ORIGIN + "/api/admin/auth/callback", "response_type": "code", "scope": "openid email profile", "state": state, "hd": "theethercompany.com", "prompt": "select_account"}
+    request.session["oauth_nonce"] = nonce
+    request.session["oauth_verifier"] = verifier
+    params = {"client_id": CLIENT_ID, "redirect_uri": PUBLIC_ORIGIN + "/api/admin/auth/callback", "response_type": "code", "scope": "openid email profile", "state": state, "nonce": nonce, "code_challenge": challenge, "code_challenge_method": "S256", "hd": "theethercompany.com", "prompt": "select_account"}
     return RedirectResponse("https://accounts.google.com/o/oauth2/v2/auth?" + urlencode(params))
 
 
 @app.get("/api/admin/auth/callback")
 async def callback(request: Request, code: str = "", state: str = "", db: Session = Depends(db_session)):
+    def failed(reason: str):
+        request.session.clear()
+        return RedirectResponse("/admin?auth_error=" + reason, status_code=303)
+
     expected = request.session.pop("oauth_state", None)
-    if not code or not expected or not secrets.compare_digest(state, expected):
-        raise HTTPException(400, "État OAuth invalide")
-    async with httpx.AsyncClient(timeout=12) as client:
-        result = await client.post("https://oauth2.googleapis.com/token", data={"code": code, "client_id": CLIENT_ID, "client_secret": CLIENT_SECRET, "redirect_uri": PUBLIC_ORIGIN + "/api/admin/auth/callback", "grant_type": "authorization_code"})
+    nonce = request.session.pop("oauth_nonce", None)
+    verifier = request.session.pop("oauth_verifier", None)
+    if not code or not expected or not nonce or not verifier or not secrets.compare_digest(state, expected):
+        return failed("state")
+    try:
+        async with httpx.AsyncClient(timeout=12) as client:
+            result = await client.post("https://oauth2.googleapis.com/token", data={"code": code, "client_id": CLIENT_ID, "client_secret": CLIENT_SECRET, "redirect_uri": PUBLIC_ORIGIN + "/api/admin/auth/callback", "grant_type": "authorization_code", "code_verifier": verifier})
+    except httpx.RequestError:
+        return failed("google")
     if result.status_code != 200:
-        raise HTTPException(401, "Connexion Google refusée")
+        return failed("google")
     try:
         identity = id_token.verify_oauth2_token(result.json()["id_token"], google_requests.Request(), CLIENT_ID)
-    except Exception as exc:
-        raise HTTPException(401, "Identité Google invalide") from exc
+    except Exception:
+        return failed("google")
     email = str(identity.get("email", "")).lower()
-    if identity.get("hd") != "theethercompany.com" or not identity.get("email_verified") or not email.endswith("@theethercompany.com"):
-        raise HTTPException(403, "Workspace The Ether Company requis")
+    if not identity.get("sub") or not secrets.compare_digest(str(identity.get("nonce", "")), nonce):
+        return failed("google")
+    if identity.get("hd") != "theethercompany.com" or identity.get("email_verified") is not True or not email.endswith("@theethercompany.com"):
+        return failed("workspace")
     staff = db.scalar(select(Staff).where(Staff.google_sub == identity["sub"]))
     if staff and staff.email != email:
-        raise HTTPException(403, "Identité modifiée : contacter l’administrateur")
+        return failed("account")
     if not staff:
         existing = db.scalar(select(Staff).where(Staff.email == email))
         if existing and existing.google_sub.startswith("email:") and email == ADMIN_EMAIL:
             staff = existing
             staff.google_sub = identity["sub"]
         elif existing:
-            raise HTTPException(403, "Adresse déjà liée à une autre identité")
+            return failed("account")
     if not staff:
         staff = Staff(google_sub=identity["sub"], email=email, name=identity.get("name", ""), role="admin" if email == ADMIN_EMAIL else "user")
         db.add(staff)
@@ -628,7 +575,7 @@ async def callback(request: Request, code: str = "", state: str = "", db: Sessio
     request.session.clear()
     request.session["staff_id"] = staff.id
     request.session["csrf"] = secrets.token_urlsafe(32)
-    return RedirectResponse("/admin/")
+    return RedirectResponse("/admin", status_code=303)
 
 
 @app.post("/api/admin/auth/logout")
@@ -644,7 +591,7 @@ def me(request: Request, staff: Staff = Depends(current_staff)):
 
 @app.middleware("http")
 async def csrf_protect(request: Request, call_next):
-    if request.url.path.startswith("/api/admin/") and request.method in ("POST", "PATCH", "PUT", "DELETE") and request.url.path not in ("/api/admin/auth/logout", "/api/admin/otp/request", "/api/admin/otp/verify"):
+    if request.url.path.startswith("/api/admin/") and request.method in ("POST", "PATCH", "PUT", "DELETE") and request.url.path != "/api/admin/auth/logout":
         origin = request.headers.get("origin")
         if origin != PUBLIC_ORIGIN or not request.session.get("csrf") or not secrets.compare_digest(request.headers.get("x-csrf-token", ""), request.session["csrf"]):
             return Response("CSRF", status_code=403)
