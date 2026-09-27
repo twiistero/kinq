@@ -4,15 +4,32 @@
     "src": "https://images.squarespace-cdn.com/content/v1/5c55184293a6324e1f793b37/1643420235677-MR0J2B9DH8N8NK1K9LEW/Raif%2B%26%2BMark.jpg"
   },
   {
-    "name": "Puppy",
-    "src": "https://armyofmen.com/cdn/shop/files/head-harness-pup-scout-blue-model-front.jpg?v=1757678289&width=1200"
+    "name": "Portrait",
+    "src": "assets/hero-minet-pexels.jpg",
+    "source": "https://www.pexels.com/photo/fit-shirtless-man-touching-hair-and-standing-in-neon-lights-6385273/",
+    "credit": "Jesus Con S Silbada",
+    "license": "https://www.pexels.com/license/"
   },
   {
     "name": "Latex",
-    "src": "https://www.invinciblerubber.com/image/cache/catalog/SU056_h-840x840.jpg"
+    "src": "assets/hero-rubber-unsplash.jpg",
+    "source": "https://unsplash.com/photos/man-in-black-latex-and-gas-mask-9LguPtwZwqU",
+    "credit": "Sonny Ravesteijn",
+    "published": "2026-05-16",
+    "license": "https://unsplash.com/license"
   },
   {
-    "name": "Sport",
-    "src": "https://mr-riegillio.com/cdn/shop/files/MR_R62699_copy.jpg?v=1770812952&width=1600"
+    "name": "Sportswear",
+    "src": "assets/hero-sportswear-scallychav.jpg",
+    "source": "https://www.scallychav.co.uk/products/pre-sale-shiny-nylon-tracksuit",
+    "credit": "SCALLYCHAV",
+    "usage": "Maquette locale de test ; autorisation de publication commerciale non confirmée"
+  },
+  {
+    "name": "Puppy",
+    "src": "assets/hero-puppy-photoiconiq-neon.jpg",
+    "source": "https://www.photoiconiq.com/galeria/",
+    "credit": "Photo Iconiq",
+    "usage": "Maquette locale de test ; autorisation de publication commerciale non confirmée"
   }
 ]

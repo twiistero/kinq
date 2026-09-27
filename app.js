@@ -70,20 +70,32 @@ syncFilters();
 const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
 const heroSlides=[...document.querySelectorAll('.hero-slide')];
 if(heroSlides.length){
- let currentSlide=0,heroVisible=true,manualHold=0;
- function chooseSlide(next){const target=heroSlides[next];if(!target.complete||!target.naturalWidth)return;heroSlides.forEach((el,i)=>{el.classList.toggle('is-active',i===next);el.setAttribute('aria-hidden',String(i!==next))});document.querySelectorAll('[data-slide]').forEach(el=>el.setAttribute('aria-pressed',String(Number(el.dataset.slide)===next)));currentSlide=next;}
- heroSlides.forEach(slide=>{slide.loading='eager';slide.addEventListener('error',()=>{const tab=document.querySelector(`[data-slide="${heroSlides.indexOf(slide)}"]`);if(tab){tab.disabled=true;tab.title='Photo temporairement indisponible'}})});
- document.querySelectorAll('[data-slide]').forEach(b=>b.addEventListener('click',()=>{manualHold=Date.now()+12000;const next=Number(b.dataset.slide),target=heroSlides[next];if(target.complete&&target.naturalWidth)chooseSlide(next);else target.addEventListener('load',()=>chooseSlide(next),{once:true})}));
+ let currentSlide=0,heroVisible=true,transitionTimer;
+ heroSlides.forEach(slide=>{slide.loading='eager'});
+ function chooseSlide(){
+  const next=Array.from({length:heroSlides.length-1},(_,offset)=>(currentSlide+offset+1)%heroSlides.length).find(index=>heroSlides[index].complete&&heroSlides[index].naturalWidth);
+  if(next===undefined)return;
+  const previous=heroSlides[currentSlide],incoming=heroSlides[next];
+  clearTimeout(transitionTimer);
+  heroSlides.forEach(slide=>slide.classList.remove('is-leaving','is-entering'));
+  previous.classList.add('is-leaving');
+  previous.classList.remove('is-active');
+  incoming.classList.add('is-active','is-entering');
+  previous.setAttribute('aria-hidden','true');
+  incoming.setAttribute('aria-hidden','false');
+  currentSlide=next;
+  transitionTimer=setTimeout(()=>{previous.classList.remove('is-leaving');incoming.classList.remove('is-entering')},1900);
+ }
  new IntersectionObserver(entries=>{heroVisible=entries[0].isIntersecting}).observe(document.querySelector('.hero-art'));
- setInterval(()=>{if(!reduceMotion.matches&&heroVisible&&!document.hidden&&Date.now()>manualHold&&!document.querySelector('.hero-tabs').contains(document.activeElement))chooseSlide((currentSlide+1)%heroSlides.length)},6500);
+ setInterval(()=>{if(!reduceMotion.matches&&heroVisible&&!document.hidden)chooseSlide()},6500);
 }
 function renderWall(background,photos,columns=5){
  background.innerHTML=Array.from({length:columns},(_,col)=>{const group=Array.from({length:3},(_,row)=>{const i=(col*2+row)%photos.length;return `<div class="wall-portrait"><img src="${photos[i]}" alt="" loading="lazy"><div class="wall-card-icons">${icon('hook')}${icon('pin')}</div></div>`}).join('');return `<div class="wall-column"><div class="wall-track"><div class="wall-group">${group}</div><div class="wall-group">${group}</div></div></div>`}).join('');
 }
 const wall=document.querySelector('.people-wall');
 if(wall){
- const pup=document.querySelectorAll('.hero-slide')[1].src;
- const sportDuo=document.querySelectorAll('.hero-slide')[3].src;
+ const pup='https://armyofmen.com/cdn/shop/files/head-harness-pup-scout-blue-model-front.jpg?v=1757678289&width=1200';
+ const sportDuo='https://mr-riegillio.com/cdn/shop/files/MR_R62699_copy.jpg?v=1770812952&width=1600';
  const wallPhotos=[...people.map(p=>p.photo),pup,sportDuo];
  renderWall(document.querySelector('#wall-background'),wallPhotos);
  const pause=document.querySelector('#wall-pause');let wallPaused=reduceMotion.matches;
