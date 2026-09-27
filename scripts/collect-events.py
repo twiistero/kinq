@@ -214,7 +214,7 @@ ADAPTERS = {
     "wordpress_acf": collect_wordpress_acf,
     "darklands_program": collect_darklands_program,
 }
-COMPARE_FIELDS = ("name", "start", "end", "city", "country", "scope", "kind", "source")
+COMPARE_FIELDS = ("name", "start", "end", "city", "country", "scope", "source")
 
 
 def normalized(value):
