@@ -101,7 +101,7 @@ function updateRelationLookup() {
   const symbol = document.createElementNS('http://www.w3.org/2000/svg','svg'); symbol.setAttribute('aria-hidden','true');
   const use = document.createElementNS('http://www.w3.org/2000/svg','use'); use.setAttribute('href', next ? '#check' : '#code'); symbol.append(use); relationResult.append(symbol);
   const message = document.createElement('span');
-  if (next) {message.textContent = `${next.name}, ${next.age} · ${next.city} · profil fictif trouvé`; const link = document.createElement('a'); link.href = `profil.html?id=${encodeURIComponent(next.id)}`; link.textContent = 'Voir son profil'; message.append(' · ',link);}
+  if (next) {message.textContent = `${next.name}, ${next.age} · ${next.city} · profil fictif trouvé`; const link = document.createElement('a'); link.href = `/profil?id=${encodeURIComponent(next.id)}`; link.textContent = 'Voir son profil'; message.append(' · ',link);}
   else message.textContent = 'Aucun profil fictif pour ce code.';
   relationResult.append(message);
 }

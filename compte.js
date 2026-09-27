@@ -17,7 +17,7 @@ try {
   const profile = await accountApi('profile');
   const codeDisplay = [...document.querySelectorAll('*')].find(el => el.children.length === 0 && el.textContent.trim() === 'KQ-••••••');
   if (codeDisplay && profile.code) codeDisplay.textContent = profile.code;
-} catch {location.href='connexion.html';}
+} catch {location.href='/connexion';}
 emailForm.addEventListener('submit', async event => {
   event.preventDefault();
   if (!emailForm.reportValidity()) return;
@@ -49,6 +49,6 @@ deleteAccount.addEventListener('click',async()=>{
     return;
   }
   deleteAccount.disabled=true;
-  try {await accountApi('account','DELETE');location.href='connexion.html';}
+  try {await accountApi('account','DELETE');location.href='/connexion';}
   catch(error){deleteAccount.disabled=false;emailStatus.textContent=error.message;}
 });

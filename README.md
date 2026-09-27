@@ -9,6 +9,7 @@ Les comptes membres utilisent un code à six chiffres envoyé par Resend. Le pro
 Copier `.env.example` vers `.env`, générer les secrets propres à KINQ, puis lancer `docker compose up --build -d`. Définir `KINQ_PUBLIC_ORIGIN=https://kinq-app.com` en production, et router le domaine HTTPS vers le service `web` sur son port interne 4173. Les secrets restent dans l’environnement Coolify et ne vont jamais dans Git. Si Google OAuth est activé, créer un client KINQ avec le callback exact `https://kinq-app.com/api/admin/auth/callback`.
 
 Pour modifier un document de page archivé, lancer `npm run pages:build` avant le commit. Next.js récupère les documents depuis l’API FastAPI ; il ne sert aucun fichier `.html` du dépôt.
+Les URL publiques utilisent des chemins sans extension (`/lexique`, `/events`, `/connexion`, etc.). Les anciennes URL en `.html` redirigent définitivement vers ces chemins.
 
 Le schéma est créé au démarrage. Les sauvegardes PostgreSQL et les migrations versionnées sont nécessaires avant toute évolution destructive du schéma. Les photos historiques d’illustration restent soumises aux droits de publication indiqués dans `docs/photo-sources.md`.
 

@@ -8,7 +8,7 @@ memberGreeting.hidden=true;
 const hello=document.createElement('span');
 hello.className='encounters-hello';
 const accountLink=document.createElement('a');
-accountLink.href='compte.html';
+accountLink.href='/compte';
 accountLink.textContent='Mon compte';
 memberGreeting.append(hello,accountLink);
 document.querySelector('#site-header .header .account').prepend(memberGreeting);
@@ -141,8 +141,8 @@ function syncAccess(){
  if(demoConnected)updateMemberGreeting();
  if(demoConnected)render();
 }
-$('#enter-encounters-demo').addEventListener('click',()=>location.href='connexion.html');
-$('#leave-encounters-demo').addEventListener('click',async()=>{await fetch('/api/member/auth/logout',{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':memberCsrf}});location.href='connexion.html'});
+$('#enter-encounters-demo').addEventListener('click',()=>location.href='/connexion');
+$('#leave-encounters-demo').addEventListener('click',async()=>{await fetch('/api/member/auth/logout',{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':memberCsrf}});location.href='/connexion'});
 window.addEventListener('pageshow',()=>{if(demoConnected)updateMemberGreeting()});
 Promise.all([fetch('/api/member/me').then(r=>r.json()),fetch('/api/profiles').then(r=>r.json()),fetch('/api/member/signals').then(r=>r.json()),fetch('/api/member/profile').then(r=>r.json())]).then(([me,items,signals,myProfile])=>{
  memberCsrf=me.csrf;memberName=me.name||'';myProfileData=myProfile.data||{};profiles=items;profiles.forEach(p=>{if(extras[p.id])p.kinks=[...p.kinks,...extras[p.id]];p.temperament=temperaments[p.id]||p.temperament||''});

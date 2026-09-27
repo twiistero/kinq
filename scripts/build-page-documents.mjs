@@ -10,11 +10,19 @@ const attrMap = attrs => Object.fromEntries((attrs || []).map(({name, value}) =>
 const textOf = node => (node.childNodes || []).map(child => child.value || textOf(child)).join('');
 const scripts = [];
 
+function cleanPageHref(href) {
+  const match = /^\/?([a-z0-9-]+)\.html([?#].*)?$/.exec(href || '');
+  if (!match) return href;
+  const page = match[1] === 'index' ? '/' : match[1] === 'soirees' ? '/events' : `/${match[1]}`;
+  return page + (match[2] || '');
+}
+
 function convert(node) {
   if (node.nodeName === '#text') return node.value;
   if (node.nodeName === '#comment') return null;
   if (!node.tagName) return null;
   const attrs = attrMap(node.attrs);
+  if (node.tagName === 'a' && attrs.href) attrs.href = cleanPageHref(attrs.href);
   if (node.tagName === 'script' && attrs.src) {
     scripts.push({src: attrs.src, type: attrs.type || ''});
     return null;

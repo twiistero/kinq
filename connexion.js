@@ -29,6 +29,6 @@ loginCodeForm.addEventListener('submit', async event => {
   button.disabled = true;
   try {
     await memberLogin('verify', {email:loginForm.elements.email.value.trim(), code:loginCodeForm.elements.code.value});
-    location.href = 'compte.html';
+    location.href = '/compte';
   } catch(error) {loginStatus.textContent = error.message; button.disabled = false;}
 });

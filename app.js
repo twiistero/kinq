@@ -37,14 +37,14 @@ Object.assign(articles,{
  after:['ENTRE NOUS','Et après ?<br>On en parle aussi.','L’aftercare, c’est l’attention portée à chacun après un moment partagé. Cela peut être une discussion, du calme, de la proximité ou un peu d’espace.','Parlez de vos préférences en amont. N’imagine pas que l’autre souhaite la même chose que toi : demande-lui, écoute sa réponse et respecte son choix.','Un message plus tard peut permettre de partager son ressenti, si vous en avez tous les deux envie. Il n’existe pas de rituel unique ni d’obligation de proximité.']
 });
 document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;
- if(b.dataset.modal==='join'||b.dataset.modal==='login'){if(menu.open)await closeMenu();location.href=b.dataset.modal==='join'?'inscription.html':'connexion.html';return;}
+ if(b.dataset.modal==='join'||b.dataset.modal==='login'){if(menu.open)await closeMenu();location.href=b.dataset.modal==='join'?'/inscription':'/connexion';return;}
  if(b.dataset.modal){if(menu.open)await closeMenu();modal(content[b.dataset.modal]);}
  if(b.matches('.dialog-close'))dialog.close();
- if(b.hasAttribute('data-explore')){dialog.close();location.href='rencontres.html'}
+ if(b.hasAttribute('data-explore')){dialog.close();location.href='/rencontres'}
  if(b.dataset.filter){currentFilter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.toggle('active',x.dataset.filter===currentFilter);x.setAttribute('aria-pressed',x.dataset.filter===currentFilter)});render()}
- if(b.dataset.universe)location.href='rencontres.html'+(b.dataset.universe==='Tous'?'':'?kink='+encodeURIComponent(b.dataset.universe));
- if(b.dataset.pin||b.dataset.hook)location.href='connexion.html';
- if(b.dataset.profile)location.href='profil.html?id='+encodeURIComponent(b.dataset.profile);
+ if(b.dataset.universe)location.href='/rencontres'+(b.dataset.universe==='Tous'?'':'?kink='+encodeURIComponent(b.dataset.universe));
+ if(b.dataset.pin||b.dataset.hook)location.href='/connexion';
+ if(b.dataset.profile)location.href='/profil?id='+encodeURIComponent(b.dataset.profile);
  if(b.dataset.copy){try{await navigator.clipboard.writeText(b.dataset.copy);toast('Code de démonstration copié.')}catch{toast('Copie le code affiché dans le profil.')}}
  if(b.dataset.article){const a=articles[b.dataset.article];modal(`<p class="eyebrow">${a[0]} / NO TABOO</p><h2>${a[1]}</h2>${a.slice(2).map(t=>`<p>${t}</p>`).join('')}<p class="demo-note">Texte de présentation du concept éditorial.</p>`)}
  if(b.matches('.menu-toggle'))openMenu();

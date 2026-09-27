@@ -16,7 +16,7 @@ try {
     if (!article) target.textContent='Cet article n’est pas disponible.';
     else {
       document.title=article.title+' — NO TABOO, KINQ';
-      target.innerHTML=`<header class="nt-masthead"><a href="/guides.html"><strong>NO TABOO<span>.</span></strong><small>LE JOURNAL KINQ</small></a></header><article class="nt-story"><header class="nt-editorial-hero"><div class="nt-editorial-hero-copy"><p class="eyebrow">NO TABOO / JOURNAL</p><h1>${escapeHtml(article.title)}</h1><p>${escapeHtml(article.summary)}</p></div></header><div class="nt-prose">${escapeHtml(article.body).split(/\n\s*\n/).map(p=>`<p>${p.replaceAll('\n','<br>')}</p>`).join('')}</div><a class="button" href="/guides.html">Retour au journal</a></article>`;
+      target.innerHTML=`<header class="nt-masthead"><a href="//guides"><strong>NO TABOO<span>.</span></strong><small>LE JOURNAL KINQ</small></a></header><article class="nt-story"><header class="nt-editorial-hero"><div class="nt-editorial-hero-copy"><p class="eyebrow">NO TABOO / JOURNAL</p><h1>${escapeHtml(article.title)}</h1><p>${escapeHtml(article.summary)}</p></div></header><div class="nt-prose">${escapeHtml(article.body).split(/\n\s*\n/).map(p=>`<p>${p.replaceAll('\n','<br>')}</p>`).join('')}</div><a class="button" href="//guides">Retour au journal</a></article>`;
     }
   }
 } catch { /* The original static journal remains readable when the API is offline. */ }
