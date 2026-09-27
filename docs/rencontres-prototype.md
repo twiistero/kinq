@@ -1,0 +1,11 @@
+# Espace Rencontres KINQ
+
+La page conserve l’en-tête, le fil d’Ariane et le pied de page du site. Toute la page a un fond noir. Sans accès de démonstration, Rencontres affiche une porte d’entrée vers Connexion et Inscription ; ces pages ne créent pas encore de session réelle. « Entrer en mode démo » ouvre les profils pour la session du navigateur et masque Connexion / Rejoindre Kinq dans l’en-tête. « Quitter la démo » referme l’espace. Une navigation dans cet espace donne accès à Découvrir, Mes Pins, Mes Hooks et Mon profil, sur ordinateur comme sur mobile.
+
+Les cartes plein cadre montrent pseudo, âge, ville, dynamique et pictogrammes. Les profils discrets ont un fond noir et « Photo sur demande » ; seul le symbole KINQ passe au vert au survol. Pins et Hooks sont dans la fiche, jamais sur la carte. Mes Hooks montre un état « Réciproque · simulation » ou « En attente · simulation » déterminé par le jeu fictif ; il ne s’agit pas d’une réponse réelle.
+
+La recherche présente six kinks rapides avec les pictogrammes du catalogue de l’accueil. « Plus de kinks » ouvre les 75 entrées de `assets/pictos/catalog.js` en plusieurs colonnes, recherchables et cochables. Plusieurs kinks se combinent en OU ; ville, âge, tempérament sexuel et photos se combinent en ET. « Affiner » ouvre ces quatre critères sous la recherche. La grille démarre avec douze résultats puis charge en continu quand on descend : le symbole KINQ tourne pendant le chargement et les cartes suivantes glissent depuis le bas dans un ordre mélangé. La démo fait tourner les douze mêmes profils fictifs et limite le nombre de cartes gardées dans le DOM. Les vues Pins/Hooks et les résultats filtrés trop courts restent finis.
+
+Le profil de démonstration validé dans `mon-profil.html` est enregistré dans `sessionStorage` pour permettre sa consultation dans « Mon profil » et son édition pendant la session. Cette sauvegarde n’est ni un compte ni une publication. Les Pins et Hooks utilisent aussi `sessionStorage`. Aucune demande de photo, géolocalisation ou conversation réelle n’est effectuée.
+
+Une application avec des milliers de membres demandera une API de recherche paginée, un stockage authentifié et des règles de confidentialité adaptées aux préférences intimes. La restauration des critères par URL appartient uniquement à ce prototype.

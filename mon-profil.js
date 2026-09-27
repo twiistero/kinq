@@ -66,8 +66,9 @@ form.addEventListener('change', event => {
   markProfileDirty();
   updatePreview();
 });
-form.addEventListener('reset', () => requestAnimationFrame(() => { featured.querySelectorAll('input').forEach(input => input.checked = false); markProfileDirty(); updateRelationLookup(); updatePreview(); }));
+form.addEventListener('reset', () => requestAnimationFrame(() => { try { sessionStorage.removeItem('kinq-demo-my-profile'); } catch {} featured.querySelectorAll('input').forEach(input => input.checked = false); markProfileDirty(); updateRelationLookup(); updatePreview(); }));
 document.querySelector('#preview-profile').addEventListener('click', () => {updatePreview();preview.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',block:'start'});});
+try { const saved = JSON.parse(sessionStorage.getItem('kinq-demo-my-profile') || 'null'); if (Array.isArray(saved)) [...form.querySelectorAll('input,select,textarea')].forEach((el, i) => { const item = saved[i]; if (!item || item.name !== el.name || el.type === 'file') return; if (el.type === 'checkbox' || el.type === 'radio') el.checked = item.checked; else el.value = item.value; }); } catch {}
 updatePreview();
 
 const validateProfile = document.querySelector('#validate-profile');
@@ -79,6 +80,7 @@ validateProfile.addEventListener('click', () => {
   validateProfile.classList.add('is-validated');
   validateProfile.querySelector('span').textContent = 'Profil modifié !';
   updatePreview();
+  try { sessionStorage.setItem('kinq-demo-my-profile', JSON.stringify([...form.querySelectorAll('input,select,textarea')].map(el => ({name:el.name, value:el.type === 'file' ? '' : el.value, checked:el.checked})))); } catch {}
 });
 
 // Local lookup illustrates the request flow with the four existing fictional profiles.
