@@ -3,7 +3,11 @@
 #owner-login-status{min-height:20px;color:#765000}
 
 /* Administration login */
-.brand span{letter-spacing:.12em}
+.brand{display:inline-flex;align-items:center;gap:8px;font-size:46px;letter-spacing:0;line-height:1}
+.brand .brand-mark{display:grid;place-items:center;width:43px;height:43px;flex:none;margin:0;border-radius:10px;background:var(--lime)}
+.brand .brand-mark img{display:block;width:36px;height:36px}
+.brand .wordmark{margin:0;color:var(--paper);font-size:inherit;font-weight:800;letter-spacing:-.075em;line-height:1}
+.brand .brand-label{align-self:flex-start;margin:2px 0 0 5px;color:var(--lime);font-size:10px;font-weight:700;letter-spacing:.12em;line-height:1.2}
 #login{max-width:1200px;padding:clamp(65px,10vh,125px) 0 90px}
 #login h1{font-size:clamp(39px,9.5vw,142px);line-height:.83;letter-spacing:-.025em;white-space:nowrap}
 #login h1 span{display:table;background:var(--lime);padding:.035em .13em .11em;margin-top:.055em}
@@ -16,4 +20,4 @@
 #login .login-note{font-size:12px;line-height:1.5;color:#60605b;margin:16px 0 0}
 #login #owner-login-status{font-size:13px;line-height:1.5;color:#8b2b20;margin:14px 0 0;min-height:0}
 #workspace .intro h1{font-size:clamp(52px,7.5vw,110px)}
-@media(max-width:600px){#login{padding:72px 0 60px}#login h1{font-size:clamp(36px,9.8vw,58px)}.google-login{min-width:0;width:100%}.brand span{font-size:8px;margin-left:7px}}
+@media(max-width:600px){#login{padding:72px 0 60px}#login h1{font-size:clamp(36px,9.8vw,58px)}.google-login{min-width:0;width:100%}.brand{font-size:36px;gap:5px}.brand .brand-mark{width:33px;height:33px;border-radius:8px}.brand .brand-mark img{width:28px;height:28px}.brand .brand-label{font-size:8px;margin-left:5px}}
