@@ -583,11 +583,13 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 @media(prefers-reduced-motion:reduce){.mega-links>a>span:not(.menu-number){transition:none!important}}
 
 /* Three direct entry points into the dating story, kept in the top bar. */
-.header .header-journey{display:flex;align-items:center;justify-content:center;flex:1 1 auto;min-width:0;max-width:540px;gap:clamp(4px,1.5vw,22px);margin:0 auto}
+.header .header-journey{display:flex;align-items:center;justify-content:center;flex:0 0 auto;min-width:max-content;gap:clamp(4px,1.5vw,22px);margin:0 auto}
 .header .header-journey a{display:inline-flex;align-items:center;justify-content:center;flex:0 1 auto;min-height:42px;padding:8px 10px;color:var(--ink);font-size:15px;font-weight:700;line-height:1.15;text-align:center;white-space:nowrap}
 .header .header-journey a>span{padding-bottom:4px;background:linear-gradient(currentColor,currentColor) left bottom / 0% 1.5px no-repeat;transition:background-size .28s cubic-bezier(.22,.61,.36,1)}
 .header .header-journey a:is(:hover,:focus-visible)>span{background-size:100% 1.5px}
-@media(max-width:1100px){.header .app-download{display:none}.header .header-journey{gap:4px}.header .header-journey a{font-size:13px;padding-inline:6px}}
+@media(max-width:1320px){.header .app-download{display:none}}
+@media(max-width:1100px){.header .header-journey{gap:4px}.header .header-journey a{font-size:13px;padding-inline:6px}}
+@media(min-width:651px) and (max-width:1180px){.header .account{margin-left:0}}
 @media(max-width:760px){.header .header-journey{position:static;display:flex;flex-direction:row;min-width:0;width:auto;max-width:none;top:auto;left:auto;right:auto;margin:0 auto;padding:0;background:none;box-shadow:none;gap:0}.header .header-journey a{font-size:11px;padding-inline:4px;white-space:normal}.header .account{margin-left:0}}
 @media(max-width:650px){.header .header-journey{display:none}.header .app-download{display:inline-flex}.header .account{margin-left:auto}}
 @media(prefers-reduced-motion:reduce){.header .header-journey a>span{transition:none}}
@@ -600,3 +602,4 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 @media(max-width:760px){.header{height:78px;gap:8px}.header .header-journey{min-width:0;flex:0 1 auto;gap:0;margin:0}.header .header-journey a{font-size:10px;padding-inline:3px;white-space:nowrap}.header .account .account-entry{width:auto;white-space:nowrap}.header .account-entry-label{gap:6px}.header .account-entry-divider{height:15px}}
 @media(max-width:650px){.header{height:auto;min-height:112px;display:grid;grid-template-columns:1fr;align-content:center;gap:9px;padding-block:12px}.header .account{width:100%;flex-direction:row;justify-content:space-between;align-items:stretch;gap:8px}.header .account .account-entry{flex:1 1 auto;min-width:0}.header .account .app-download{width:auto;flex:0 0 auto}}
 @media(max-width:370px){.header .account .app-download{width:36px;padding:0}.header .account .app-download span{display:none}.header .account .account-entry{width:auto;font-size:9px}}
+@media(max-width:900px){.header .header-journey{display:none}}
