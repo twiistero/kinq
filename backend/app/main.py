@@ -105,6 +105,15 @@ class PageDocument(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
 
+DEFAULT_PIXEL_SITE_ID = "fca55491-6359-4ef0-86c0-2b1c02a5f4d2"
+
+
+class SiteSetting(Base):
+    __tablename__ = "site_settings"
+    key: Mapped[str] = mapped_column(String(80), primary_key=True)
+    value: Mapped[str] = mapped_column(String(255), default="")
+
+
 class Event(Base):
     __tablename__ = "events"
     id: Mapped[str] = mapped_column(String(120), primary_key=True)
@@ -587,6 +596,36 @@ def logout(request: Request):
 @app.get("/api/admin/me")
 def me(request: Request, staff: Staff = Depends(current_staff)):
     return {"id": staff.id, "email": staff.email, "name": staff.name, "role": staff.role, "csrf": request.session["csrf"]}
+
+
+@app.get("/api/public/settings/analytics")
+def public_analytics_settings(db: Session = Depends(db_session)):
+    setting = db.get(SiteSetting, "analytics_site_id")
+    return {"site_id": setting.value if setting else DEFAULT_PIXEL_SITE_ID}
+
+
+@app.get("/api/admin/settings/analytics")
+def admin_analytics_settings(_: Staff = Depends(current_staff), db: Session = Depends(db_session)):
+    return public_analytics_settings(db)
+
+
+class AnalyticsSettingChange(BaseModel):
+    site_id: str
+
+
+@app.put("/api/admin/settings/analytics")
+def update_analytics_settings(body: AnalyticsSettingChange, staff: Staff = Depends(admin), db: Session = Depends(db_session)):
+    site_id = body.site_id.strip().lower()
+    if site_id and not re.fullmatch(r"[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}", site_id):
+        raise HTTPException(400, "Identifiant de pixel invalide")
+    setting = db.get(SiteSetting, "analytics_site_id")
+    if setting:
+        setting.value = site_id
+    else:
+        db.add(SiteSetting(key="analytics_site_id", value=site_id))
+    log(db, staff, "settings.analytics", site_id or "disabled")
+    db.commit()
+    return {"site_id": site_id}
 
 
 @app.middleware("http")
