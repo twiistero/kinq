@@ -25,7 +25,6 @@
 .hero-home h1 span { color: var(--hero-black); }
 .hero-home h1 span::before { inset: 13% -7px 2%; transform: rotate(-1.2deg); }
 .hero-home .hero-actions { margin: 0; flex-direction: row; flex-wrap: wrap; gap: 12px; }
-.hero-home .hero-scroll-icon { transform: rotate(90deg); }
 .hero-home .hero-actions .button {
   --fill-base: var(--lime);
   --fill-text: var(--ink);
