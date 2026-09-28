@@ -595,5 +595,8 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 .topline>span:last-child{width:auto;text-align:right}
 @media(max-width:760px){.topline{align-items:center;gap:12px}.topline>span:first-child{flex:1 1 auto;min-width:0}.topline>span:last-child{flex:none}}
 
-.account-entry-label{line-height:1.15}
-.account-entry-divider{display:inline-block;width:1px;height:18px;margin-inline:3px;vertical-align:-4px;background:currentColor;transform:scaleX(.6)}
+.account-entry-label{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;line-height:1}
+.account-entry-divider{display:block;width:1px;height:19px;background:currentColor;transform:scaleX(.7);flex:none}
+@media(max-width:760px){.header{height:78px;gap:8px}.header .header-journey{min-width:0;flex:0 1 auto;gap:0;margin:0}.header .header-journey a{font-size:10px;padding-inline:3px;white-space:nowrap}.header .account .account-entry{width:auto;white-space:nowrap}.header .account-entry-label{gap:6px}.header .account-entry-divider{height:15px}}
+@media(max-width:650px){.header{height:auto;min-height:112px;display:grid;grid-template-columns:1fr;align-content:center;gap:9px;padding-block:12px}.header .account{width:100%;flex-direction:row;justify-content:space-between;align-items:stretch;gap:8px}.header .account .account-entry{flex:1 1 auto;min-width:0}.header .account .app-download{width:auto;flex:0 0 auto}}
+@media(max-width:370px){.header .account .app-download{width:36px;padding:0}.header .account .app-download span{display:none}.header .account .account-entry{width:auto;font-size:9px}}
