@@ -49,7 +49,7 @@ export default function AnalyticsConsent({siteId}) {
 
   return <>
     {open && <div className="kinq-consent-wrap"><section className="kinq-consent" role="dialog" aria-label="Choix des cookies" aria-modal="false">
-      <div><p className="kinq-consent-kicker">TA VIE PRIVÉE, TON CHOIX</p><h2>On respecte ton rythme.</h2><p>Avec ton accord, une mesure d’audience nous aide à comprendre ce qui plaît sur KINQ, y compris dans l’espace membre. Tu peux refuser ou changer d’avis à tout moment.</p><a href="/confidentialite">En savoir plus sur tes données</a></div>
+      <div><h2>Ta vie privée, ton choix.</h2><p>Avec ton accord, une mesure d’audience nous aide à comprendre ce qui plaît sur KINQ. Tu peux refuser ou changer d’avis à tout moment.</p><a href="/confidentialite">En savoir plus sur tes données</a></div>
       <div className="kinq-consent-actions"><button type="button" onClick={() => decide('accepted')}>Accepter la mesure</button><button type="button" onClick={() => decide('refused')}>Continuer sans mesure</button></div>
     </section></div>}
     {!open && choice && <button className="kinq-consent-reopen" type="button" onClick={() => setOpen(true)}>Cookies</button>}
