@@ -79,6 +79,13 @@ class Article(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
 
+class ArticleDraft(Base):
+    __tablename__ = "article_drafts"
+    article_id: Mapped[int] = mapped_column(ForeignKey("articles.id"), primary_key=True)
+    payload: Mapped[dict] = mapped_column(JSON)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
 class Comment(Base):
     __tablename__ = "comments"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -524,7 +531,7 @@ def verify_email_change(body: EmailChange, member: Member = Depends(current_memb
 
 
 @app.get("/api/admin/auth/login")
-def login(request: Request):
+def login(request: Request, next: str = ""):
     if not CLIENT_ID or not CLIENT_SECRET or not ADMIN_EMAIL:
         raise HTTPException(503, "OAuth KINQ non configuré")
     state = secrets.token_urlsafe(32)
@@ -534,6 +541,8 @@ def login(request: Request):
     request.session["oauth_state"] = state
     request.session["oauth_nonce"] = nonce
     request.session["oauth_verifier"] = verifier
+    if next.startswith("/oauth/authorize?") and len(next) < 4000:
+        request.session["login_next"] = next
     params = {"client_id": CLIENT_ID, "redirect_uri": PUBLIC_ORIGIN + "/api/admin/auth/callback", "response_type": "code", "scope": "openid email profile", "state": state, "nonce": nonce, "code_challenge": challenge, "code_challenge_method": "S256", "hd": "theethercompany.com", "prompt": "select_account"}
     return RedirectResponse("https://accounts.google.com/o/oauth2/v2/auth?" + urlencode(params))
 
@@ -581,10 +590,11 @@ async def callback(request: Request, code: str = "", state: str = "", db: Sessio
         db.flush()
     staff.name = identity.get("name", staff.name)
     db.commit()
+    login_next = request.session.get("login_next", "/admin")
     request.session.clear()
     request.session["staff_id"] = staff.id
     request.session["csrf"] = secrets.token_urlsafe(32)
-    return RedirectResponse("/admin", status_code=303)
+    return RedirectResponse(login_next, status_code=303)
 
 
 @app.post("/api/admin/auth/logout")
@@ -876,3 +886,7 @@ def decide_comment(comment_id: int, body: Decision, staff: Staff = Depends(edito
 
 # SessionMiddleware must wrap the CSRF middleware so request.session exists there.
 app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET, same_site="lax", https_only=PUBLIC_ORIGIN.startswith("https://"), session_cookie="kinq_session", max_age=8 * 3600)
+
+# The editorial MCP shares the Workspace identity and Article tables.
+from .mcp_editorial import router as mcp_router  # noqa: E402
+app.include_router(mcp_router)
