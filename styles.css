@@ -594,3 +594,6 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 .topline>span:first-child{display:inline;width:auto;text-align:left}
 .topline>span:last-child{width:auto;text-align:right}
 @media(max-width:760px){.topline{align-items:center;gap:12px}.topline>span:first-child{flex:1 1 auto;min-width:0}.topline>span:last-child{flex:none}}
+
+.account-entry-label{line-height:1.15}
+.account-entry-divider{display:inline-block;width:1px;height:18px;margin-inline:3px;vertical-align:-4px;background:currentColor;transform:scaleX(.6)}
