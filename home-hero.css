@@ -24,7 +24,8 @@
 }
 .hero-home h1 span { color: var(--hero-black); }
 .hero-home h1 span::before { inset: 13% -7px 2%; transform: rotate(-1.2deg); }
-.hero-home .hero-actions { margin: 0; }
+.hero-home .hero-actions { margin: 0; flex-direction: row; flex-wrap: wrap; gap: 12px; }
+.hero-home .hero-scroll-icon { transform: rotate(90deg); }
 .hero-home .hero-actions .button {
   --fill-base: var(--lime);
   --fill-text: var(--ink);
@@ -85,4 +86,8 @@
   .hero-home .hero-copy { padding-inline: 20px; }
   .hero-home .hero-benefits { column-gap: 10px; }
   .hero-home .hero-benefits span { font-size: 8px; }
+}
+@media (max-width: 480px) {
+  .hero-home .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-home .hero-actions .button { width: 100%; }
 }
