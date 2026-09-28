@@ -39,6 +39,8 @@ svg{stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.brand-group{displ
 @media(max-width:370px){.wrap{width:calc(100% - 32px)}.header{gap:6px}.header .logo{font-size:33px;gap:4px}.brand-group{gap:3px}.brand-mark{width:28px;height:28px;border-radius:6px}.brand-mark svg{width:24px;height:24px}.menu-toggle{width:28px}.header .account .button{width:139px;padding-inline:8px;font-size:9px}.header .account .app-download{font-size:8.5px;gap:5px}.hero-benefits span{font-size:8px;gap:4px}.hero-benefits svg{width:16px;height:16px}.hero-actions{gap:12px;flex-wrap:wrap}.hero-actions .button{font-size:10px;min-height:48px}.hero-actions .underlink{font-size:9px}.final-cta h2{font-size:13.5vw}.wall-content{width:calc(100% - 32px)}.wall-content h2{font-size:12.3vw}.mega-links>a>span:not(.menu-number){font-size:35px}.profile-code{flex-wrap:wrap}}
 @media(prefers-reduced-motion:reduce){#mega-menu{will-change:auto}.button,.underlink,.article .link-label{transition:none!important}}
 
+
+
 /* Keep reassurance copy readable and the tablet hero within its column. */
 @media(max-width:760px){.trust{display:grid;grid-template-columns:30px minmax(0,1fr);gap:18px}.trust>.underlink{grid-column:2;margin-left:0;justify-self:start}.trust>div{min-width:0}}
 @media(min-width:761px) and (max-width:1000px){.hero h1{font-size:clamp(50px,6.7vw,67px)}.hero-benefits{flex-wrap:wrap}}
@@ -573,3 +575,22 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 .events-proposal-success h3{font-size:42px;margin:0 0 15px}.events-proposal-success p{line-height:1.65;color:var(--muted);margin-bottom:24px}
 @media(max-width:900px){.events-hero-inner{min-height:520px}.events-hero-copy{width:min(520px,60%)}.events-hero h1{font-size:clamp(54px,6.2vw,72px)}.events-hero-photo{left:34%}.events-calendar-shell{gap:25px}}
 @media(max-width:700px){.events-hero-inner{min-height:0}.events-hero-copy{width:100%;padding:43px 0 330px}.events-hero h1{font-size:clamp(56px,10vw,75px)}.events-hero-copy>p:not(.eyebrow){font-size:15px}.events-hero-photo{inset:auto 0 0;height:350px}.events-hero-photo img{object-position:50% 42%}.events-hero-photo:before{background:linear-gradient(180deg,var(--ink) 0%,#171916b8 13%,transparent 40%),linear-gradient(0deg,#000b 0%,transparent 32%)}.events-hero-photo figcaption{font-size:9px;right:18px;bottom:13px}.events-section{padding-top:28px!important}.events-heading{display:block}.events-heading>p{max-width:540px;margin-top:17px}.events-organizer{justify-content:flex-start}.events-calendar-shell{grid-template-columns:1fr;gap:23px;padding:16px}.events-calendar-copy{order:-1}.events-calendar-copy h3{font-size:42px}.events-calendar-copy>p:not(.eyebrow){font-size:13px}.events-form-row{grid-template-columns:1fr}}
+
+/* Menu links reveal lime from left to right, with no underline. */
+.mega-links>a>span:not(.menu-number){padding-bottom:0;background-image:linear-gradient(90deg,var(--lime) 0%,var(--lime) 43%,var(--paper) 57%,var(--paper) 100%)!important;background-position:right center!important;background-size:220% 100%!important;background-repeat:no-repeat!important;background-clip:text!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent;transition:background-position .42s cubic-bezier(.22,.61,.36,1)!important;text-decoration:none!important}
+.mega-links>a:is(:hover,:focus-visible,:active)>span:not(.menu-number){background-position:left center!important;background-size:220% 100%!important}
+.mega-links>a .ink-line{display:none!important}
+@media(prefers-reduced-motion:reduce){.mega-links>a>span:not(.menu-number){transition:none!important}}
+
+/* Three direct entry points into the dating story, kept in the top bar. */
+.header .header-journey{display:flex;align-items:center;justify-content:center;flex:1 1 auto;min-width:0;max-width:540px;gap:clamp(4px,1.5vw,22px);margin:0 auto}
+.header .header-journey a{display:inline-flex;align-items:center;justify-content:center;flex:0 1 auto;min-height:42px;padding:8px 10px;color:var(--ink);font-size:13px;font-weight:700;line-height:1.15;text-align:center;white-space:nowrap}
+.header .header-journey a>span{padding-bottom:4px;background:linear-gradient(currentColor,currentColor) left bottom / 0% 1.5px no-repeat;transition:background-size .28s cubic-bezier(.22,.61,.36,1)}
+.header .header-journey a:is(:hover,:focus-visible)>span{background-size:100% 1.5px}
+@media(max-width:1100px){.header .app-download{display:none}.header .header-journey{gap:4px}.header .header-journey a{font-size:11px;padding-inline:6px}}
+@media(max-width:760px){.header .header-journey{position:static;display:flex;flex-direction:row;min-width:0;width:auto;max-width:none;top:auto;left:auto;right:auto;margin:0 auto;padding:0;background:none;box-shadow:none;gap:0}.header .header-journey a{font-size:10px;padding-inline:4px;white-space:normal}.header .account{margin-left:0}}
+@media(max-width:650px){.header .header-journey{display:none}.header .app-download{display:inline-flex}.header .account{margin-left:auto}}
+@media(prefers-reduced-motion:reduce){.header .header-journey a>span{transition:none}}
+.topline>span:first-child{display:inline;width:auto;text-align:left}
+.topline>span:last-child{width:auto;text-align:right}
+@media(max-width:760px){.topline{align-items:center;gap:12px}.topline>span:first-child{flex:1 1 auto;min-width:0}.topline>span:last-child{flex:none}}

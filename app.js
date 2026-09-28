@@ -125,7 +125,7 @@ function prepareTextLinks(){
    const label=document.createElement('span');label.className='ink-label';label.textContent=node.textContent.trim();node.replaceWith(label);
   });
  });
- document.querySelectorAll('.article,.mega-links>a,.relation-link').forEach(link=>{
+ document.querySelectorAll('.article,.relation-link').forEach(link=>{
   link.setAttribute('data-ink-link','');
   const label=link.querySelector('.link-label')||link.querySelector(':scope > span')?.querySelector('strong')||link.querySelector(':scope > span');
   if(label)label.classList.add('ink-label');
