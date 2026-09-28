@@ -8,7 +8,7 @@
     "assets:prepare": "node scripts/prepare-public.mjs",
     "predev": "npm run assets:prepare",
     "dev": "next dev -p 4173",
-    "prebuild": "npm run assets:prepare",
+    "prebuild": "npm run pages:build && npm run assets:prepare",
     "build": "next build",
     "start": "next start -p 4173"
   },
