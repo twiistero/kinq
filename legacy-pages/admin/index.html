@@ -12,23 +12,43 @@
   <script type="module" src="/admin/app.js"></script>
 </head>
 <body>
-  <header>
-    <a class="brand" href="/" aria-label="Kinq Administration, retour à l’accueil"><span class="brand-mark"><img src="/assets/kinq-symbol.svg" alt=""></span><span class="wordmark">kinq</span><span class="brand-label">ADMINISTRATION</span></a>
-    <div class="head-right"><span id="identity"></span><button id="logout" hidden>Se déconnecter</button></div>
-  </header>
-  <main>
-    <section id="login">
-      <h1>ADMINISTRATION<span>KINQ.</span></h1>
-      <p class="login-intro">Connecte-toi avec ton compte Google Workspace The Ether Company.</p>
-      <a class="google-login" href="/api/admin/auth/login"><span class="google-mark" aria-hidden="true">G</span><span>Continuer avec Google</span><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19 19 5M5 5h14v14"/></svg></a>
-      <p class="login-note">Accès réservé aux comptes <strong>@theethercompany.com</strong>.</p>
-      <p id="owner-login-status" role="status"></p>
-    </section>
-    <section id="workspace" hidden>
-      <div class="intro"><div><p class="eyebrow">KINQ · ESPACE PRIVÉ</p><h1>ADMINISTRATION.</h1><p id="intro-detail">Vue d’ensemble des comptes, de la modération et du journal.</p></div><span class="stamp">ACCÈS PRIVÉ</span></div>
-      <nav id="tabs" aria-label="Rubriques"><button data-tab="photos" class="active">Photos <b id="photo-count">0</b></button><button data-tab="members">Comptes</button><button data-tab="articles">NO TABOO</button><button data-tab="comments">Commentaires</button><button data-tab="staff">Équipe</button></nav>
-      <div id="notice" role="status"></div><div id="content"></div>
-    </section>
-  </main>
+  <section id="login" class="login-layout">
+    <div class="login-story">
+      <a class="brand" href="/" aria-label="KINQ, retour au site"><span class="brand-mark"><img src="/assets/kinq-symbol.svg" alt=""></span><span class="wordmark">kinq</span></a>
+      <div class="login-story-copy"><p class="eyebrow">ADMINISTRATION</p><h1>Tout KINQ,<br><span>au même endroit.</span></h1><p>Gérez les membres, la modération et NO TABOO dans un espace privé.</p></div>
+      <p class="login-story-foot">Un espace réservé à l’équipe KINQ.</p>
+    </div>
+    <main class="login-entry">
+      <div class="login-panel">
+        <span class="login-icon" aria-hidden="true"><img src="/assets/kinq-symbol.svg" alt=""></span>
+        <p class="eyebrow">ESPACE ÉQUIPE</p>
+        <h2>Se connecter avec Google</h2>
+        <p class="login-intro">Utilisez votre compte professionnel <strong>@theethercompany.com</strong>.</p>
+        <a class="google-login" href="/api/admin/auth/login"><span>Continuer avec Google</span><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 14 0m-6-6 6 6-6 6"/></svg></a>
+        <p class="login-note">Votre accès KINQ est créé lors de votre première connexion.</p>
+        <p id="owner-login-status" role="status"></p>
+        <a class="back-link" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5-7 7 7 7M8 12h12"/></svg>Retour au site</a>
+      </div>
+    </main>
+  </section>
+  <section id="workspace" class="admin-layout" hidden>
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="KINQ, retour au site"><span class="brand-mark"><img src="/assets/kinq-symbol.svg" alt=""></span><span class="wordmark">kinq</span></a>
+      <div class="sidebar-navigation"><p class="eyebrow">ADMINISTRATION</p>
+        <nav id="tabs" aria-label="Rubriques de l’administration">
+          <button type="button" data-tab="photos" class="active" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m4 18 5-5 3 3 3-4 5 6"/></svg><span>Photos à valider</span><b id="photo-count">0</b></button>
+          <button type="button" data-tab="members"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6m1 3a5 5 0 0 1 3 5v1"/></svg><span>Comptes membres</span></button>
+          <button type="button" data-tab="articles"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h13a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3V4Zm0 13a3 3 0 0 1 3-3h13M8 8h8M8 11h6"/></svg><span>NO TABOO</span></button>
+          <button type="button" data-tab="comments"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H9l-5 4V5Zm4 5h8m-8 3h5"/></svg><span>Commentaires</span></button>
+          <button type="button" data-tab="staff"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2"/><path d="M2 20v-2a6 6 0 0 1 12 0v2m2-6a5 5 0 0 1 6 5v1"/></svg><span>Équipe & accès</span></button>
+        </nav>
+      </div>
+      <div class="sidebar-account"><span class="account-avatar" aria-hidden="true">K</span><div><span id="identity"></span><button id="logout" type="button">Se déconnecter</button></div></div>
+    </aside>
+    <main class="workspace-main">
+      <header class="workspace-header"><div><p id="current-section" class="eyebrow">MODÉRATION</p><h1 id="current-title">Photos à valider</h1></div><a href="/">Voir le site <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a></header>
+      <div class="workspace-body"><div id="notice" role="status"></div><div id="content"></div></div>
+    </main>
+  </section>
 </body>
 </html>
