@@ -295,9 +295,6 @@ async def mcp(request: Request, db: Session = Depends(db_session)):
     if request.method != "POST":
         return Response(status_code=405, headers={"Allow": "POST"})
     challenge = f'Bearer resource_metadata="{PUBLIC_ORIGIN}/.well-known/oauth-protected-resource"'
-    staff = authorized_staff(request, db, "articles.read")
-    if not staff:
-        return Response(status_code=401, headers={"WWW-Authenticate": challenge})
     try:
         message = await request.json()
         method, message_id = message.get("method"), message.get("id")
@@ -314,6 +311,9 @@ async def mcp(request: Request, db: Session = Depends(db_session)):
     elif method == "tools/list":
         result = {"tools": TOOLS}
     elif method == "tools/call":
+        staff = authorized_staff(request, db, "articles.read")
+        if not staff:
+            return Response(status_code=401, headers={"WWW-Authenticate": challenge})
         params = message.get("params") or {}
         name, args = params.get("name"), params.get("arguments") or {}
         tool = next((item for item in TOOLS if item["name"] == name), None)
