@@ -922,7 +922,7 @@ def submit_journal_comment(slug: str, body: NewJournalComment, db: Session = Dep
         return {"status": "pending"}
     name, message = body.author_name.strip(), body.body.strip()
     if not name or not message:
-        raise HTTPException(422, "Le nom et le message sont requis")
+        raise HTTPException(422, "Le pseudo et le commentaire sont requis")
     if name.casefold() == "kinq team":
         raise HTTPException(422, "Ce nom est réservé à l’équipe")
     db.add(JournalComment(article_slug=slug, author_name=name, body=message, status="pending"))
@@ -960,7 +960,7 @@ def reply_to_comment(comment_id: int, body: TeamReply, staff: Staff = Depends(ed
         raise HTTPException(400, "Validez ce commentaire avant de répondre")
     message = body.body.strip()
     if not message:
-        raise HTTPException(422, "Le message est requis")
+        raise HTTPException(422, "La réponse est requise")
     reply = JournalComment(article_slug=parent.article_slug, author_name="Kinq Team", body=message,
                            status="approved", parent_id=parent.id, staff_id=staff.id)
     db.add(reply)

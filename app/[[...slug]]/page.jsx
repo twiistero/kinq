@@ -22,6 +22,18 @@ async function getArticle(slug) {
   return response.json();
 }
 
+async function getComments(slug) {
+  const response = await fetch(`${api}/api/journal/${slug}/comments`, {cache: 'no-store'});
+  if (!response.ok) throw new Error('Commentaires KINQ indisponibles');
+  return response.json();
+}
+
+function CommentCount({count}) {
+  return <a className="nt-editorial-scroll nt-comment-jump" href="#journal-comments">{count} commentaire{count > 1 ? 's' : ''}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+  </a>;
+}
+
 async function route(params) {
   const slug = (await params).slug || [];
   if (slug.length === 0) return {name: 'index.html'};
@@ -41,15 +53,15 @@ export async function generateMetadata({params}) {
   return {title: document.title, description: document.description || undefined};
 }
 
-function ArticleStory({article}) {
+function ArticleStory({article, comments}) {
   return <>
     <header className="nt-masthead"><a href="/guides"><strong>NO TABOO<span>.</span></strong><small>LE JOURNAL KINQ</small></a></header>
     <article className="nt-story">
-      <header className="nt-editorial-hero"><div className="nt-editorial-hero-copy"><p className="eyebrow">NO TABOO / JOURNAL</p><h1>{article.title}</h1><p>{article.summary}</p></div></header>
-      <div className="nt-prose">{String(article.body).split(/\n\s*\n/).map((paragraph, index) => <p key={index}>{paragraph.split('\n').map((line, lineIndex) => <span key={lineIndex}>{line}{lineIndex < paragraph.split('\n').length - 1 && <br/>}</span>)}</p>)}</div>
+      <header className="nt-editorial-hero"><div className="nt-editorial-hero-copy"><p className="eyebrow">NO TABOO / JOURNAL</p><h1>{article.title}</h1><p>{article.summary}</p><div className="nt-hero-actions"><a className="nt-editorial-scroll nt-comment-jump" href="#article">Lire l’article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></a><CommentCount count={comments.length}/></div></div></header>
+      <div className="nt-prose" id="article">{String(article.body).split(/\n\s*\n/).map((paragraph, index) => <p key={index}>{paragraph.split('\n').map((line, lineIndex) => <span key={lineIndex}>{line}{lineIndex < paragraph.split('\n').length - 1 && <br/>}</span>)}</p>)}</div>
       <a className="button" href="/guides">Retour au journal</a>
     </article>
-    <JournalComments slug={article.slug}/>
+    <div id="journal-comments"><JournalComments slug={article.slug} initialComments={comments}/></div>
   </>;
 }
 
@@ -63,8 +75,10 @@ export default async function KinqPage({params}) {
     if (response.status === 401) redirect('/connexion');
     if (!response.ok) throw new Error('Espace membre indisponible');
   }
-  const [document, article] = await Promise.all([getDocument(name), articleSlug ? getArticle(articleSlug) : Promise.resolve(null)]);
   const legacySlug = name.endsWith('.html') ? name.slice(0, -5) : '';
-  return <PageDocument document={document} slot={article ? <ArticleStory article={article}/> : null}
-    commentsSlot={legacyArticles.has(legacySlug) ? <JournalComments slug={legacySlug}/> : null}/>;
+  const commentSlug = articleSlug || (legacyArticles.has(legacySlug) ? legacySlug : '');
+  const [document, article, comments] = await Promise.all([getDocument(name), articleSlug ? getArticle(articleSlug) : Promise.resolve(null), commentSlug ? getComments(commentSlug) : Promise.resolve([])]);
+  return <PageDocument document={document} slot={article ? <ArticleStory article={article} comments={comments}/> : null}
+    commentsSlot={legacyArticles.has(legacySlug) ? <JournalComments slug={legacySlug} initialComments={comments}/> : null}
+    commentCountSlot={legacyArticles.has(legacySlug) ? <CommentCount count={comments.length}/> : null}/>;
 }
