@@ -9,11 +9,12 @@ const files = fs.readdirSync(source).filter(name => name.endsWith('.html') && na
 const attrMap = attrs => Object.fromEntries((attrs || []).map(({name, value}) => [name, value]));
 const textOf = node => (node.childNodes || []).map(child => child.value || textOf(child)).join('');
 const scripts = [];
+const journalSlugs = new Set(['premiers-pas','parler-de-ses-limites','les-mots-pour-se-comprendre','profil-et-vie-privee','premiere-rencontre','aftercare']);
 
 function cleanPageHref(href) {
   const match = /^\/?([a-z0-9-]+)\.html([?#].*)?$/.exec(href || '');
   if (!match) return href;
-  const page = match[1] === 'index' ? '/' : match[1] === 'soirees' ? '/events' : `/${match[1]}`;
+  const page = match[1] === 'index' ? '/' : match[1] === 'soirees' ? '/events' : journalSlugs.has(match[1]) ? `/guides/${match[1]}` : `/${match[1]}`;
   return page + (match[2] || '');
 }
 
