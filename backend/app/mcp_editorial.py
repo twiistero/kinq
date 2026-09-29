@@ -133,7 +133,7 @@ def authorize(request: Request, db: Session = Depends(db_session)):
             "<form method=post action=/oauth/authorize>" + fields
             + '<input type="hidden" name="csrf" value="' + html.escape(csrf, quote=True) + '">'
             + "<button type=submit>Autoriser cette connexion</button></form></html>")
-    return HTMLResponse(page, headers={"Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'", "Cache-Control": "no-store"})
+    return HTMLResponse(page, headers={"Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; form-action 'self' https://chatgpt.com; frame-ancestors 'none'", "Cache-Control": "no-store"})
 
 
 @router.post("/oauth/authorize")
