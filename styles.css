@@ -311,6 +311,7 @@ body[data-page="journal"] .nt-masthead{margin-top:14px}
 .nt-editorial-intro .nt-dropcap::first-letter{float:left;font:700 112px/.72 'Barlow Condensed',Impact,sans-serif;color:var(--ink);margin:14px 13px 0 0}
 .nt-editorial-intro p:not(.eyebrow):not(.nt-dropcap){font-size:18px;line-height:1.75;letter-spacing:0;font-weight:400;color:#454941}
 .nt-editorial-intro p.nt-dropcap{margin-bottom:30px}
+.nt-story .nt-editorial-intro p.nt-dropcap{font-weight:700}
 .nt-editorial-section>p em{font-style:italic;color:var(--ink)}
 .nt-editorial-sources{border-top:1px solid var(--line);margin:42px 0 0;padding:19px 0 0;color:var(--muted);font-size:12px;line-height:1.65}
 .nt-editorial-sources span{display:block;color:var(--ink);font-size:9px;font-weight:800;letter-spacing:1.4px;margin-bottom:9px}

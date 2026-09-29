@@ -9,6 +9,14 @@ export const dynamic = 'force-dynamic';
 const api = process.env.KINQ_API_URL || 'http://127.0.0.1:8000';
 const memberPages = new Set(['compte.html','mon-profil.html','rencontres.html','profil.html']);
 const legacyArticles = new Set(['premiers-pas','parler-de-ses-limites','les-mots-pour-se-comprendre','profil-et-vie-privee','premiere-rencontre','aftercare']);
+const legacyArticleCards = [
+  {slug: 'premiers-pas', title: 'Curieux, mais pas sûr de toi ? Tu es au bon endroit.'},
+  {slug: 'parler-de-ses-limites', title: 'Parler de ses limites sans casser le feeling.'},
+  {slug: 'les-mots-pour-se-comprendre', title: 'Les mots pour te comprendre. Pas pour t’enfermer.'},
+  {slug: 'profil-et-vie-privee', title: 'Ton profil, tes règles. Tu choisis ce que tu partages.'},
+  {slug: 'premiere-rencontre', title: 'Du premier message à la première rencontre.'},
+  {slug: 'aftercare', title: 'L’aftercare : la connexion continue après.'},
+];
 
 async function getDocument(name, optional = false) {
   const response = await fetch(`${api}/api/documents/${name}`, {cache: 'no-store'});
@@ -68,22 +76,39 @@ function ArtWords({words}) {
 
 function DynamicArticles({articles}) {
   if (!articles.length) return null;
-  return <>{articles.map(article =>
+  return <>{articles.slice(1).map(article =>
     <a className="article nt-card" href={`/${article.slug}`} key={article.slug}>
       <div className="article-art art-two"><ArtWords words={article.art_words}/><svg aria-hidden="true"><use href="#up"/></svg></div>
       <p className="eyebrow">{article.category?.toUpperCase() || 'ENTRE NOUS'} · {article.reading_minutes || 4} MIN</p><h3><span className="link-label">{article.title}</span></h3><p className="nt-card-summary"></p>
-    </a>)}</>;
+    </a>)}<a className="article nt-card" href="/premiers-pas"><div className="article-art art-one"><ArtWords words={['FIRST', 'TIME?']}/><svg aria-hidden="true"><use href="#up"/></svg></div><p className="eyebrow">PREMIERS PAS · 26 MIN</p><h3><span className="link-label">Curieux, mais pas sûr de toi ? Tu es au bon endroit.</span></h3><p className="nt-card-summary"></p></a></>;
 }
 
-function ArticleStory({article, comments}) {
+function DynamicFeature({article}) {
+  if (!article) return null;
+  return <section className="nt-feature" id="a-la-une"><div className="nt-feature-head"><p className="eyebrow">À LA UNE / {article.category?.toUpperCase() || 'ENTRE NOUS'}</p><h2><a className="nt-title-link" data-ink-link href={`/${article.slug}`}><span className="ink-label">{article.title}</span></a></h2></div><a className="nt-feature-art" href={`/${article.slug}`} aria-label={`Lire ${article.title}`}><ArtWords words={article.art_words}/><svg aria-hidden="true"><use href="#up"/></svg></a><div className="nt-feature-summary"><p>{article.summary}</p><a className="button" href={`/${article.slug}`}>Lire l’article <svg aria-hidden="true"><use href="#up"/></svg></a></div></section>;
+}
+
+function ArticleNavigation({article, articles}) {
+  const cards = [...articles, ...legacyArticleCards];
+  const index = cards.findIndex(card => card.slug === article.slug);
+  if (index < 0 || cards.length < 2) return null;
+  const previous = cards[(index - 1 + cards.length) % cards.length];
+  const next = cards[(index + 1) % cards.length];
+  return <section className="nt-next"><p className="eyebrow">CONTINUER À LIRE</p><div>
+    <a href={`/${previous.slug}`}><small><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg> ARTICLE PRÉCÉDENT</small><strong>{previous.title}</strong></a>
+    <a href={`/${next.slug}`}><small>ARTICLE SUIVANT <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></small><strong>{next.title}</strong></a>
+  </div></section>;
+}
+
+function ArticleStory({article, comments, articles}) {
   return <>
     <header className="nt-masthead"><a href="/guides"><strong>NO TABOO<span>.</span></strong><small>LE JOURNAL KINQ</small></a></header>
     <article className="nt-story">
-      <header className="nt-editorial-hero nt-editorial-hero-generic"><div className="nt-editorial-hero-copy"><p className="eyebrow">NO TABOO / {article.category?.toUpperCase() || 'ENTRE NOUS'}</p><h1>{article.title}</h1><p>{article.summary}</p><div className="nt-hero-actions"><a className="nt-editorial-scroll nt-comment-jump" href="#article">Lire l’article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></a><CommentCount count={comments.length}/></div></div><div className="article-art art-one nt-editorial-hero-art" aria-hidden="true"><ArtWords words={article.art_words}/></div></header>
-      <div className="nt-story-layout" id="article"><aside><span>NO TABOO</span><p>{article.summary}</p><a href="/guides">Retour au journal</a></aside><div className="nt-prose"><ArticleContent body={article.body}/></div></div>
-      <a className="button" href="/guides">Retour au journal</a>
+      <header className="nt-editorial-hero nt-editorial-hero-generic"><div className="nt-editorial-hero-copy"><p className="eyebrow">NO TABOO / {article.category?.toUpperCase() || 'ENTRE NOUS'}</p><h1>{article.title}</h1><p>{article.summary}</p><div className="nt-hero-actions"><a className="nt-editorial-scroll nt-comment-jump" href="#sommaire">Lire l’article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></a><CommentCount count={comments.length}/></div></div><div className="article-art art-one nt-editorial-hero-art" aria-hidden="true"><ArtWords words={article.art_words}/></div></header>
+      <ArticleContent body={article.body}/>
     </article>
     <div id="journal-comments"><JournalComments slug={article.slug} initialComments={comments}/></div>
+    <ArticleNavigation article={article} articles={articles}/>
   </>;
 }
 
@@ -102,10 +127,11 @@ export default async function KinqPage({params}) {
   if (article) document = await getDocument('journal-article.html');
   const legacySlug = name.endsWith('.html') ? name.slice(0, -5) : '';
   const commentSlug = article?.slug || (legacyArticles.has(legacySlug) ? legacySlug : '');
-  const [comments, articles] = await Promise.all([commentSlug ? getComments(commentSlug) : Promise.resolve([]), name === 'guides.html' ? getArticles() : Promise.resolve([])]);
-  return <PageDocument document={document} slot={article ? <ArticleStory article={article} comments={comments}/> : null}
+  const [comments, articles] = await Promise.all([commentSlug ? getComments(commentSlug) : Promise.resolve([]), name === 'guides.html' || article ? getArticles() : Promise.resolve([])]);
+  return <PageDocument document={document} slot={article ? <ArticleStory article={article} comments={comments} articles={articles}/> : null}
     bodyAttrs={article ? {...document.bodyAttrs, 'data-page': 'journal', 'data-breadcrumb-category': article.category || 'Entre nous', 'data-breadcrumb-title': article.title} : null}
     commentsSlot={legacyArticles.has(legacySlug) ? <JournalComments slug={legacySlug} initialComments={comments}/> : null}
     commentCountSlot={legacyArticles.has(legacySlug) ? <CommentCount count={comments.length}/> : null}
-    articlesSlot={name === 'guides.html' && articles.length ? <DynamicArticles articles={articles}/> : null}/>;
+    articlesSlot={name === 'guides.html' && articles.length ? <DynamicArticles articles={articles}/> : null}
+    featureSlot={name === 'guides.html' && articles.length ? <DynamicFeature article={articles[0]}/> : null}/>;
 }
