@@ -620,3 +620,69 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 @media(max-width:650px){.header{height:auto;min-height:112px;display:grid;grid-template-columns:1fr;align-content:center;gap:9px;padding-block:12px}.header .account{width:100%;flex-direction:row;justify-content:space-between;align-items:stretch;gap:8px}.header .account .account-entry{flex:1 1 auto;min-width:0}.header .account .app-download{width:auto;flex:0 0 auto}}
 @media(max-width:370px){.header .account .app-download{width:36px;padding:0}.header .account .app-download span{display:none}.header .account .account-entry{width:auto;font-size:9px}}
 @media(max-width:900px){.header .header-journey{display:none}}
+
+
+/* NO TABOO — sticky table of contents beside long-form articles */
+@media (min-width: 981px) {
+  .nt-story,
+  .nt-editorial > article {
+    display: grid;
+    grid-template-columns: minmax(230px, 280px) minmax(0, 790px);
+    column-gap: clamp(46px, 5vw, 78px);
+    justify-content: center;
+    align-items: start;
+  }
+
+  .nt-story > header.nt-editorial-hero,
+  .nt-editorial > article > header.nt-editorial-hero {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .nt-story > .nt-editorial-toc,
+  .nt-editorial > article > .nt-editorial-toc {
+    grid-column: 1;
+    grid-row: 2;
+    display: block;
+    align-self: start;
+    position: sticky;
+    top: 96px;
+    width: 100%;
+    max-height: calc(100vh - 126px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    margin: 96px 0 60px;
+    padding: 30px 24px 26px;
+    background: var(--lime);
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink) transparent;
+  }
+
+  .nt-story > .nt-editorial-toc h2,
+  .nt-editorial > article > .nt-editorial-toc h2 {
+    font-size: clamp(42px, 3.7vw, 54px);
+    line-height: .92;
+    margin: 0 0 24px;
+  }
+
+  .nt-story > .nt-editorial-toc ol,
+  .nt-editorial > article > .nt-editorial-toc ol {
+    grid-template-columns: 1fr;
+  }
+
+  .nt-story > .nt-editorial-toc a,
+  .nt-editorial > article > .nt-editorial-toc a {
+    padding: 12px 0;
+    font-size: 12px;
+  }
+
+  .nt-story > .nt-editorial-body,
+  .nt-editorial > article > .nt-editorial-body {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    max-width: 790px;
+    margin: 0;
+    padding: 96px 0 60px;
+  }
+}
