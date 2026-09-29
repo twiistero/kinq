@@ -24,14 +24,6 @@ SECTIONS = [
     ("Et si, finalement, vos envies ne se rejoignent pas ?", "envies-differentes", "Si vos envies diffèrent", "vos envies ne se rejoignent pas"),
 ]
 
-PHOTOS_AFTER = {
-    1: ("https://mr-riegillio.com/cdn/shop/files/MR_R62699_copy.jpg?v=1770812952&width=1600", "Deux hommes adultes en tenue sportswear fetish", "RENCONTRE", ""),
-    4: ("https://www.invinciblerubber.com/image/cache/catalog/SU056_h-840x840.jpg", "Homme adulte en tenue de latex", "LATEX", " nt-editorial-photo-wide"),
-    7: ("https://armyofmen.com/cdn/shop/files/head-harness-pup-scout-blue-model-front.jpg?v=1757678289&width=1200", "Homme adulte portant une cagoule puppy bleue", "PUPPY", ""),
-    10: ("https://images.squarespace-cdn.com/content/v1/5c55184293a6324e1f793b37/1643420235677-MR0J2B9DH8N8NK1K9LEW/Raif%2B%26%2BMark.jpg", "Deux hommes adultes en tenue de cuir", "ENTRE NOUS", " nt-editorial-photo-wide"),
-    12: ("https://www.scallychav.co.uk/cdn/shop/files/FDCA6A7D-D889-4DFA-AD34-30F6174243C3.jpg?v=1778270620&width=1445", "Homme adulte en tenue sportswear", "À TON RYTHME", ""),
-}
-
 
 def heading_html(title, emphasized):
     before, after = title.split(emphasized, 1)
@@ -61,9 +53,6 @@ def render():
             body.append(f'<p>{escape(blocks[cursor])}</p>')
             cursor += 1
         body.append('</section>')
-        if index in PHOTOS_AFTER:
-            src, alt, label, modifier = PHOTOS_AFTER[index]
-            body.append(f'<figure class="nt-editorial-photo{modifier}"><img src="{escape(src, quote=True)}" alt="{escape(alt)}, photo d’illustration" loading="lazy"><figcaption><span>{label} · PHOTO D’ILLUSTRATION</span> Les personnes photographiées ne sont pas des membres Kinq.</figcaption></figure>')
     assert cursor == len(blocks), "Not all editorial copy was rendered"
     body.append('''<aside class="nt-editorial-sources"><span>REPÈRES CITÉS DANS L’ARTICLE</span><p><a href="https://ncsfreedom.org/wp-content/uploads/2023/06/Negotiation-Guide.pdf" target="_blank" rel="noopener">NCSF · Guide de préparation</a> · <a href="https://ncsfreedom.org/wp-content/uploads/2025/09/Is-this-Assault-Updated.pdf" target="_blank" rel="noopener">NCSF · Limites et consentement</a> · <a href="https://prep.sexosafe.fr/ma-sexualite/pratiques-sexuelles/bdsm-entre-hommes-attache-moi" target="_blank" rel="noopener">Sexosafe · BDSM entre hommes</a> · <a href="https://www.questionsexualite.fr/lutter-contre-les-violences-et-discriminations/le-consentement/dire-non-a-une-relation-ou-a-une-pratique-sexuelle" target="_blank" rel="noopener">QuestionsSexualité · Dire non</a> · <a href="https://cnil.fr/fr/sites-et-applications-de-rencontres-comment-proteger-votre-intimite" target="_blank" rel="noopener">CNIL · Protéger votre intimité</a></p></aside></div>''')
 
