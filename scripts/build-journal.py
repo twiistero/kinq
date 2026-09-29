@@ -5,7 +5,7 @@ import re
 from render_first_article import render as render_first_article
 from render_second_article import render as render_second_article
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent / "legacy-pages"
 HOME = ROOT / "index.html"
 SHELL = (ROOT / "guides.html").read_text()
 
@@ -57,7 +57,15 @@ def card(article):
             f'<p class="nt-card-summary">{escape(article.get("summary", ""))}</p></a>')
 
 def write_page(filename, title, description, body, category=None):
+    if category:
+        slug = Path(filename).stem
+        marker = '<section class="nt-next">'
+        if marker not in body:
+            raise ValueError(f"Missing article footer in {filename}")
+        body = body.replace(marker, f'<section id="journal-comments" data-article-slug="{slug}"></section>' + marker, 1)
     page = re.sub(r'<main id="page-main">.*?</main>', f'<main id="page-main">{body}</main>', SHELL, flags=re.S)
+    if category:
+        page = page.replace('<script type="module" src="/journal-dynamic.js"></script>', '')
     attrs = 'data-page="journal"'
     if category:
         attrs += f' data-breadcrumb-category="{escape(category, quote=True)}" data-breadcrumb-title="{escape(title, quote=True)}"'

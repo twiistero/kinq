@@ -95,6 +95,18 @@ class Comment(Base):
     status: Mapped[str] = mapped_column(String(20), default="pending")
 
 
+class JournalComment(Base):
+    __tablename__ = "journal_comments"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    article_slug: Mapped[str] = mapped_column(String(180), index=True)
+    author_name: Mapped[str] = mapped_column(String(80))
+    body: Mapped[str] = mapped_column(Text)
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    parent_id: Mapped[int | None] = mapped_column(ForeignKey("journal_comments.id"), nullable=True)
+    staff_id: Mapped[int | None] = mapped_column(ForeignKey("staff.id"), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
 class Audit(Base):
     __tablename__ = "admin_audit"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -868,20 +880,94 @@ def published_article(slug: str, db: Session = Depends(db_session)):
     return {"slug": article.slug, "title": article.title, "summary": article.summary, "body": article.body}
 
 
+LEGACY_JOURNAL_SLUGS = {"premiers-pas", "parler-de-ses-limites", "les-mots-pour-se-comprendre", "profil-et-vie-privee", "premiere-rencontre", "aftercare"}
+
+
+def published_journal_slug(slug: str, db: Session) -> bool:
+    return slug in LEGACY_JOURNAL_SLUGS or bool(db.scalar(select(Article.id).where(Article.slug == slug, Article.status == "published")))
+
+
+def comment_payload(comment: JournalComment) -> dict:
+    return {"id": comment.id, "article_slug": comment.article_slug, "author_name": comment.author_name,
+            "body": comment.body, "status": comment.status, "created_at": comment.created_at.isoformat()}
+
+
+class NewJournalComment(BaseModel):
+    author_name: str = Field(min_length=1, max_length=80)
+    body: str = Field(min_length=1, max_length=2000)
+    website: str = Field(default="", max_length=200)
+
+
+class TeamReply(BaseModel):
+    body: str = Field(min_length=1, max_length=2000)
+
+
+@app.get("/api/journal/{slug}/comments")
+def public_journal_comments(slug: str, db: Session = Depends(db_session)):
+    if not published_journal_slug(slug, db):
+        raise HTTPException(404)
+    rows = list(db.scalars(select(JournalComment).where(JournalComment.article_slug == slug, JournalComment.status == "approved").order_by(JournalComment.created_at, JournalComment.id)))
+    roots = {c.id: {**comment_payload(c), "replies": []} for c in rows if c.parent_id is None}
+    for c in rows:
+        if c.parent_id in roots and c.staff_id is not None:
+            roots[c.parent_id]["replies"].append(comment_payload(c))
+    return list(roots.values())
+
+
+@app.post("/api/journal/{slug}/comments", status_code=202)
+def submit_journal_comment(slug: str, body: NewJournalComment, db: Session = Depends(db_session)):
+    if not published_journal_slug(slug, db):
+        raise HTTPException(404)
+    if body.website:
+        return {"status": "pending"}
+    name, message = body.author_name.strip(), body.body.strip()
+    if not name or not message:
+        raise HTTPException(422, "Le nom et le message sont requis")
+    if name.casefold() == "kinq team":
+        raise HTTPException(422, "Ce nom est réservé à l’équipe")
+    db.add(JournalComment(article_slug=slug, author_name=name, body=message, status="pending"))
+    db.commit()
+    return {"status": "pending"}
+
+
 @app.get("/api/admin/comments")
 def comments(_: Staff = Depends(editor), db: Session = Depends(db_session)):
-    return [{"id": c.id, "article_id": c.article_id, "member_id": c.member_id, "body": c.body, "status": c.status} for c in db.scalars(select(Comment).order_by(Comment.id.desc()).limit(200))]
+    roots = list(db.scalars(select(JournalComment).where(JournalComment.parent_id.is_(None)).order_by(JournalComment.id.desc()).limit(200)))
+    replies = list(db.scalars(select(JournalComment).where(JournalComment.parent_id.in_([c.id for c in roots])).order_by(JournalComment.id))) if roots else []
+    by_parent = {c.id: [] for c in roots}
+    for reply in replies:
+        by_parent[reply.parent_id].append(comment_payload(reply))
+    return [{**comment_payload(c), "replies": by_parent[c.id]} for c in sorted(roots, key=lambda c: (c.status != "pending", -c.id))]
 
 
 @app.patch("/api/admin/comments/{comment_id}")
 def decide_comment(comment_id: int, body: Decision, staff: Staff = Depends(editor), db: Session = Depends(db_session)):
-    c = db.get(Comment, comment_id)
-    if not c or body.status not in ("approved", "rejected"):
+    c = db.get(JournalComment, comment_id)
+    if not c or c.parent_id is not None:
+        raise HTTPException(404)
+    if body.status not in ("approved", "rejected"):
         raise HTTPException(400)
     c.status = body.status
     log(db, staff, "comment." + body.status, str(comment_id))
     db.commit()
     return {"ok": True}
+
+
+@app.post("/api/admin/comments/{comment_id}/reply", status_code=201)
+def reply_to_comment(comment_id: int, body: TeamReply, staff: Staff = Depends(editor), db: Session = Depends(db_session)):
+    parent = db.get(JournalComment, comment_id)
+    if not parent or parent.parent_id is not None or parent.status != "approved":
+        raise HTTPException(400, "Validez ce commentaire avant de répondre")
+    message = body.body.strip()
+    if not message:
+        raise HTTPException(422, "Le message est requis")
+    reply = JournalComment(article_slug=parent.article_slug, author_name="Kinq Team", body=message,
+                           status="approved", parent_id=parent.id, staff_id=staff.id)
+    db.add(reply)
+    db.flush()
+    log(db, staff, "comment.reply", str(reply.id))
+    db.commit()
+    return comment_payload(reply)
 
 
 # SessionMiddleware must wrap the CSRF middleware so request.session exists there.

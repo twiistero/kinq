@@ -112,6 +112,7 @@ svg{display:block}
 .editor textarea{min-height:160px;resize:vertical}
 .editor button{justify-self:start}
 .empty{padding:56px 24px;color:var(--muted);text-align:center}
+.comment-row{align-items:flex-start}.comment-row>div:first-child{flex:1}.comment-row strong a{text-decoration:underline;text-underline-offset:3px}.comment-row p{white-space:pre-wrap;overflow-wrap:anywhere}.comment-team-reply{margin:16px 0;padding:14px 17px;border-left:3px solid var(--lime);background:#f4f8e9}.comment-reply-form{display:grid;gap:10px;max-width:650px;margin-top:18px}.comment-reply-form label{font-size:12px;font-weight:800}.comment-reply-form textarea{display:block;width:100%;min-height:95px;margin-top:8px;padding:12px;border:1px solid #cbd0c7;border-radius:7px;resize:vertical}.comment-reply-form button{justify-self:start}
 
 /* Keep the KINQ fill animation on positive actions. */
 :is(.google-login,.primary,.action,.controls button[data-decision="approved"]){background-image:linear-gradient(var(--lime),var(--lime));background-repeat:no-repeat;background-position:left center;background-size:0% 100%;transition:background-size .34s cubic-bezier(.22,.61,.36,1),color .25s}

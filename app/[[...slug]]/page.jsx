@@ -1,10 +1,12 @@
 import {cookies} from 'next/headers';
 import {notFound, redirect} from 'next/navigation';
 import PageDocument from '../page-document';
+import JournalComments from '../journal-comments';
 
 export const dynamic = 'force-dynamic';
 const api = process.env.KINQ_API_URL || 'http://127.0.0.1:8000';
 const memberPages = new Set(['compte.html','mon-profil.html','rencontres.html','profil.html']);
+const legacyArticles = new Set(['premiers-pas','parler-de-ses-limites','les-mots-pour-se-comprendre','profil-et-vie-privee','premiere-rencontre','aftercare']);
 
 async function getDocument(name) {
   const response = await fetch(`${api}/api/documents/${name}`, {cache: 'no-store'});
@@ -47,6 +49,7 @@ function ArticleStory({article}) {
       <div className="nt-prose">{String(article.body).split(/\n\s*\n/).map((paragraph, index) => <p key={index}>{paragraph.split('\n').map((line, lineIndex) => <span key={lineIndex}>{line}{lineIndex < paragraph.split('\n').length - 1 && <br/>}</span>)}</p>)}</div>
       <a className="button" href="/guides">Retour au journal</a>
     </article>
+    <JournalComments slug={article.slug}/>
   </>;
 }
 
@@ -61,5 +64,7 @@ export default async function KinqPage({params}) {
     if (!response.ok) throw new Error('Espace membre indisponible');
   }
   const [document, article] = await Promise.all([getDocument(name), articleSlug ? getArticle(articleSlug) : Promise.resolve(null)]);
-  return <PageDocument document={document} slot={article ? <ArticleStory article={article}/> : null}/>;
+  const legacySlug = name.endsWith('.html') ? name.slice(0, -5) : '';
+  return <PageDocument document={document} slot={article ? <ArticleStory article={article}/> : null}
+    commentsSlot={legacyArticles.has(legacySlug) ? <JournalComments slug={legacySlug}/> : null}/>;
 }
