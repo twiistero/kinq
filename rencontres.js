@@ -16,7 +16,7 @@ function updateMemberGreeting(){
  const pseudo=memberName || String(myProfileData.pseudo||'').trim();
  hello.textContent=`Salut, ${pseudo||'toi'} !`;
 }
-const paths={search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',sliders:'<path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>',arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',chevron:'<path d="m6 9 6 6 6-6"/>',pin:'<path d="m14 3 7 7-4 1-4 6-2-2-7 7 7-7-2-2 6-4Z"/>',hook:'<path d="M7 3v12a5 5 0 0 0 10 0v-5l-4 4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>',up:'<path d="M5 19 19 5M5 5h14v14"/>'};
+const paths={search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>',sliders:'<path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>',arrow:'<path d="M4 12h16m-6-6 6 6-6 6"/>',chevron:'<path d="m6 9 6 6 6-6"/>',pin:'<path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/>',hook:'<path d="M7 3v12a5 5 0 0 0 10 0v-5l-4 4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 22v-3a8 8 0 0 1 16 0v3"/>',up:'<path d="M5 19 19 5M5 5h14v14"/>'};
 const svg=n=>`<svg aria-hidden="true" viewBox="0 0 24 24">${paths[n]||paths.arrow}</svg>`;
 document.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML=svg(el.dataset.icon));
 const aliases={leather:'Leather',sportswear:'Sportswear',rubber:'Rubber',pup:'Puppy',lycra:'Lycra',diaper:'Diaper',harness:'Harnais',hood:'Masques',denim:'Denim'};

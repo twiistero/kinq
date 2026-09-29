@@ -136,3 +136,8 @@
 .kinq-space #site-header .header{height:108px;padding-bottom:10px}
 .kinq-space #site-header .site-breadcrumb{padding-top:16px}
 @media(max-width:760px){.kinq-space #site-header .header{height:122px;padding-bottom:10px}.kinq-space #site-header .site-breadcrumb{padding-top:16px}}
+
+/* Messaging is another tab in the existing member space. */
+.space-tabs .space-messages-link{white-space:nowrap;color:#aeb8a8;padding:15px 20px 16px;border-bottom:2px solid transparent;font-size:12px;font-weight:600}
+.space-tabs .space-messages-link:hover{color:var(--lime)}
+@media(max-width:700px){.space-tabs .space-messages-link{padding:12px 14px 13px;font-size:11px}}
