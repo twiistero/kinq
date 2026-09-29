@@ -75,6 +75,7 @@ class Article(Base):
     title: Mapped[str] = mapped_column(String(255))
     summary: Mapped[str] = mapped_column(Text, default="")
     body: Mapped[str] = mapped_column(Text, default="")
+    art_words: Mapped[list] = mapped_column(JSON, default=list)
     status: Mapped[str] = mapped_column(String(20), default="draft")
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
@@ -869,7 +870,16 @@ def delete_article(article_id: int, staff: Staff = Depends(editor), db: Session 
 
 @app.get("/api/articles")
 def published_articles(db: Session = Depends(db_session)):
-    return [{"slug": a.slug, "title": a.title, "summary": a.summary, "body": a.body} for a in db.scalars(select(Article).where(Article.status == "published").order_by(Article.updated_at.desc()))]
+    return [public_article(a, include_body=False) for a in db.scalars(select(Article).where(Article.status == "published").order_by(Article.updated_at.desc()))]
+
+
+def public_article(article: Article, include_body: bool = True):
+    plain = lambda value: html.unescape(re.sub(r"<[^>]+>", "", value or ""))
+    art_words = article.art_words or (["MUSK", "PITS", "WORN"] if article.slug == "odeur-mec-plus-excitante-que-physique" else ["NO", "TABOO"] )
+    result = {"slug": article.slug, "title": plain(article.title), "summary": plain(article.summary), "art_words": art_words}
+    if include_body:
+        result["body"] = article.body
+    return result
 
 
 @app.get("/api/articles/{slug}")
@@ -877,7 +887,7 @@ def published_article(slug: str, db: Session = Depends(db_session)):
     article = db.scalar(select(Article).where(Article.slug == slug, Article.status == "published"))
     if not article:
         raise HTTPException(404)
-    return {"slug": article.slug, "title": article.title, "summary": article.summary, "body": article.body}
+    return public_article(article)
 
 
 LEGACY_JOURNAL_SLUGS = {"premiers-pas", "parler-de-ses-limites", "les-mots-pour-se-comprendre", "profil-et-vie-privee", "premiere-rencontre", "aftercare"}

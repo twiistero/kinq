@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 from .main import Base, DemoProfile, Event, PageDocument, engine
 
 Base.metadata.create_all(engine)
+with engine.begin() as connection:
+    connection.exec_driver_sql("ALTER TABLE articles ADD COLUMN IF NOT EXISTS art_words JSON NOT NULL DEFAULT '[]'")
 source = Path(os.environ.get("KINQ_SEED_SOURCE", "/srv/source"))
 if source.exists():
     with Session(engine) as db:
