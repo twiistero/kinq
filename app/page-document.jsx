@@ -26,7 +26,8 @@ export function RenderNode({node, slot, commentsSlot, commentCountSlot, articles
   if (slot && attrs.id === 'dynamic-story') return createElement(node.tag, attrs, slot);
   if (commentsSlot && attrs.id === 'journal-comments') return createElement(node.tag, attrs, commentsSlot);
   if (commentCountSlot && attrs.id === 'journal-comment-count') return createElement(node.tag, attrs, commentCountSlot);
-  if (articlesSlot && attrs.id === 'journal-dynamic-articles') return createElement(node.tag, attrs, articlesSlot);
+  if (attrs.id === 'journal-dynamic-articles') return createElement(node.tag, attrs,
+    ...(node.children || []).map((child, index) => <RenderNode key={index} node={child}/>), articlesSlot);
   if (node.tag === 'script' && attrs.type === 'application/json') {
     return createElement('script', {...attrs, dangerouslySetInnerHTML: {__html: (node.children || []).join('')}});
   }
@@ -34,10 +35,10 @@ export function RenderNode({node, slot, commentsSlot, commentCountSlot, articles
   return createElement(node.tag, attrs, ...(node.children || []).map((child, index) => <RenderNode key={index} node={child} slot={slot} commentsSlot={commentsSlot} commentCountSlot={commentCountSlot} articlesSlot={articlesSlot}/>));
 }
 
-export default function PageDocument({document, slot, commentsSlot, commentCountSlot, articlesSlot}) {
+export default function PageDocument({document, slot, commentsSlot, commentCountSlot, articlesSlot, bodyAttrs}) {
   return <>
     {document.links.map((link, index) => <RenderNode key={`link-${index}`} node={link}/>)}
     {document.nodes.map((node, index) => <RenderNode key={index} node={node} slot={slot} commentsSlot={commentsSlot} commentCountSlot={commentCountSlot} articlesSlot={articlesSlot}/>)}
-    <PageEffects bodyAttrs={document.bodyAttrs} scripts={document.scripts}/>
+    <PageEffects bodyAttrs={bodyAttrs || document.bodyAttrs} scripts={document.scripts}/>
   </>;
 }

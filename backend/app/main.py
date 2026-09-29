@@ -76,6 +76,7 @@ class Article(Base):
     summary: Mapped[str] = mapped_column(Text, default="")
     body: Mapped[str] = mapped_column(Text, default="")
     art_words: Mapped[list] = mapped_column(JSON, default=list)
+    category: Mapped[str] = mapped_column(String(40), default="Entre nous")
     status: Mapped[str] = mapped_column(String(20), default="draft")
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
@@ -875,8 +876,9 @@ def published_articles(db: Session = Depends(db_session)):
 
 def public_article(article: Article, include_body: bool = True):
     plain = lambda value: html.unescape(re.sub(r"<[^>]+>", "", value or ""))
-    art_words = article.art_words or (["MUSK", "PITS", "WORN"] if article.slug == "odeur-mec-plus-excitante-que-physique" else ["NO", "TABOO"] )
-    result = {"slug": article.slug, "title": plain(article.title), "summary": plain(article.summary), "art_words": art_words}
+    art_words = article.art_words or (["MUSK.", "PITS.", "WORN."] if article.slug == "odeur-mec-plus-excitante-que-physique" else ["NO", "TABOO."])
+    reading_minutes = max(1, round(len(plain(article.body).split()) / 220))
+    result = {"slug": article.slug, "title": plain(article.title), "summary": plain(article.summary), "art_words": art_words, "category": article.category, "reading_minutes": reading_minutes}
     if include_body:
         result["body"] = article.body
     return result

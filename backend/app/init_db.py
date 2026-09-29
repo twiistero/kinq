@@ -12,15 +12,16 @@ from .main import Article, Base, DemoProfile, Event, PageDocument, engine
 Base.metadata.create_all(engine)
 with engine.begin() as connection:
     connection.exec_driver_sql("ALTER TABLE articles ADD COLUMN IF NOT EXISTS art_words JSON NOT NULL DEFAULT '[]'")
+    connection.exec_driver_sql("ALTER TABLE articles ADD COLUMN IF NOT EXISTS category VARCHAR(40) NOT NULL DEFAULT 'Entre nous'")
 with Session(engine) as db:
     article = db.query(Article).filter_by(slug="odeur-mec-plus-excitante-que-physique").one_or_none()
     if article:
         clean_body = re.sub(r"^\s*<svg\b[\s\S]*?</svg>\s*", "", article.body, count=1, flags=re.I)
         clean_title = html.unescape(re.sub(r"<[^>]+>", "", article.title))
-        if clean_body != article.body or clean_title != article.title or not article.art_words:
+        if clean_body != article.body or clean_title != article.title or article.art_words != ["MUSK.", "PITS.", "WORN."]:
             article.body = clean_body
             article.title = clean_title
-            article.art_words = ["MUSK", "PITS", "WORN"]
+            article.art_words = ["MUSK.", "PITS.", "WORN."]
             db.commit()
 source = Path(os.environ.get("KINQ_SEED_SOURCE", "/srv/source"))
 if source.exists():

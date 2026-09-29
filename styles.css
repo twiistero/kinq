@@ -551,11 +551,8 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 
 /* NO TABOO article conversation */
 .nt-comments{width:min(100% - 48px,1180px);margin:80px auto 0;padding:46px 0 78px;border-top:2px solid var(--ink);color:var(--ink)}
-.nt-editorial-hero-art{display:flex;align-items:center;justify-content:center;min-width:0;padding:36px;background:var(--lime);color:var(--ink);overflow:hidden}
-.nt-editorial-hero-art>span{display:block;font:800 clamp(76px,10vw,160px)/.8 'Barlow Condensed',Impact,sans-serif;letter-spacing:-.055em;text-align:center;transform:rotate(-5deg)}
-.nt-editorial-hero-art>span>span{display:contents}
-.nt-dynamic-art>span{line-height:.82;letter-spacing:-.04em}
-.nt-dynamic-art>span>span{display:contents}
+.nt-editorial-hero-art{min-width:0;min-height:100%;height:auto;border-radius:0;padding:clamp(30px,4vw,60px);color:var(--ink)}
+.nt-editorial-hero-art>span{font-size:clamp(78px,8vw,135px);line-height:.83;letter-spacing:-.03em;overflow-wrap:anywhere}
 #journal-dynamic-articles:empty{display:none}
 @media(max-width:760px){.nt-editorial-hero-art{min-height:285px}.nt-editorial-hero-art>span{font-size:clamp(72px,18vw,135px)}}
 .nt-comments-intro{max-width:650px}.nt-comments-intro .eyebrow{margin:0 0 12px}.nt-comments-intro h2{margin:0 0 14px;font:800 clamp(54px,6vw,84px)/.92 'Barlow Condensed',Impact,sans-serif;letter-spacing:-.025em}.nt-comments-intro>p:last-child{margin:0;color:#51564d;line-height:1.6}

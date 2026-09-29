@@ -1,3 +1,4 @@
+import {Fragment} from 'react';
 import {cookies} from 'next/headers';
 import {notFound, permanentRedirect, redirect} from 'next/navigation';
 import PageDocument from '../page-document';
@@ -61,23 +62,24 @@ export async function generateMetadata({params}) {
 }
 
 function ArtWords({words}) {
-  return <span>{(words?.length ? words : ['NO', 'TABOO']).map((word, index) => <span key={index}>{word}{index < (words?.length || 2) - 1 && <br/>}</span>)}</span>;
+  const lines = words?.length ? words : ['NO', 'TABOO'];
+  return <span>{lines.map((word, index) => <Fragment key={index}>{index === lines.length - 1 ? <em>{word}</em> : word}{index < lines.length - 1 && <br/>}</Fragment>)}</span>;
 }
 
 function DynamicArticles({articles}) {
   if (!articles.length) return null;
-  return <><div className="nt-heading"><h2>LE JOURNAL CONTINUE</h2></div><div className="articles nt-grid">{articles.map(article =>
+  return <>{articles.map(article =>
     <a className="article nt-card" href={`/${article.slug}`} key={article.slug}>
-      <div className="article-art art-three nt-dynamic-art"><ArtWords words={article.art_words}/><svg aria-hidden="true"><use href="#up"/></svg></div>
-      <p className="eyebrow">NO TABOO</p><h3><span className="link-label">{article.title}</span></h3><p className="nt-card-summary">{article.summary}</p>
-    </a>)}</div></>;
+      <div className="article-art art-two"><ArtWords words={article.art_words}/><svg aria-hidden="true"><use href="#up"/></svg></div>
+      <p className="eyebrow">{article.category?.toUpperCase() || 'ENTRE NOUS'} · {article.reading_minutes || 4} MIN</p><h3><span className="link-label">{article.title}</span></h3><p className="nt-card-summary"></p>
+    </a>)}</>;
 }
 
 function ArticleStory({article, comments}) {
   return <>
     <header className="nt-masthead"><a href="/guides"><strong>NO TABOO<span>.</span></strong><small>LE JOURNAL KINQ</small></a></header>
     <article className="nt-story">
-      <header className="nt-editorial-hero nt-editorial-hero-generic"><div className="nt-editorial-hero-copy"><p className="eyebrow">NO TABOO / JOURNAL</p><h1>{article.title}</h1><p>{article.summary}</p><div className="nt-hero-actions"><a className="nt-editorial-scroll nt-comment-jump" href="#article">Lire l’article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></a><CommentCount count={comments.length}/></div></div><div className="nt-editorial-hero-art" aria-hidden="true"><ArtWords words={article.art_words}/></div></header>
+      <header className="nt-editorial-hero nt-editorial-hero-generic"><div className="nt-editorial-hero-copy"><p className="eyebrow">NO TABOO / {article.category?.toUpperCase() || 'ENTRE NOUS'}</p><h1>{article.title}</h1><p>{article.summary}</p><div className="nt-hero-actions"><a className="nt-editorial-scroll nt-comment-jump" href="#article">Lire l’article <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15m-6-6 6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></a><CommentCount count={comments.length}/></div></div><div className="article-art art-one nt-editorial-hero-art" aria-hidden="true"><ArtWords words={article.art_words}/></div></header>
       <div className="nt-story-layout" id="article"><aside><span>NO TABOO</span><p>{article.summary}</p><a href="/guides">Retour au journal</a></aside><div className="nt-prose"><ArticleContent body={article.body}/></div></div>
       <a className="button" href="/guides">Retour au journal</a>
     </article>
@@ -102,6 +104,7 @@ export default async function KinqPage({params}) {
   const commentSlug = article?.slug || (legacyArticles.has(legacySlug) ? legacySlug : '');
   const [comments, articles] = await Promise.all([commentSlug ? getComments(commentSlug) : Promise.resolve([]), name === 'guides.html' ? getArticles() : Promise.resolve([])]);
   return <PageDocument document={document} slot={article ? <ArticleStory article={article} comments={comments}/> : null}
+    bodyAttrs={article ? {...document.bodyAttrs, 'data-page': 'journal', 'data-breadcrumb-category': article.category || 'Entre nous', 'data-breadcrumb-title': article.title} : null}
     commentsSlot={legacyArticles.has(legacySlug) ? <JournalComments slug={legacySlug} initialComments={comments}/> : null}
     commentCountSlot={legacyArticles.has(legacySlug) ? <CommentCount count={comments.length}/> : null}
     articlesSlot={name === 'guides.html' && articles.length ? <DynamicArticles articles={articles}/> : null}/>;

@@ -191,7 +191,7 @@ def authorized_staff(request, db, scope):
 
 
 def snapshot(article, draft=None):
-    published = {"slug": article.slug, "title": article.title, "summary": article.summary, "body": article.body, "art_words": article.art_words}
+    published = {"slug": article.slug, "title": article.title, "summary": article.summary, "body": article.body, "art_words": article.art_words, "category": article.category}
     pending = draft.payload if draft else (published if article.status == "draft" else None)
     return {"id": article.id, "status": article.status, "published": published if article.status == "published" else None,
             "draft": pending, "revision": digest(json.dumps({"published": published, "draft": pending, "status": article.status}, sort_keys=True, ensure_ascii=False)),
@@ -212,7 +212,7 @@ def article_by_slug(db, slug):
 TOOLS = [
     {"name": "list_articles", "description": "Lister les articles NO TABOO gérés en base et leurs états. Les six articles historiques restent dans le code du site.", "inputSchema": {"type": "object", "properties": {}}, "annotations": {"readOnlyHint": True}, "securitySchemes": [{"type": "oauth2", "scopes": ["articles.read"]}]},
     {"name": "get_article", "description": "Lire un article et son brouillon, avec une révision à fournir pour toute modification.", "inputSchema": {"type": "object", "properties": {"slug": {"type": "string"}}, "required": ["slug"]}, "annotations": {"readOnlyHint": True}, "securitySchemes": [{"type": "oauth2", "scopes": ["articles.read"]}]},
-    {"name": "save_article_draft", "description": "Créer ou modifier un brouillon NO TABOO. URL finale : /{slug}. title et summary sont du texte sans balises. body accepte des paragraphes HTML simples (p, h2, h3, em, strong, ul, ol, li), sans SVG, script ni image intégrée. art_words contient 2 ou 3 mots courts en majuscules pour l'encart graphique, par exemple MUSK, PITS, WORN. Vérifier le rendu du brouillon avant publication. Pour modifier, fournir la révision de get_article ; existing_slug identifie l'article si son slug change.", "inputSchema": {"type": "object", "properties": {"slug": {"type": "string"}, "existing_slug": {"type": "string"}, "title": {"type": "string"}, "summary": {"type": "string"}, "body": {"type": "string"}, "art_words": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 3}, "base_revision": {"type": "string"}}, "required": ["slug", "title", "summary", "body", "art_words"]}, "annotations": {"readOnlyHint": False, "destructiveHint": False}, "securitySchemes": [{"type": "oauth2", "scopes": ["articles.write"]}]},
+    {"name": "save_article_draft", "description": "Créer ou modifier un brouillon NO TABOO. URL finale : /{slug}. title et summary sont du texte sans balises. body accepte des paragraphes HTML simples (p, h2, h3, em, strong, ul, ol, li), sans SVG, script ni image intégrée. art_words contient 2 ou 3 mots courts en majuscules pour l'encart graphique, par exemple MUSK, PITS, WORN. category choisit la rubrique NO TABOO : Premiers pas, Entre nous, Le lexique, Vie privée ou Rencontres. Vérifier le rendu du brouillon avant publication. Pour modifier, fournir la révision de get_article ; existing_slug identifie l'article si son slug change.", "inputSchema": {"type": "object", "properties": {"slug": {"type": "string"}, "existing_slug": {"type": "string"}, "title": {"type": "string"}, "summary": {"type": "string"}, "body": {"type": "string"}, "art_words": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 3}, "category": {"type": "string", "enum": ["Premiers pas", "Entre nous", "Le lexique", "Vie privée", "Rencontres"]}, "base_revision": {"type": "string"}}, "required": ["slug", "title", "summary", "body", "art_words", "category"]}, "annotations": {"readOnlyHint": False, "destructiveHint": False}, "securitySchemes": [{"type": "oauth2", "scopes": ["articles.write"]}]},
     {"name": "publish_article", "description": "Publier explicitement le brouillon relu. Fournir sa révision actuelle obtenue par get_article.", "inputSchema": {"type": "object", "properties": {"slug": {"type": "string"}, "draft_revision": {"type": "string"}}, "required": ["slug", "draft_revision"]}, "annotations": {"readOnlyHint": False, "destructiveHint": False}, "securitySchemes": [{"type": "oauth2", "scopes": ["articles.write"]}]},
     {"name": "remove_article", "description": "Retirer immédiatement du site un article NO TABOO géré en base. Conserve le contenu en base pour restauration. Fournir sa révision et confirmer son slug.", "inputSchema": {"type": "object", "properties": {"slug": {"type": "string"}, "base_revision": {"type": "string"}, "confirm_slug": {"type": "string"}}, "required": ["slug", "base_revision", "confirm_slug"]}, "annotations": {"readOnlyHint": False, "destructiveHint": True}, "securitySchemes": [{"type": "oauth2", "scopes": ["articles.write"]}]},
 ]
@@ -233,17 +233,19 @@ def run_tool(name, args, staff, db):
     if name == "save_article_draft":
         if slug in LEGACY_SLUGS:
             raise HTTPException(409, "Article historique géré dans le code du site")
-        title, summary, body, art_words = args.get("title"), args.get("summary"), args.get("body"), args.get("art_words")
+        title, summary, body, art_words, category = args.get("title"), args.get("summary"), args.get("body"), args.get("art_words"), args.get("category")
         if (not isinstance(title, str) or not 1 <= len(title.strip()) <= 255
                 or not isinstance(summary, str) or not isinstance(body, str) or not body.strip()
-                or not isinstance(art_words, list) or not 2 <= len(art_words) <= 3):
+                or not isinstance(art_words, list) or not 2 <= len(art_words) <= 3
+                or category not in ("Premiers pas", "Entre nous", "Le lexique", "Vie privée", "Rencontres")):
             raise HTTPException(400, "Titre, résumé ou corps invalide")
         if re.search(r"<[^>]*>", title + summary) or re.search(r"<\s*(?:svg|script|style|iframe|img)\b", body, re.I):
             raise HTTPException(400, "Balises interdites dans le titre, le résumé ou le corps")
         art_words = [word.strip().upper() for word in art_words if isinstance(word, str)]
         if not 2 <= len(art_words) <= 3 or any(not re.fullmatch(r"[A-ZÀ-ÖØ-Ý0-9 ?!.-]{2,12}", word) for word in art_words):
             raise HTTPException(400, "Mots de l'encart invalides")
-        payload = {"slug": slug, "title": title.strip(), "summary": summary.strip(), "body": body.strip(), "art_words": art_words}
+        art_words = [word if word.endswith((".", "?", "!")) else word + "." for word in art_words]
+        payload = {"slug": slug, "title": title.strip(), "summary": summary.strip(), "body": body.strip(), "art_words": art_words, "category": category}
         if article:
             collision = article_by_slug(db, slug)
             if collision and collision.id != article.id:
