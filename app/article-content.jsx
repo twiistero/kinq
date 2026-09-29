@@ -46,7 +46,7 @@ export default function ArticleContent({body}) {
     } else if (sections.length) sections.at(-1).content.push(node);
     else intro.push(node);
   }
-  return <>
+  return <div className="nt-editorial-reading-layout">
     {sections.length > 0 && <nav className="nt-editorial-toc" id="sommaire" aria-label="Sommaire de l’article"><div><h2>SOMMAIRE</h2></div><ol>{sections.map(section => <li key={section.id}><a href={`#${section.id}`}>{section.title}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></a></li>)}</ol></nav>}
     <div className="nt-editorial-body nt-user-article" id="article">
       {intro.length > 0 && <div className="nt-editorial-intro"><p className="eyebrow">POUR COMMENCER</p>{intro.map((node, index) => render(node, index, node.tagName === 'p' && intro.findIndex(item => item.tagName === 'p') === index ? 'nt-dropcap' : undefined))}</div>}
@@ -54,7 +54,7 @@ export default function ArticleContent({body}) {
         {section.heading.childNodes?.some(node => node.tagName === 'em') ? render(section.heading, 'heading') : <h2>{highlightHeading(section.title)}</h2>}{section.content.map((node, index) => render(node, index))}
       </section>)}
     </div>
-  </>;
+  </div>;
 }
 
 function textContent(node) {
