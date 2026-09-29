@@ -638,9 +638,10 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
   .nt-editorial-reading-layout,
   .nt-editorial > article:not(.nt-story) {
     display:grid;
+    width:100%;
     grid-template-columns:minmax(230px,280px) minmax(0,790px);
     column-gap:clamp(46px,5vw,78px);
-    justify-content:center;
+    justify-content:start;
     align-items:start;
   }
 
@@ -652,6 +653,7 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
   .nt-editorial-reading-layout > .nt-editorial-toc,
   .nt-editorial > article:not(.nt-story) > .nt-editorial-toc {
     grid-column:1;
+    display:block;
     align-self:start;
     position:sticky;
     top:96px;
