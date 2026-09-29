@@ -31,7 +31,7 @@ export default function JournalComments({slug, initialComments = []}) {
   }
 
   return <section className="nt-comments" aria-labelledby="journal-comments-title">
-    <div className="nt-comments-intro"><p className="eyebrow">LA CONVERSATION CONTINUE</p><h2 id="journal-comments-title">On en parle ?</h2><p>Partage ton point de vue ou pose une question. L’équipe lit chaque commentaire avant sa publication.</p></div>
+    <div className="nt-comments-intro"><p className="eyebrow">LA CONVERSATION CONTINUE</p><h2 id="journal-comments-title">On en parle ?</h2><p>Chaque commentaire passe en modération avant publication.</p></div>
     <div className="nt-comments-layout">
       <div className="nt-comments-list" aria-live="polite">
         <h3>Les commentaires <span>{comments.length}</span></h3>
