@@ -622,67 +622,75 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 @media(max-width:900px){.header .header-journey{display:none}}
 
 
-/* NO TABOO — sticky table of contents beside long-form articles */
+/* NO TABOO — sticky table of contents beside long-form articles.
+   The hero/cover remains outside the reading grid. */
+.nt-editorial-hero-art>span{
+  white-space:nowrap;
+  overflow-wrap:normal;
+  word-break:normal;
+  font-size:clamp(60px,6.3vw,104px);
+}
+@media(max-width:760px){
+  .nt-editorial-hero-art>span{font-size:clamp(58px,16vw,92px)}
+}
+
 @media (min-width: 981px) {
-  .nt-story,
-  .nt-editorial > article {
-    display: grid;
-    grid-template-columns: minmax(230px, 280px) minmax(0, 790px);
-    column-gap: clamp(46px, 5vw, 78px);
-    justify-content: center;
-    align-items: start;
+  .nt-editorial-reading-layout,
+  .nt-editorial > article:not(.nt-story) {
+    display:grid;
+    grid-template-columns:minmax(230px,280px) minmax(0,790px);
+    column-gap:clamp(46px,5vw,78px);
+    justify-content:center;
+    align-items:start;
   }
 
-  .nt-story > header.nt-editorial-hero,
-  .nt-editorial > article > header.nt-editorial-hero {
-    grid-column: 1 / -1;
-    width: 100%;
+  .nt-editorial > article:not(.nt-story) > header.nt-editorial-hero {
+    grid-column:1 / -1;
+    width:100%;
   }
 
-  .nt-story > .nt-editorial-toc,
-  .nt-editorial > article > .nt-editorial-toc {
-    grid-column: 1;
-    grid-row: 2;
-    display: block;
-    align-self: start;
-    position: sticky;
-    top: 96px;
-    width: 100%;
-    max-height: calc(100vh - 126px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    margin: 96px 0 60px;
-    padding: 30px 24px 26px;
-    background: var(--lime);
-    scrollbar-width: thin;
-    scrollbar-color: var(--ink) transparent;
+  .nt-editorial-reading-layout > .nt-editorial-toc,
+  .nt-editorial > article:not(.nt-story) > .nt-editorial-toc {
+    grid-column:1;
+    align-self:start;
+    position:sticky;
+    top:96px;
+    width:100%;
+    max-height:calc(100vh - 126px);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    margin:96px 0 60px;
+    padding:30px 24px 26px;
+    background:var(--lime);
+    scrollbar-width:thin;
+    scrollbar-color:var(--ink) transparent;
   }
 
-  .nt-story > .nt-editorial-toc h2,
-  .nt-editorial > article > .nt-editorial-toc h2 {
-    font-size: clamp(42px, 3.7vw, 54px);
-    line-height: .92;
-    margin: 0 0 24px;
+  .nt-editorial-reading-layout > .nt-editorial-toc h2,
+  .nt-editorial > article:not(.nt-story) > .nt-editorial-toc h2 {
+    font-size:clamp(42px,3.7vw,54px);
+    line-height:.92;
+    margin:0 0 24px;
   }
 
-  .nt-story > .nt-editorial-toc ol,
-  .nt-editorial > article > .nt-editorial-toc ol {
-    grid-template-columns: 1fr;
+  .nt-editorial-reading-layout > .nt-editorial-toc ol,
+  .nt-editorial > article:not(.nt-story) > .nt-editorial-toc ol {
+    grid-template-columns:1fr;
   }
 
-  .nt-story > .nt-editorial-toc a,
-  .nt-editorial > article > .nt-editorial-toc a {
-    padding: 12px 0;
-    font-size: 12px;
+  .nt-editorial-reading-layout > .nt-editorial-toc a,
+  .nt-editorial > article:not(.nt-story) > .nt-editorial-toc a {
+    padding:12px 0;
+    font-size:12px;
   }
 
-  .nt-story > .nt-editorial-body,
-  .nt-editorial > article > .nt-editorial-body {
-    grid-column: 2;
-    grid-row: 2;
-    width: 100%;
-    max-width: 790px;
-    margin: 0;
-    padding: 96px 0 60px;
+  .nt-editorial-reading-layout > .nt-editorial-body,
+  .nt-editorial > article:not(.nt-story) > .nt-editorial-body {
+    grid-column:2;
+    width:100%;
+    max-width:790px;
+    margin:0;
+    padding:96px 0 60px;
   }
 }
+
