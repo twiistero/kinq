@@ -1,3 +1,4 @@
+import './sync-profile-catalogue.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import {parse} from 'parse5';

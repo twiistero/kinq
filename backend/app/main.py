@@ -16,6 +16,7 @@ from fastapi.responses import RedirectResponse, Response
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 from pydantic import BaseModel, Field
+from .profile_preferences import ProfileEdit
 from sqlalchemy import Boolean, DateTime, ForeignKey, JSON, LargeBinary, String, Text, UniqueConstraint, create_engine, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 from starlette.middleware.sessions import SessionMiddleware
@@ -426,24 +427,13 @@ def set_member_signal(body: SignalEdit, member: Member = Depends(current_member)
     return {"ok": True}
 
 
-class ProfileEdit(BaseModel):
-    data: dict[str, str | bool | list[str]]
-
-
 @app.put("/api/member/profile")
 def save_member_profile(body: ProfileEdit, member: Member = Depends(current_member), db: Session = Depends(db_session)):
-    if len(str(body.data)) > 15000 or any(len(str(value)) > 2000 for value in body.data.values()):
-        raise HTTPException(400, "Profil trop long")
-    if any(not isinstance(body.data.get(key, []), list) or len(body.data.get(key, [])) > 40 for key in ("style", "practice")):
-        raise HTTPException(400, "Univers invalides")
-    age = str(body.data.get("age") or "")
-    if age and (not age.isdigit() or not 18 <= int(age) <= 99):
-        raise HTTPException(400, "Âge invalide")
     profile = db.get(MemberProfile, member.id)
     if not profile:
         profile = MemberProfile(member_id=member.id, code="KQ-" + secrets.token_hex(4).upper(), data={})
         db.add(profile)
-    profile.data = body.data
+    profile.data = body.model_dump()["data"]
     profile.updated_at = datetime.now(timezone.utc)
     member.name = str(body.data.get("pseudo", ""))[:255]
     db.commit()

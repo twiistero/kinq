@@ -4,29 +4,46 @@ const text = (value, fallback = '') => String(value || '').trim() || fallback;
 const picker = document.querySelector('#kink-picker');
 const featured = document.querySelector('#featured-kinks');
 const featuredNames = ['Leather', 'Rubber / Latex', 'Sportswear', 'Pup play', 'ABDL / Diaper fetish', 'Bondage'];
-const styleNames = ['Leather', 'Rubber / Latex', 'Sportswear', 'Uniform / Workwear', 'Boots', 'Sneakers', 'Socks', 'Underwear', 'Masks / Hoods', 'Neoprene / wetsuit', 'Lycra / spandex'];
-const categories = {constraint:'Bondage & contraintes',impact:'Impact',sensation:'Sensations',control:'Contrôle',psych:'Dynamique mentale',edge:'Pratiques avancées',body:'Corps',fluids:'Fluides',sensitive:'Pratiques sensibles',combat:'Corps à corps',corporeal:'Pratiques corporelles'};
+const categories = {constraint:'Bondage & contraintes',sensation:'Sensations',control:'Contrôle',ass:'Ass play',impact:'Impact',body:'Corps',psych:'Dynamique mentale',fluids:'Fluides',edge:'Pratiques avancées',sensitive:'Pratiques sensibles'};
 try {
   const items = JSON.parse(document.querySelector('#kink-taxonomy').textContent);
-  items.push({name:'Domination / soumission',category:'psych',id:'discipline'});
-  const groups = [{title:'Styles & matières', items:items.filter(item => styleNames.includes(item.name))}, {title:'Univers & imaginaires',items:items.filter(item => item.category === 'roleplay')}, {title:'Autres attirances',items:items.filter(item => item.category === 'fetish' && !styleNames.includes(item.name))}, ...Object.entries(categories).map(([key,title]) => ({title,items:items.filter(item => item.category === key)}))];
+
+  const groups = [{title:'Styles & matières', items:items.filter(item => item.field === 'style')}, {title:'Univers & imaginaires',items:items.filter(item => item.category === 'roleplay')}, ...Object.entries(categories).map(([key,title]) => ({title,items:items.filter(item => item.category === key)}))];
   for (const group of groups) {
+    if (group.title === 'Ass play') {const order = ['Sodomie','Toys / plugs','Fisting','Enema play']; group.items.sort((a,b) => order.indexOf(a.name)-order.indexOf(b.name));}
     const details = document.createElement('details'); details.className = 'my-profile-kink-group';
-    const summary = document.createElement('summary'); summary.innerHTML = `<span>${group.title}</span><small>${group.items.length} idées</small>`; details.append(summary);
+    const summary = document.createElement('summary'); summary.innerHTML = `<span>${group.title}</span><small>${group.items.length} idée${group.items.length > 1 ? 's' : ''}</small>`; details.append(summary);
     const choices = document.createElement('div'); choices.className = 'my-profile-choices';
     for (const item of group.items) {
       const label = document.createElement('label'); const input = document.createElement('input'); const span = document.createElement('span');
-      input.type = 'checkbox'; input.name = group.title === 'Styles & matières' ? 'style' : 'practice'; input.value = item.name; span.textContent = item.name;
-      if (item.id && /^[a-z0-9-]+$/.test(item.id)) { const image = document.createElement('img'); image.src = `assets/pictos/${item.id}.svg`; image.alt = ''; image.loading = 'lazy'; label.append(image); }
+      input.type = 'checkbox'; input.name = item.field; input.value = item.name; span.textContent = item.label; label.dataset.search = window.kinqPreferences.normalize([item.name,item.label,item.search,...item.variants.map(v => v.label)].join(' '));
+      if (item.icon && /^[a-z0-9-]+$/.test(item.icon)) { const image = document.createElement('img'); image.src = `assets/pictos/${item.icon}.svg`; image.alt = ''; image.loading = 'lazy'; label.append(image); }
       label.append(input,span); choices.append(label);
       if (featuredNames.includes(item.name)) { const feature = label.cloneNode(true); feature.classList.add('my-profile-feature'); feature.querySelector('input').dataset.featured = item.name; feature.querySelector('input').removeAttribute('name'); featured.append(feature); }
     }
     details.append(choices); picker.append(details);
   }
-  document.querySelector('#kink-search').addEventListener('input', event => { const q = event.target.value.trim().toLocaleLowerCase('fr'); for (const group of picker.querySelectorAll('details')) { let shown = 0; for (const label of group.querySelectorAll('label')) { label.hidden = Boolean(q) && !label.textContent.toLocaleLowerCase('fr').includes(q); if (!label.hidden) shown++; } group.hidden = Boolean(q) && !shown; if (q && shown) group.open = true; } });
+  document.querySelector('#kink-search').addEventListener('input', event => {
+    const q = window.kinqPreferences.normalize(event.target.value.trim()); let matches = 0;
+    const cataloguePanel = document.querySelector('#kink-catalogue');
+    if (q && !cataloguePanel.dataset.searching) {cataloguePanel.dataset.wasOpen=String(cataloguePanel.open);cataloguePanel.dataset.searching='true';}
+    if (q) cataloguePanel.open = true;
+    else if (cataloguePanel.dataset.searching) {cataloguePanel.open=cataloguePanel.dataset.wasOpen==='true';delete cataloguePanel.dataset.searching;}
+    for (const group of picker.querySelectorAll('details')) {
+      let shown = 0;
+      if (q && !group.dataset.searching) {group.dataset.wasOpen = String(group.open); group.dataset.searching = 'true';}
+      for (const label of group.querySelectorAll('label')) {label.hidden = Boolean(q) && !label.dataset.search.includes(q); if (!label.hidden) shown++;}
+      matches += shown; group.hidden = Boolean(q) && !shown;
+      if (q && shown) group.open = true;
+      if (!q && group.dataset.searching) {group.open = group.dataset.wasOpen === 'true'; delete group.dataset.searching;}
+    }
+    document.querySelector('#kink-search-status').textContent = q ? (matches ? `${matches} univers trouvé${matches > 1 ? 's' : ''}` : 'Pas encore de résultat. Essaie un synonyme en français ou en anglais.') : '';
+  });
   updatePreview();
 } catch {picker.textContent = 'Catalogue indisponible dans cet aperçu.';}
 function updatePreview() {
+  window.kinqPreferences.sync();
+  for (const input of featured.querySelectorAll('input')) input.checked = [...picker.querySelectorAll('input:checked')].some(original => original.value === input.value);
   const selected = [...form.querySelectorAll('#kink-picker input:checked')].map(el => el.value);
   const hasPuppy = selected.includes('Pup play');
   const hasBdsm = selected.includes('Domination / soumission');
@@ -58,15 +75,16 @@ function updatePreview() {
   preview.querySelector('.my-profile-empty').hidden = Boolean(filled);
   preview.querySelector('.my-profile-public').hidden = !filled;
 }
-form.addEventListener('input', event => {if (event.target.id === 'relation-code') updateRelationLookup(); markProfileDirty(); updatePreview();});
+form.addEventListener('input', event => {if (event.target.id === 'kink-search' || event.target.dataset.mix) return; if (event.target.dataset.featured) {const original = [...picker.querySelectorAll('input')].find(input => input.value === event.target.value); if (original) original.checked = event.target.checked;} if (event.target.id === 'relation-code') updateRelationLookup(); markProfileDirty(); updatePreview();});
 form.addEventListener('change', event => {
+  if (event.target.dataset.mix) return;
   if (event.target.dataset.featured) {const original = [...picker.querySelectorAll('input')].find(input => input.value === event.target.value); if (original) original.checked = event.target.checked;}
   else if (event.target.matches('#kink-picker input')) {const twin = [...featured.querySelectorAll('input')].find(input => input.value === event.target.value); if (twin) twin.checked = event.target.checked;}
   updateRelationLookup();
   markProfileDirty();
   updatePreview();
 });
-form.addEventListener('reset', () => requestAnimationFrame(() => { featured.querySelectorAll('input').forEach(input => input.checked = false); markProfileDirty(); updateRelationLookup(); updatePreview(); window.kinqSaveProfile?.(); }));
+form.addEventListener('reset', () => requestAnimationFrame(() => { window.kinqPreferences.reset(); document.querySelector('#kink-search').dispatchEvent(new Event('input')); featured.querySelectorAll('input').forEach(input => input.checked = false); markProfileDirty(); updateRelationLookup(); updatePreview(); window.kinqSaveProfile?.(); }));
 document.querySelector('#preview-profile').addEventListener('click', () => {updatePreview();preview.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',block:'start'});});
 updatePreview();
 
@@ -76,8 +94,7 @@ function markProfileDirty() {
   validateProfile.querySelector('span').textContent = 'Valider mon profil';
 }
 validateProfile.addEventListener('click', () => {
-  validateProfile.classList.add('is-validated');
-  validateProfile.querySelector('span').textContent = 'Profil modifié !';
+  if (!form.reportValidity()) return;
   updatePreview();
   window.kinqSaveProfile?.();
 });
@@ -108,16 +125,48 @@ function updateRelationLookup() {
 relationSend.addEventListener('click', () => {if (!relationSend.disabled) relationStatus.textContent = `Demande prête pour ${relationMatch.name}. L’envoi et sa réponse Oui/Non nécessitent de vrais comptes.`;});
 updateRelationLookup();
 
-// Progress reflects reading position, regardless of how many fields are filled.
+// Progress follows the reader through the profile editor, independent of form answers.
 const progressBar = document.querySelector('.my-profile-progress');
-const editor = document.querySelector('.my-profile-editor');
-function updateScrollProgress() {
-  const start = editor.getBoundingClientRect().top + window.scrollY;
-  const end = editor.getBoundingClientRect().bottom + window.scrollY - window.innerHeight * .55;
-  const amount = Math.min(1, Math.max(0, (window.scrollY - start) / Math.max(1, end - start)));
-  progressBar.querySelector('span').style.width = `${Math.round(amount * 100)}%`;
-  document.querySelector('#profile-progress').textContent = amount >= .98 ? 'Ton profil, à ta façon.' : 'Ton profil prend forme.';
+const progressTitle = document.querySelector('#profile-progress');
+const progressFill = progressBar.querySelector('span');
+const progressEditor = document.querySelector('.my-profile-editor');
+let progressMessage = '';
+let progressAnimation;
+let progressRevision = 0;
+let progressFrame = 0;
+function updateProfileProgress() {
+  const top = progressEditor.getBoundingClientRect().top + window.scrollY;
+  const bottom = progressEditor.getBoundingClientRect().bottom + window.scrollY;
+  const finish = bottom - window.innerHeight * .6;
+  const amount = Math.min(1, Math.max(0, (window.scrollY - top) / Math.max(1, finish - top)));
+  const messages = ['Pose les bases', 'Complète tes infos', 'Ton profil prend forme', "C'est bien, continue", 'On y est presque !', 'Encore un peu...', "Oh oui c'est parfait !"];
+  const index = amount === 1 ? 6 : Math.floor(amount * 6);
+  const message = messages[index];
+  progressFill.style.width = `${Math.round(amount * 100)}%`;
+  if (message === progressMessage) return;
+  const firstUpdate = !progressMessage;
+  progressMessage = message;
+  const revision = ++progressRevision;
+  progressAnimation?.cancel();
+  if (firstUpdate || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    progressTitle.textContent = message;
+    return;
+  }
+  progressAnimation = progressTitle.animate([{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(-4px)'}], {duration:130,easing:'ease-in',fill:'forwards'});
+  progressAnimation.finished.then(() => {
+    if (revision !== progressRevision) return;
+    progressTitle.textContent = message;
+    progressAnimation.cancel();
+    progressAnimation = progressTitle.animate([{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}], {duration:220,easing:'ease-out'});
+  }).catch(() => {});
 }
-addEventListener('scroll', updateScrollProgress, {passive:true});
-addEventListener('resize', updateScrollProgress);
-updateScrollProgress();
+function scheduleProfileProgress() {
+  if (progressFrame) return;
+  progressFrame = requestAnimationFrame(() => {
+    progressFrame = 0;
+    updateProfileProgress();
+  });
+}
+addEventListener('scroll', scheduleProfileProgress, {passive:true});
+addEventListener('resize', scheduleProfileProgress);
+updateProfileProgress();

@@ -1,0 +1,66 @@
+/* Scoped to the creation editor; public profile rendering is unchanged. */
+#kink-preferences{margin-top:32px;padding-top:28px;border-top:2px solid var(--ink)}
+#kink-preferences h3{font-size:32px;line-height:1.05;margin:10px 0 16px;max-width:460px}
+#kink-preferences .kp-empty{padding:20px;border:1px dashed var(--line);border-radius:8px;line-height:1.5;color:var(--muted)}
+.kp-cards{display:grid;gap:10px;margin:22px 0}
+.kp-card{border:1px solid var(--line);border-radius:8px;background:var(--paper);min-width:0}
+.kp-card>summary{padding:18px 38px 18px 18px;cursor:pointer;position:relative;list-style:none}
+.kp-card>summary::-webkit-details-marker{display:none}
+.kp-card>summary:after{content:'';position:absolute;right:20px;top:24px;width:7px;height:7px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.kp-card[open]>summary:after{transform:rotate(225deg)}
+.kp-card[open]>summary{background:var(--ink);color:white;border-radius:7px 7px 0 0}
+.kp-card summary strong{display:block;font-size:20px}
+.kp-summary{display:block;font-size:11px;line-height:1.5;margin-top:5px;color:var(--muted)}
+.kp-card[open] .kp-summary{color:var(--lime)}
+.kp-help{font-size:13px;line-height:1.6;margin:18px}
+.kp-options{border:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;min-width:0;margin:22px 18px}
+.kp-options legend{font-size:12px;font-weight:700;padding:0;margin:0 0 12px;float:none;width:100%;line-height:1.5}
+.my-profile .kp-options label{position:relative;display:block;max-width:100%;cursor:pointer}
+.my-profile .kp-options input{position:absolute;opacity:0;width:1px;height:1px}
+.my-profile .kp-options label>span{display:block;font-size:12px;font-weight:500;color:var(--ink);padding:11px 13px;margin:0;background:white;border:1px solid var(--line);border-radius:22px;line-height:1.4;overflow-wrap:anywhere}
+.my-profile .kp-options input:checked+span{background:var(--lime);border-color:var(--ink)}
+.my-profile .kp-options input:focus-visible+span{outline:2px solid var(--ink);outline-offset:3px}
+.kp-more{margin:18px;font-size:12px}.kp-more>summary{cursor:pointer;line-height:1.5}.kp-more .kp-options{margin:16px 0}
+.kp-related{margin:18px;padding-top:12px;border-top:1px solid var(--line)}.kp-related p{font-size:11px;line-height:1.5;color:var(--muted)}
+#kink-preferences button{font:inherit;font-size:12px;border:1px solid var(--line);border-radius:5px;padding:11px 13px;background:white;cursor:pointer;line-height:1.4}
+#kink-preferences .kp-related button{margin:0 5px 6px 0}#kink-preferences button[aria-pressed=true]{background:var(--lime);border-color:var(--ink)}
+#kink-preferences .kp-card>button{margin:0 18px 18px;color:var(--muted);border:0;background:transparent;text-decoration:underline;text-underline-offset:3px;padding-left:0}
+.kp-combinations{padding:18px;background:var(--ink);color:#fff;border-radius:8px;margin:22px 0}.kp-combinations>summary{font-size:16px;font-weight:700;cursor:pointer}.kp-combinations>p{font-size:12px;line-height:1.6;color:#d3d7d0}.kp-combinations .kp-options{margin:18px 0}.kp-mix-inputs{display:flex;flex-wrap:wrap;gap:8px;min-width:0}.kp-mix{border-top:1px solid #555;margin-top:14px;padding-top:14px;display:flex;gap:12px;align-items:center;justify-content:space-between;font-size:12px;line-height:1.5}.kp-mix>span{overflow-wrap:anywhere;min-width:0}.kp-combinations .my-profile-hint{color:var(--lime)}
+.kp-custom{margin:24px 0}.kp-custom textarea{margin-top:8px}#kink-preferences [hidden]{display:none!important}#kink-preferences summary:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+@media(max-width:540px){#kink-preferences h3{font-size:28px}.kp-options{margin:18px 12px}.kp-card>summary{padding-left:12px}.kp-help,.kp-more,.kp-related{margin-left:12px;margin-right:12px}.kp-combinations{padding:14px}}
+@media(prefers-reduced-motion:reduce){.my-profile-section{animation:none}.my-profile-feature,.my-profile-progress>span{transition:none}}
+.kp-catalogue{margin:18px 0;border:1px solid var(--line);border-radius:8px;padding:16px}.kp-catalogue>summary{cursor:pointer;font-size:14px;font-weight:700;line-height:1.5}.kp-catalogue>summary small{display:block;color:var(--muted);font-size:11px;font-weight:400;margin-top:4px}.kp-catalogue[open]>summary{margin-bottom:18px}
+#kink-preferences summary,#kink-preferences input,#kink-preferences button{scroll-margin-top:110px}
+/* KINQ selectors: consistent rectangular hit areas, including catalogue labels. */
+#my-profile-form #kink-picker .my-profile-choices{gap:8px}
+#my-profile-form #kink-picker .my-profile-choices label{display:inline-flex!important;align-items:stretch;max-width:100%;border:1px solid var(--line);border-radius:6px;background:var(--paper);overflow:visible}
+#my-profile-form #kink-picker .my-profile-choices label>span{display:flex;align-items:center;min-height:44px;padding:11px 14px;margin:0;border:0;border-radius:5px;background:transparent;color:var(--ink);font-size:13px;line-height:1.4;font-weight:600;overflow-wrap:anywhere}
+#my-profile-form #kink-picker .my-profile-choices label:has(input:checked){background:var(--lime);border-color:var(--ink)}
+#my-profile-form #kink-picker .my-profile-choices label:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:3px}
+#my-profile-form #kink-picker .my-profile-choices input:focus-visible+span{outline:none}
+#my-profile-form .kp-options label>span{display:flex;align-items:center;min-height:44px;margin:0;padding:11px 14px;border-radius:6px;font-size:13px;line-height:1.4;font-weight:600}
+#my-profile-form select{appearance:none;-webkit-appearance:none;padding:14px 48px 14px 14px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23171916' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:18px 18px}
+#my-profile-form .kp-catalogue>summary,#my-profile-form .my-profile-kink-group>summary,#my-profile-form .kp-card>summary,#my-profile-form .kp-combinations>summary{position:relative;list-style:none;padding-right:48px}
+#my-profile-form summary::-webkit-details-marker{display:none}
+#my-profile-form summary::marker{content:''}
+#my-profile-form .kp-catalogue>summary:after,#my-profile-form .my-profile-kink-group>summary:after,#my-profile-form .kp-card>summary:after,#my-profile-form .kp-combinations>summary:after{content:'';position:absolute;right:16px;top:50%;width:18px;height:18px;border:0;transform:translateY(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23171916' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center/18px no-repeat;pointer-events:none}
+#my-profile-form .kp-catalogue[open]>summary:after,#my-profile-form .my-profile-kink-group[open]>summary:after,#my-profile-form .kp-card[open]>summary:after,#my-profile-form .kp-combinations[open]>summary:after{transform:translateY(-50%) rotate(180deg)}
+#my-profile-form .kp-card[open]>summary:after,#my-profile-form .kp-combinations>summary:after{filter:invert(1)}
+/* A quiet checkbox distinguishes postponing from an actual preference. */
+#my-profile-form .kp-options .kp-later{display:flex;align-items:center;gap:9px;flex-basis:100%;margin-bottom:6px;min-height:36px}
+#my-profile-form .kp-options .kp-later input{position:static;opacity:1;appearance:auto;width:18px;height:18px;flex:0 0 18px;margin:0;accent-color:var(--ink)}
+#my-profile-form .kp-options .kp-later>span{padding:0;min-height:0;background:transparent;border:0;border-radius:0;font-size:12px;font-weight:400;color:var(--muted)}
+#my-profile-form .kp-options .kp-later input:focus-visible+span{outline:none}
+#my-profile-form .kp-options .kp-later input:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+#my-profile-form summary:after{transition:transform .24s cubic-bezier(.2,.7,.2,1)}
+/* All dropdown rows use the available editor width instead of a narrow grid cell. */
+#my-profile-form .my-profile-fields:has(select){grid-template-columns:minmax(0,1fr)}
+#my-profile-form label:has(select){min-width:0;width:100%}
+#my-profile-form label>.kp-select-wrap{display:block;position:relative;width:100%;min-width:0;margin:8px 0 0;color:var(--ink);font-size:13px;font-weight:700}
+#my-profile-form .kp-select-wrap select{display:block;width:100%;max-width:100%;min-width:0;background-image:none;font-size:13px;padding-right:46px;min-height:48px}
+#my-profile-form .kp-select-wrap>svg{position:absolute;right:16px;top:50%;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transform:translateY(-50%);transition:transform .24s cubic-bezier(.2,.7,.2,1)}
+#my-profile-form .kp-select-wrap:has(select:open)>svg{transform:translateY(-50%) rotate(180deg)}
+@media(prefers-reduced-motion:reduce){#my-profile-form summary:after,#my-profile-form .kp-select-wrap>svg{transition:none}}
+.my-profile-progress #profile-progress{display:block;line-height:1.45;min-height:1.45em}
+.my-profile-progress>span{transition:width .45s cubic-bezier(.2,.7,.2,1)}
+@media(prefers-reduced-motion:reduce){.my-profile-progress>span{transition:none}}

@@ -1,0 +1,2982 @@
+[
+  {
+    "category": "constraint",
+    "search": "bondage immobilisation restraints menottes sangles",
+    "name": "Bondage",
+    "id": "bondage",
+    "label": "Bondage",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "tie",
+        "label": "J’attache"
+      },
+      {
+        "id": "tied",
+        "label": "Je suis attaché"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
+    "related": [
+      "rope-shibari",
+      "menottes-restraints",
+      "mummification",
+      "predicament-bondage",
+      "vacuum-bed",
+      "straitjacket"
+    ]
+  },
+  {
+    "category": "constraint",
+    "search": "rope bondage shibari corde kinbaku",
+    "name": "Rope / Shibari",
+    "id": "rope-shibari",
+    "label": "Rope / Shibari",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "rigger",
+        "label": "J’attache · rigger"
+      },
+      {
+        "id": "rope-bottom",
+        "label": "Je suis attaché · rope bottom"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Rigger désigne la personne qui attache ; rope bottom, celle qui est attachée. Ce rôle ne dit pas si tu es dom ou sub.",
+    "related": [
+      "suspension"
+    ]
+  },
+  {
+    "category": "constraint",
+    "search": "cuffs handcuffs menottes restraints shackles",
+    "name": "Menottes & restraints",
+    "id": "menottes-restraints",
+    "label": "Menottes & restraints",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "tie",
+        "label": "J’attache"
+      },
+      {
+        "id": "tied",
+        "label": "Je suis attaché"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
+    "related": []
+  },
+  {
+    "category": "constraint",
+    "search": "mummification wrapping encasement",
+    "name": "Mummification",
+    "id": "mummification",
+    "label": "Mummification",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "tie",
+        "label": "J’attache"
+      },
+      {
+        "id": "tied",
+        "label": "Je suis attaché"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
+    "related": []
+  },
+  {
+    "category": "impact",
+    "search": "spanking fessée impact play",
+    "name": "Spanking",
+    "id": "spanking",
+    "label": "Fessée / Spanking",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Donner et recevoir sont des rôles dans cette pratique, sans présumer de ta dynamique dom/sub.",
+    "related": []
+  },
+  {
+    "category": "impact",
+    "search": "flogging fouet flogger impact",
+    "name": "Flogging",
+    "id": "flogging",
+    "label": "Flogging",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Donner et recevoir sont des rôles dans cette pratique, sans présumer de ta dynamique dom/sub.",
+    "related": []
+  },
+  {
+    "category": "impact",
+    "search": "paddling paddle impact play",
+    "name": "Paddling",
+    "id": "paddling",
+    "label": "Paddling",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Donner et recevoir sont des rôles dans cette pratique, sans présumer de ta dynamique dom/sub.",
+    "related": []
+  },
+  {
+    "category": "impact",
+    "search": "caning cane impact pain play",
+    "name": "Caning",
+    "id": "caning",
+    "label": "Caning",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Donner et recevoir sont des rôles dans cette pratique, sans présumer de ta dynamique dom/sub.",
+    "related": []
+  },
+  {
+    "category": "sensation",
+    "search": "sensory deprivation blindfold privation sensorielle hood",
+    "name": "Privation sensorielle",
+    "id": "privation-sensorielle",
+    "label": "Privation sensorielle",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
+    "related": []
+  },
+  {
+    "category": "sensation",
+    "search": "electro electrostimulation e-stim sensation play",
+    "name": "Electro",
+    "id": "electro",
+    "label": "Electro",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
+    "related": []
+  },
+  {
+    "category": "sensation",
+    "search": "wax cire temperature play chaud froid",
+    "name": "Wax / température",
+    "id": "wax-temperature",
+    "label": "Wax / température",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
+    "related": []
+  },
+  {
+    "category": "control",
+    "search": "orgasm control edging denial controle orgasme",
+    "name": "Orgasm control",
+    "id": "orgasm-control",
+    "label": "Orgasm control",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "lead",
+        "label": "Je prends le contrôle"
+      },
+      {
+        "id": "yield",
+        "label": "Je confie le contrôle"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Indique ta place dans ce jeu, indépendamment de ta position sexuelle.",
+    "related": [
+      "edging-denial",
+      "chastity"
+    ]
+  },
+  {
+    "category": "psych",
+    "search": "humiliation degradation verbal humiliation",
+    "name": "Humiliation",
+    "id": "humiliation",
+    "label": "Humiliation",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "lead",
+        "label": "Je prends le contrôle"
+      },
+      {
+        "id": "yield",
+        "label": "Je confie le contrôle"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
+    "related": []
+  },
+  {
+    "category": "psych",
+    "search": "discipline protocol protocole rules obedience training service",
+    "name": "Discipline & protocole",
+    "id": "discipline-protocole",
+    "label": "Discipline & protocole",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "lead",
+        "label": "Je prends le contrôle"
+      },
+      {
+        "id": "yield",
+        "label": "Je confie le contrôle"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "rituels",
+        "label": "Rituels"
+      },
+      {
+        "id": "regles-convenues",
+        "label": "Règles convenues"
+      },
+      {
+        "id": "protocole",
+        "label": "Protocole"
+      },
+      {
+        "id": "service",
+        "label": "Service"
+      }
+    ],
+    "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
+    "related": []
+  },
+  {
+    "category": "psych",
+    "search": "objectification objectification human furniture",
+    "name": "Objectification",
+    "id": "objectification",
+    "label": "Objectification",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "lead",
+        "label": "Je prends le contrôle"
+      },
+      {
+        "id": "yield",
+        "label": "Je confie le contrôle"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
+    "related": []
+  },
+  {
+    "category": "psych",
+    "search": "praise worship body worship praise kink",
+    "name": "Praise & worship",
+    "id": "praise-worship",
+    "label": "Praise & worship",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "praise-compliments",
+        "label": "Praise · compliments"
+      },
+      {
+        "id": "body-worship-admiration-du-corps",
+        "label": "Body worship · admiration du corps"
+      }
+    ],
+    "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
+    "related": [
+      "praise",
+      "body-worship"
+    ]
+  },
+  {
+    "category": "fetish",
+    "search": "leather cuir fetish harness boots",
+    "name": "Leather",
+    "id": "leather",
+    "label": "Cuir / Leather",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "harnais",
+        "label": "Harnais"
+      },
+      {
+        "id": "blousons",
+        "label": "Blousons"
+      },
+      {
+        "id": "pantalons-chaps",
+        "label": "Pantalons / chaps"
+      },
+      {
+        "id": "tenue-complete",
+        "label": "Tenue complète"
+      },
+      {
+        "id": "culture-leather",
+        "label": "Culture leather"
+      }
+    ],
+    "help": "Une matière, un style et une culture. Tu peux aimer le porter, le voir chez l’autre, ou les deux.",
+    "related": [
+      "harnais",
+      "boots",
+      "gloves"
+    ]
+  },
+  {
+    "category": "fetish",
+    "search": "latex rubber vinyl fetish",
+    "name": "Rubber / Latex",
+    "id": "rubber-latex",
+    "label": "Latex / Rubber",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "catsuit",
+        "label": "Catsuit"
+      },
+      {
+        "id": "pieces-separees",
+        "label": "Pièces séparées"
+      },
+      {
+        "id": "cagoules",
+        "label": "Cagoules"
+      },
+      {
+        "id": "gants",
+        "label": "Gants"
+      },
+      {
+        "id": "tenue-complete",
+        "label": "Tenue complète"
+      }
+    ],
+    "help": "Rubber est le terme communautaire courant pour les tenues en caoutchouc, notamment en latex.",
+    "related": [
+      "vacuum-bed",
+      "masks-hoods",
+      "gloves"
+    ]
+  },
+  {
+    "category": "fetish",
+    "search": "sportswear tracksuit sport sneakers socks fetish",
+    "name": "Sportswear",
+    "id": "sportswear",
+    "label": "Sportswear",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "survetements",
+        "label": "Survêtements"
+      },
+      {
+        "id": "maillots",
+        "label": "Maillots"
+      },
+      {
+        "id": "shorts",
+        "label": "Shorts"
+      },
+      {
+        "id": "compression",
+        "label": "Compression"
+      },
+      {
+        "id": "look-de-vestiaire",
+        "label": "Look de vestiaire"
+      }
+    ],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": [
+      "sneakers",
+      "socks",
+      "lycra-spandex"
+    ]
+  },
+  {
+    "category": "fetish",
+    "search": "uniform workwear uniforme work gear",
+    "name": "Uniform / Workwear",
+    "id": "uniform-workwear",
+    "label": "Uniformes / Workwear",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "militaire",
+        "label": "Militaire"
+      },
+      {
+        "id": "tenues-de-travail",
+        "label": "Tenues de travail"
+      },
+      {
+        "id": "costume-cravate",
+        "label": "Costume / cravate"
+      },
+      {
+        "id": "tenues-de-sport",
+        "label": "Tenues de sport"
+      }
+    ],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "boots bottes shoes footwear fetish",
+    "name": "Boots",
+    "id": "boots",
+    "label": "Bottes / Boots",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "rangers",
+        "label": "Rangers"
+      },
+      {
+        "id": "bottes-hautes",
+        "label": "Bottes hautes"
+      },
+      {
+        "id": "bottes-de-travail",
+        "label": "Bottes de travail"
+      },
+      {
+        "id": "bottes-de-moto",
+        "label": "Bottes de moto"
+      }
+    ],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "sneakers trainers nike tn shoes fetish",
+    "name": "Sneakers",
+    "id": "sneakers",
+    "label": "Sneakers",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "running",
+        "label": "Running"
+      },
+      {
+        "id": "baskets-montantes",
+        "label": "Baskets montantes"
+      },
+      {
+        "id": "nike-tn",
+        "label": "Nike TN"
+      },
+      {
+        "id": "look-complet",
+        "label": "Look complet"
+      }
+    ],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "socks chaussettes white socks fetish",
+    "name": "Socks",
+    "id": "socks",
+    "label": "Chaussettes / Socks",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "chaussettes-de-sport",
+        "label": "Chaussettes de sport"
+      },
+      {
+        "id": "chaussettes-hautes",
+        "label": "Chaussettes hautes"
+      },
+      {
+        "id": "chaussettes-habillees",
+        "label": "Chaussettes habillées"
+      }
+    ],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "body",
+    "search": "feet foot fetish pieds worship",
+    "name": "Feet",
+    "id": "feet",
+    "label": "Pieds / Feet",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "underwear jockstrap underwear fetish",
+    "name": "Underwear",
+    "id": "underwear",
+    "label": "Sous-vêtements / Underwear",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "jockstraps",
+        "label": "Jockstraps"
+      },
+      {
+        "id": "slips",
+        "label": "Slips"
+      },
+      {
+        "id": "boxers",
+        "label": "Boxers"
+      },
+      {
+        "id": "strings",
+        "label": "Strings"
+      },
+      {
+        "id": "long-johns",
+        "label": "Long johns"
+      }
+    ],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "mask hood mask fetish cagoule gloves gants",
+    "name": "Masks / Hoods",
+    "id": "masks-hoods",
+    "label": "Masques / Cagoules",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "pup puppy play dog roleplay",
+    "name": "Pup play",
+    "id": "pup-play",
+    "label": "Pup / Puppy play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "pup",
+        "label": "Pup"
+      },
+      {
+        "id": "handler",
+        "label": "Handler · j’accompagne"
+      },
+      {
+        "id": "both",
+        "label": "Pup et handler"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "headspace-etat-desprit-pup",
+        "label": "Headspace · état d’esprit pup"
+      },
+      {
+        "id": "jeu-en-meute-pack",
+        "label": "Jeu en meute / pack"
+      },
+      {
+        "id": "mosh-rencontre-de-pups",
+        "label": "Mosh · rencontre de pups"
+      },
+      {
+        "id": "gear-equipement",
+        "label": "Gear / équipement"
+      },
+      {
+        "id": "training",
+        "label": "Training"
+      }
+    ],
+    "help": "Un jeu de rôle entre adultes. Le pup incarne le rôle ; le handler l’accompagne. Aucun rôle ni hiérarchie n’est obligatoire.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "pet play animal roleplay creature play",
+    "name": "Pet / Creature",
+    "id": "pet-creature",
+    "label": "Pet / Creature",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "play",
+        "label": "J’incarne un rôle"
+      },
+      {
+        "id": "partner",
+        "label": "J’accompagne le jeu"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "kitten-play",
+        "label": "Kitten play"
+      },
+      {
+        "id": "creature-play",
+        "label": "Creature play"
+      },
+      {
+        "id": "personnage-imaginaire",
+        "label": "Personnage imaginaire"
+      }
+    ],
+    "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
+    "related": [
+      "pup-play",
+      "pony-play",
+      "furry"
+    ]
+  },
+  {
+    "category": "roleplay",
+    "search": "uniform authority roleplay scenario job occupation",
+    "name": "Scénarios",
+    "id": "scenarios",
+    "label": "Scénarios",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "play",
+        "label": "J’incarne un rôle"
+      },
+      {
+        "id": "partner",
+        "label": "J’accompagne le jeu"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "uniformes",
+        "label": "Uniformes"
+      },
+      {
+        "id": "autorite",
+        "label": "Autorité"
+      },
+      {
+        "id": "personnages-imaginaires",
+        "label": "Personnages imaginaires"
+      }
+    ],
+    "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "exhibitionism voyeurism consensual exhibition voyeur",
+    "name": "Exhibition / voyeurisme",
+    "id": "exhibition-voyeurisme",
+    "label": "Exhibition / voyeurisme",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "exhibit",
+        "label": "J’aime être regardé"
+      },
+      {
+        "id": "watch",
+        "label": "J’aime regarder"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Regarder ou être regardé dans un cadre privé ou prévu pour cela, avec l’accord de toutes les personnes présentes.",
+    "related": []
+  },
+  {
+    "category": "edge",
+    "search": "suspension rope suspension advanced",
+    "name": "Suspension",
+    "id": "suspension",
+    "label": "Suspension",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "category": "edge",
+    "search": "breath play breath control asphyxia",
+    "name": "Breath play",
+    "id": "breath-play",
+    "label": "Breath play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "category": "body",
+    "search": "muscle worship muscles corps bodybuilding",
+    "name": "Muscle worship",
+    "id": "muscle-worship",
+    "label": "Muscle worship",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "bras",
+        "label": "Bras"
+      },
+      {
+        "id": "torse",
+        "label": "Torse"
+      },
+      {
+        "id": "dos",
+        "label": "Dos"
+      },
+      {
+        "id": "jambes",
+        "label": "Jambes"
+      }
+    ],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "category": "body",
+    "search": "body hair poils hairy poilu armpits aisselles",
+    "name": "Body hair / armpits",
+    "id": "body-hair-armpits",
+    "label": "Poils / Aisselles",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "torse",
+        "label": "Torse"
+      },
+      {
+        "id": "jambes",
+        "label": "Jambes"
+      },
+      {
+        "id": "aisselles",
+        "label": "Aisselles"
+      },
+      {
+        "id": "pilosite-naturelle",
+        "label": "Pilosité naturelle"
+      }
+    ],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "category": "body",
+    "search": "scent musk smell odeur sueur sweat",
+    "name": "Scent / musk",
+    "id": "scent-musk",
+    "label": "Odeurs / Musk",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "category": "body",
+    "search": "belly belly worship dad bod ventre",
+    "name": "Belly / dad bod",
+    "id": "belly-dad-bod",
+    "label": "Ventre / Dad bod",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "neoprene wetsuit combinaison surf fetish",
+    "name": "Neoprene / wetsuit",
+    "id": "neoprene-wetsuit",
+    "label": "Neoprene / wetsuit",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "lycra spandex compression fetish",
+    "name": "Lycra / spandex",
+    "id": "lycra-spandex",
+    "label": "Lycra / spandex",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "denim jeans fetish",
+    "name": "Denim / jeans",
+    "id": "denim-jeans",
+    "label": "Denim / jeans",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "gloves gants leather rubber gloves fetish",
+    "name": "Gloves",
+    "id": "gloves",
+    "label": "Gants / Gloves",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "category": "fetish",
+    "search": "gas mask respirator mask fetish military industrial",
+    "name": "Gas masks",
+    "id": "gas-masks",
+    "label": "Masques à gaz (esthétique)",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "L’esthétique du masque et du look industriel ; ce choix ne signifie pas un intérêt pour le contrôle respiratoire.",
+    "related": []
+  },
+  {
+    "category": "fluids",
+    "search": "watersports piss urine golden shower",
+    "name": "Watersports",
+    "id": "watersports",
+    "label": "Watersports",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un centre d’intérêt à discuter avec ton partenaire.",
+    "related": []
+  },
+  {
+    "category": "fluids",
+    "search": "spit saliva spit play salive",
+    "name": "Spit / saliva",
+    "id": "spit-saliva",
+    "label": "Spit / saliva",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un centre d’intérêt à discuter avec ton partenaire.",
+    "related": []
+  },
+  {
+    "category": "fluids",
+    "search": "mud mess food mess messy fetish",
+    "name": "Messy play",
+    "id": "messy-play",
+    "label": "Messy play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un centre d’intérêt à discuter avec ton partenaire.",
+    "related": []
+  },
+  {
+    "category": "sensitive",
+    "search": "scat feces coprophilia sensitive biohazard",
+    "name": "Scat",
+    "id": "scat",
+    "label": "Scat",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "abdl diaper fetish adult diaper lover couches adultes",
+    "name": "ABDL / Diaper fetish",
+    "id": "abdl-diaper-fetish",
+    "label": "Diaper fetish (adultes)",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "matiere",
+        "label": "Matière"
+      },
+      {
+        "id": "port",
+        "label": "Port"
+      },
+      {
+        "id": "esthetique",
+        "label": "Esthétique"
+      }
+    ],
+    "help": "Ici, le fétichisme des couches entre adultes. Choisis uniquement les aspects qui te correspondent.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "pony play horse pet play",
+    "name": "Pony play",
+    "id": "pony-play",
+    "label": "Pony play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "play",
+        "label": "J’incarne un rôle"
+      },
+      {
+        "id": "partner",
+        "label": "J’accompagne le jeu"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "dollification doll mannequin objectification",
+    "name": "Dollification",
+    "id": "dollification",
+    "label": "Dollification",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "play",
+        "label": "J’incarne un rôle"
+      },
+      {
+        "id": "partner",
+        "label": "J’accompagne le jeu"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
+    "related": []
+  },
+  {
+    "category": "body",
+    "search": "wrestling grappling lutte combat roughhousing",
+    "name": "Wrestling / grappling",
+    "id": "wrestling-grappling",
+    "label": "Wrestling / grappling",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "participate",
+        "label": "J’aime participer"
+      },
+      {
+        "id": "watch",
+        "label": "J’aime regarder"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "lutte",
+        "label": "Lutte"
+      },
+      {
+        "id": "grappling",
+        "label": "Grappling"
+      },
+      {
+        "id": "tenues-de-lutte",
+        "label": "Tenues de lutte"
+      }
+    ],
+    "help": "Un intérêt pour le corps à corps ou son esthétique.",
+    "related": [
+      "roughhousing",
+      "submission-wrestling"
+    ]
+  },
+  {
+    "category": "roleplay",
+    "search": "medical play doctor examination medical fetish",
+    "name": "Medical play",
+    "id": "medical-play",
+    "label": "Medical play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "",
+    "related": []
+  },
+  {
+    "category": "control",
+    "search": "chastity cage chastete orgasm control",
+    "name": "Chastity",
+    "id": "chastity",
+    "label": "Chasteté / Chastity",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "Je porte une cage"
+      },
+      {
+        "id": "keyholder",
+        "label": "Keyholder · je garde la clé"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Porter une cage ou être keyholder (garder la clé) sont des préférences distinctes de ta dynamique générale.",
+    "related": []
+  },
+  {
+    "category": "edge",
+    "search": "cbt cock ball torture genital pain ballbusting",
+    "name": "CBT / ballbusting",
+    "id": "cbt-ballbusting",
+    "label": "CBT / ballbusting",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "category": "ass",
+    "search": "fisting anal fisting hand play",
+    "name": "Fisting",
+    "id": "fisting",
+    "label": "Fisting",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "",
+    "related": []
+  },
+  {
+    "category": "edge",
+    "search": "sounding urethral sounding medical advanced",
+    "name": "Sounding",
+    "id": "sounding",
+    "label": "Sounding",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "category": "ass",
+    "search": "enema enema play douche",
+    "name": "Enema play",
+    "id": "enema-play",
+    "label": "Enema play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "",
+    "related": []
+  },
+  {
+    "category": "psych",
+    "search": "financial domination findom money control tribute",
+    "name": "Financial domination",
+    "id": "financial-domination",
+    "label": "Domination financière / Findom",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "lead",
+        "label": "Je prends le contrôle"
+      },
+      {
+        "id": "yield",
+        "label": "Je confie le contrôle"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
+    "related": []
+  },
+  {
+    "category": "constraint",
+    "search": "predicament bondage predicament position stress",
+    "name": "Predicament bondage",
+    "id": "predicament-bondage",
+    "label": "Predicament bondage",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "tie",
+        "label": "J’attache"
+      },
+      {
+        "id": "tied",
+        "label": "Je suis attaché"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
+    "related": []
+  },
+  {
+    "category": "constraint",
+    "search": "vacuum bed vacbed encasement latex bondage",
+    "name": "Vacuum bed",
+    "id": "vacuum-bed",
+    "label": "Vacuum bed",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "tie",
+        "label": "J’attache"
+      },
+      {
+        "id": "tied",
+        "label": "Je suis attaché"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
+    "related": []
+  },
+  {
+    "category": "constraint",
+    "search": "straitjacket camisole bondage restraint",
+    "name": "Straitjacket",
+    "id": "straitjacket",
+    "label": "Straitjacket",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "tie",
+        "label": "J’attache"
+      },
+      {
+        "id": "tied",
+        "label": "Je suis attaché"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
+    "related": []
+  },
+  {
+    "category": "sensation",
+    "search": "tickling tickle chatouilles",
+    "name": "Tickling",
+    "id": "tickling",
+    "label": "Chatouilles / Tickling",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
+    "related": []
+  },
+  {
+    "category": "sensation",
+    "search": "nipple play clamps pinces seins sensation pain",
+    "name": "Nipple play / clamps",
+    "id": "nipple-play-clamps",
+    "label": "Nipple play / clamps",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
+    "related": []
+  },
+  {
+    "category": "sensation",
+    "search": "scratching biting griffures morsures rough sensation",
+    "name": "Scratching / biting",
+    "id": "scratching-biting",
+    "label": "Scratching / biting",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
+    "related": []
+  },
+  {
+    "category": "control",
+    "search": "edging orgasm denial controle orgasme",
+    "name": "Edging / denial",
+    "id": "edging-denial",
+    "label": "Edging / denial",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "lead",
+        "label": "Je prends le contrôle"
+      },
+      {
+        "id": "yield",
+        "label": "Je confie le contrôle"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Indique ta place dans ce jeu, indépendamment de ta position sexuelle.",
+    "related": []
+  },
+  {
+    "category": "control",
+    "search": "collar leash collier laisse control protocol",
+    "name": "Collar / leash",
+    "id": "collar-leash",
+    "label": "Collar / leash",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "lead",
+        "label": "Je prends le contrôle"
+      },
+      {
+        "id": "yield",
+        "label": "Je confie le contrôle"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Indique ta place dans ce jeu, indépendamment de ta position sexuelle.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "primal play primal hunter prey roleplay",
+    "name": "Primal play",
+    "id": "primal-play",
+    "label": "Primal play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "play",
+        "label": "J’incarne un rôle"
+      },
+      {
+        "id": "partner",
+        "label": "J’accompagne le jeu"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "furry furry fetish creature anthropomorphic",
+    "name": "Furry",
+    "id": "furry",
+    "label": "Furry",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "play",
+        "label": "J’incarne un rôle"
+      },
+      {
+        "id": "partner",
+        "label": "J’accompagne le jeu"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
+    "related": []
+  },
+  {
+    "category": "roleplay",
+    "search": "balloon fetish looner balloons inflation pop",
+    "name": "Balloon fetish",
+    "id": "balloon-fetish",
+    "label": "Balloon fetish",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "experience",
+        "label": "J’aime le vivre"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime l’esthétique"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
+    "related": []
+  },
+  {
+    "category": "ass",
+    "search": "toys plugs dildos sextoys insertion",
+    "name": "Toys / plugs",
+    "id": "toys-plugs",
+    "label": "Toys / plugs",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "",
+    "related": []
+  },
+  {
+    "category": "edge",
+    "search": "cnc consensual non consent resistance play consensual",
+    "name": "CNC / resistance play",
+    "id": "cnc-resistance-play",
+    "label": "CNC / resistance play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "category": "body",
+    "search": "roughhousing lutte jeu bagarre consensuelle",
+    "name": "Roughhousing",
+    "id": "roughhousing",
+    "label": "Roughhousing",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "participate",
+        "label": "J’aime participer"
+      },
+      {
+        "id": "watch",
+        "label": "J’aime regarder"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour le corps à corps ou son esthétique.",
+    "related": []
+  },
+  {
+    "category": "body",
+    "search": "submission wrestling grappling lutte soumission",
+    "name": "Submission wrestling",
+    "id": "submission-wrestling",
+    "label": "Submission wrestling",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "participate",
+        "label": "J’aime participer"
+      },
+      {
+        "id": "watch",
+        "label": "J’aime regarder"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour le corps à corps ou son esthétique.",
+    "related": []
+  },
+  {
+    "category": "sensitive",
+    "search": "needle play aiguilles sensitive edge",
+    "name": "Needle play",
+    "id": "needle-play",
+    "label": "Needle play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "category": "sensitive",
+    "search": "blood play sang sensitive biohazard",
+    "name": "Blood play",
+    "id": "blood-play",
+    "label": "Blood play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "category": "sensitive",
+    "search": "fire play feu chaleur sensitive edge",
+    "name": "Fire play",
+    "id": "fire-play",
+    "label": "Fire play",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
+    "related": []
+  },
+  {
+    "name": "Domination / soumission",
+    "category": "psych",
+    "search": "ds d/s dominant soumis switch",
+    "id": "domination-soumission",
+    "label": "Domination / soumission",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "dom",
+        "label": "Dom · je domine"
+      },
+      {
+        "id": "sub",
+        "label": "Sub · je me soumets"
+      },
+      {
+        "id": "switch",
+        "label": "Switch · les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "dom-sub",
+        "label": "Dom / sub"
+      },
+      {
+        "id": "brat-brat-tamer",
+        "label": "Brat / brat tamer"
+      },
+      {
+        "id": "master-slave",
+        "label": "Master / slave"
+      },
+      {
+        "id": "owner-owned",
+        "label": "Owner / owned"
+      },
+      {
+        "id": "dynamique-ponctuelle",
+        "label": "Dynamique ponctuelle"
+      },
+      {
+        "id": "dynamique-au-quotidien",
+        "label": "Dynamique au quotidien"
+      }
+    ],
+    "help": "Dom, sub ou switch décrivent une dynamique de pouvoir consentie, indépendante de la position sexuelle.",
+    "related": []
+  },
+  {
+    "name": "PVC / vinyle",
+    "category": "fetish",
+    "search": "vinyl brillant plastique",
+    "id": "pvc-vinyle",
+    "label": "PVC / vinyle",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "name": "Harnais",
+    "category": "fetish",
+    "search": "harness cuir sangles",
+    "id": "harnais",
+    "label": "Harnais",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "name": "Satin / soie",
+    "category": "fetish",
+    "search": "silk satin",
+    "id": "satin-soie",
+    "label": "Satin / soie",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "name": "Résille / dentelle",
+    "category": "fetish",
+    "search": "mesh lace lingerie",
+    "id": "resille-dentelle",
+    "label": "Résille / dentelle",
+    "field": "style",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Précise ce qui t’attire dans cet univers.",
+    "related": []
+  },
+  {
+    "name": "Cross-dressing",
+    "category": "roleplay",
+    "search": "travestissement vetements expression genre",
+    "id": "cross-dressing",
+    "label": "Cross-dressing",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "wear",
+        "label": "J’aime en porter"
+      },
+      {
+        "id": "admire",
+        "label": "J’aime en voir sur un mec"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "lingerie",
+        "label": "Lingerie"
+      },
+      {
+        "id": "vetements",
+        "label": "Vêtements"
+      },
+      {
+        "id": "accessoires",
+        "label": "Accessoires"
+      },
+      {
+        "id": "maquillage",
+        "label": "Maquillage"
+      }
+    ],
+    "help": "Une préférence vestimentaire ou un jeu d’expression ; elle ne permet pas de déduire ton identité de genre.",
+    "related": []
+  },
+  {
+    "name": "Service",
+    "category": "psych",
+    "search": "service oriented rendre service devotion",
+    "id": "service",
+    "label": "Service",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "serve",
+        "label": "Je rends service"
+      },
+      {
+        "id": "receive",
+        "label": "J’aime recevoir ce service"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
+    "related": []
+  },
+  {
+    "name": "Praise",
+    "category": "psych",
+    "search": "compliments encouragements validation",
+    "id": "praise",
+    "label": "Praise",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
+    "related": []
+  },
+  {
+    "name": "Body worship",
+    "category": "body",
+    "search": "admiration corps adoration",
+    "id": "body-worship",
+    "label": "Body worship",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "name": "Mains",
+    "category": "body",
+    "search": "hands doigts",
+    "id": "mains",
+    "label": "Mains",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "name": "Voix",
+    "category": "body",
+    "search": "voice timbre",
+    "id": "voix",
+    "label": "Voix",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "name": "Barbe",
+    "category": "body",
+    "search": "beard moustache",
+    "id": "barbe",
+    "label": "Barbe",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "name": "Tatouages / piercings",
+    "category": "body",
+    "search": "tattoo piercing",
+    "id": "tatouages-piercings",
+    "label": "Tatouages / piercings",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "admire",
+        "label": "J’aime chez l’autre"
+      },
+      {
+        "id": "share",
+        "label": "J’aime mettre en valeur chez moi"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
+    "related": []
+  },
+  {
+    "name": "Massage",
+    "category": "sensation",
+    "search": "toucher relaxation massage",
+    "id": "massage",
+    "label": "Massage",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [
+      {
+        "id": "donner-recevoir-du-toucher",
+        "label": "Donner / recevoir du toucher"
+      },
+      {
+        "id": "relaxation",
+        "label": "Relaxation"
+      },
+      {
+        "id": "echange",
+        "label": "Échange"
+      }
+    ],
+    "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
+    "related": []
+  },
+  {
+    "name": "Plumes / textures",
+    "category": "sensation",
+    "search": "feathers douceur tissus",
+    "id": "plumes-textures",
+    "label": "Plumes / textures",
+    "field": "practice",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Je donne"
+      },
+      {
+        "id": "receive",
+        "label": "Je reçois"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
+    "related": []
+  },
+  {
+    "name": "Sodomie",
+    "id": "sodomie",
+    "label": "Sodomie",
+    "category": "ass",
+    "field": "practice",
+    "search": "anal ass penetration sodomie top bottom actif passif receptif",
+    "help": "",
+    "roles": [
+      {
+        "id": "give",
+        "label": "Actif / top"
+      },
+      {
+        "id": "receive",
+        "label": "Réceptif / bottom"
+      },
+      {
+        "id": "both",
+        "label": "Les deux"
+      },
+      {
+        "id": "discuss",
+        "label": "À découvrir / à discuter"
+      }
+    ],
+    "variants": [],
+    "related": []
+  }
+]
