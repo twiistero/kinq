@@ -7,7 +7,7 @@ from pathlib import Path
 
 from sqlalchemy.orm import Session
 
-from .main import Article, Base, DemoProfile, Event, PageDocument, engine
+from .main import Article, Base, Event, PageDocument, engine
 
 Base.metadata.create_all(engine)
 with engine.begin() as connection:
@@ -44,13 +44,5 @@ if source.exists():
                     event.data = item
                 else:
                     db.add(Event(id=item["id"], data=item))
-        demos = source / "content/demo-profiles.json"
-        if demos.exists():
-            for item in json.loads(demos.read_text(encoding="utf-8")):
-                profile = db.get(DemoProfile, item["id"])
-                if profile:
-                    profile.data = item
-                else:
-                    db.add(DemoProfile(id=item["id"], data=item))
         db.commit()
 print("KINQ database ready")

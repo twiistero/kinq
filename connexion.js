@@ -16,9 +16,9 @@ loginForm.addEventListener('submit', async event => {
   button.disabled = true;
   loginStatus.textContent = '';
   try {
-    await memberLogin('request', {email:loginForm.elements.email.value.trim(), purpose:'login'});
+    const result = await memberLogin('request', {email:loginForm.elements.email.value.trim(), purpose:'login'});
     loginCodeForm.hidden = false;
-    loginStatus.textContent = 'Si ce compte existe, un code vient d’être envoyé.';
+    loginStatus.textContent = result.delivery === 'configured_code' ? 'Saisis le code de connexion configuré pour ce compte.' : 'Si ce compte existe, un code vient d’être envoyé.';
     loginCodeForm.elements.code.focus();
   } catch(error) {loginStatus.textContent = error.message;}
   finally {button.disabled = false;}

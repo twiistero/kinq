@@ -1,7 +1,7 @@
 (() => {
 'use strict';
 const $=s=>document.querySelector(s);
-let demoConnected=false;
+let memberConnected=false;
 const memberGreeting=document.createElement('div');
 memberGreeting.className='encounters-member';
 memberGreeting.hidden=true;
@@ -23,33 +23,28 @@ const aliases={leather:'Leather',sportswear:'Sportswear',rubber:'Rubber',pup:'Pu
 const catalog=window.KINQ_PICTOS.map(k=>({...k,name:aliases[k.id]||k.name}));
 const universes=Object.fromEntries(catalog.map(k=>[k.name,k.id]));
 const quick=['Leather','Sportswear','Rubber','Puppy','Bondage','Lycra'];
-let profiles=window.KINQ_DEMO_PROFILES;
+let profiles=[];
 let memberCsrf="";
 let memberName="";
 let myProfileData={};
-// Different gear combinations provide realistic filter fixtures without inventing more members.
-const extras={alex:['Harnais','Boots'],tom:['Sneakers','Lycra'],max:['Masques'],leo:['Socks'],noe:['Diaper'],sacha:['Rope / Shibari'],eli:['Collar / leash'],adam:['Boots'],yan:['Neoprene / wetsuit'],milo:['Underwear'],raph:['Harnais'],jules:['Masques']};
-const temperaments={alex:'Top',tom:'Versatile',max:'Bottom',leo:'Ça dépend du feeling',noe:'Versatile bottom',sacha:'Power top',eli:'Side (sans pénétration)',adam:'Top',yan:'Bottom',milo:'Je préfère ne pas répondre',raph:'Versatile top',jules:'Versatile'};
-profiles.forEach(p=>{p.kinks=[...p.kinks,...(extras[p.id]||[])];p.temperament=temperaments[p.id]});
 const pins=new Set(),hooks=new Set();
-async function saveSignal(kind,target_id,active){try{const response=await fetch('/api/member/signals',{method:'PUT',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':memberCsrf},body:JSON.stringify({kind,target_id,active})});if(!response.ok)throw Error();}catch{toast('Impossible d’enregistrer ce choix.');}}
+async function saveSignal(kind,target_id,active){try{const response=await fetch('/api/member/signals',{method:'PUT',credentials:'same-origin',headers:{'Content-Type':'application/json','X-CSRF-Token':memberCsrf},body:JSON.stringify({kind,target_id,active})});if(!response.ok)throw Error();return true;}catch{toast('Impossible d’enregistrer ce choix.');return false;}}
 let timer;function toast(t){$('#toast').textContent=t;$('#toast').classList.add('show');clearTimeout(timer);timer=setTimeout(()=>$('#toast').classList.remove('show'),3000)}
 const defaults={q:'',universes:[],city:'',min:18,max:80,temperament:'',photo:false,collection:'all'};
 const query=new URLSearchParams(location.search);
 let state={...defaults,q:query.get('q')||'',universes:(query.get('universes')||query.get('kink')||'').split(',').filter(k=>k in universes),city:['Paris','Lyon','Bordeaux','Lille','Nantes','Marseille'].includes(query.get('city'))?query.get('city'):'',min:Math.max(18,Math.min(80,Number(query.get('min'))||18)),max:Math.max(18,Math.min(80,Number(query.get('max'))||80)),temperament:['Side (sans pénétration)','Bottom','Power bottom','Versatile bottom','Versatile','Versatile top','Top','Power top','Service top','Ça dépend du feeling'].includes(query.get('temperament'))?query.get('temperament'):'',photo:query.get('photo')==='1',collection:['pins','hooks'].includes(query.get('view'))?query.get('view'):'all'};
 if(state.min>state.max)[state.min,state.max]=[state.max,state.min];
 const normalize=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-const pageSize=12,maxRendered=72;
+const pageSize=12;
 let lastCriteria='',showMe=false,streamItems=[],streamKey=0,loading=false,loadTimer;
 const grid=$('#discovery-grid'),streamLoader=$('#stream-loader'),streamSentinel=$('#stream-sentinel');
 function shuffle(items){const list=items.slice();for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]]}return list}
-function nextBatch(visible){const batch=shuffle(visible).slice(0,pageSize);const previous=streamItems.at(-1)?.profile.id;if(batch.length>1&&batch[0].id===previous){const other=batch.findIndex(p=>p.id!==previous);[batch[0],batch[other]]=[batch[other],batch[0]]}return batch.map(profile=>({profile,key:++streamKey}))}
+function nextBatch(visible){const shown=new Set(streamItems.map(item=>item.profile.id));return visible.filter(p=>!shown.has(p.id)).slice(0,pageSize).map(profile=>({profile,key:++streamKey}))}
 function filter(s){return profiles.filter(p=>(!s.universes.length||s.universes.some(k=>p.kinks.includes(k)))&&(!s.city||p.city===s.city)&&p.age>=s.min&&p.age<=s.max&&(!s.temperament||p.temperament===s.temperament)&&(!s.photo||p.photo)&&(s.collection==='all'||(s.collection==='pins'?pins:hooks).has(p.id))&&normalize(`${p.name} ${p.city} ${p.kinks.join(' ')} ${p.code} ${p.role}`).includes(normalize(s.q.trim())))}
 function updateUrl(){const q=new URLSearchParams();Object.entries(state).forEach(([k,v])=>{if(k==='universes'){if(v.length)q.set(k,v.join(','))}else if(v!==defaults[k])q.set(k==='collection'?'view':k,k==='photo'?'1':String(v))});history.replaceState(null,'',location.pathname+(q.size?'?'+q:''))}
 function criteria(){return [['city',state.city],['age',state.min!==18||state.max!==80?`${state.min}–${state.max} ans`:''],['temperament',state.temperament],['photo',state.photo?'Avec photo':''],...state.universes.map(k=>['kink:'+k,k])].filter(([,v])=>v)}
 const gear=(name)=>universes[name]?`<img src="assets/pictos/${universes[name]}.svg?v=4.4" alt="${name}" title="${name}">`:'';
-const mutualDemo=new Set(['alex','sacha','eli']);
-function hookStatus(p){return `<span class="dc-hook-status ${mutualDemo.has(p.id)?'is-mutual':''}">${p.id.startsWith('member-')?'Hook envoyé':mutualDemo.has(p.id)?'Réciproque · simulation':'En attente · simulation'}</span>`}
+function hookStatus(){return '<span class="dc-hook-status">Hook envoyé</span>'}
 function card(p,key,arrival=-1){return `<article class="discover-card ${p.photo?'':'is-discreet'}${arrival<0?'':' is-arriving'}" data-stream-key="${key}"${arrival<0?'':` style="--arrival-index:${arrival}"`}><button class="dc-open" data-peek="${p.id}" aria-label="Découvrir ${p.name}, ${p.age} ans"><span class="dc-visual">${p.photo?`<img src="${p.photo}" alt="" loading="lazy" decoding="async">`:`<span class="dc-private"><img src="assets/kinq-symbol.svg" alt=""><span>Photo sur demande</span></span>`}</span><span class="dc-top"><span>${p.city}</span><span>${p.role}</span></span><span class="dc-body"><span class="dc-title">${p.name}<small>${p.age}</small></span>${state.collection==='hooks'?hookStatus(p):''}<span class="dc-bottom"><span class="dc-gears">${p.kinks.slice(0,3).map(gear).join('')}</span><span class="dc-reveal">${svg('up')}</span></span></span></button></article>`}
 function render(){const visible=filter(state),signature=JSON.stringify(state)+'|'+visible.map(p=>p.id).join(',');if(signature!==lastCriteria){clearTimeout(loadTimer);loading=false;streamLoader.hidden=true;streamItems=(state.collection==='all'?shuffle(visible):visible).slice(0,pageSize).map(profile=>({profile,key:++streamKey}));lastCriteria=signature}
  $('#discover-search').value=state.q;
@@ -62,11 +57,11 @@ function render(){const visible=filter(state),signature=JSON.stringify(state)+'|
  $('#collection-title').textContent={all:'Explore.',pins:'Tes Pins.',hooks:'Tes Hooks.'}[state.collection];
  $('#result-count').textContent=`${visible.length} profil${visible.length>1?'s':''}`;$('#hooks-context').hidden=state.collection!=='hooks';
  grid.innerHTML=streamItems.map(({profile,key})=>card(profile,key)).join('');
- streamSentinel.hidden=showMe||state.collection!=='all'||visible.length<6;
- $('#discovery-empty').hidden=visible.length>0;$('#empty-copy').textContent=state.collection==='hooks'?'Les profils auxquels tu as fait un Hook apparaîtront ici.':state.collection==='pins'?'Garde un profil en Pin depuis sa fiche pour le retrouver ici.':'Aucun profil de test pour ces critères. Retire un filtre pour explorer plus largement.';updateUrl();}
+ streamSentinel.hidden=showMe||state.collection!=='all'||streamItems.length>=visible.length;
+ $('#discovery-empty').hidden=visible.length>0;$('#empty-copy').textContent=state.collection==='hooks'?'Les profils auxquels tu as fait un Hook apparaîtront ici.':state.collection==='pins'?'Garde un profil en Pin depuis sa fiche pour le retrouver ici.':'Aucun profil pour ces critères. Retire un filtre pour explorer plus largement.';updateUrl();}
 function loadNextBatch(){
  if(loading||showMe||state.collection!=='all')return;
- const visible=filter(state);if(visible.length<6)return;
+ const visible=filter(state);if(streamItems.length>=visible.length)return;
  loading=true;streamLoader.hidden=false;
  const signature=lastCriteria;
  loadTimer=setTimeout(()=>{
@@ -74,8 +69,7 @@ function loadNextBatch(){
   const batch=nextBatch(visible);
   grid.insertAdjacentHTML('beforeend',batch.map(({profile,key},i)=>card(profile,key,i%4)).join(''));
   streamItems.push(...batch);
-  if(streamItems.length>maxRendered){const columns=getComputedStyle(grid).gridTemplateColumns.split(' ').length,drop=Math.ceil((streamItems.length-maxRendered)/columns)*columns,anchor=grid.children[drop],before=anchor.getBoundingClientRect().top;for(let i=0;i<drop;i++)grid.firstElementChild.remove();streamItems.splice(0,drop);window.scrollBy(0,anchor.getBoundingClientRect().top-before)}
-  loading=false;streamLoader.hidden=true;
+  loading=false;streamLoader.hidden=true;streamSentinel.hidden=streamItems.length>=visible.length;
   if(grid.getBoundingClientRect().height<window.innerHeight+100)requestAnimationFrame(loadNextBatch);
  },520);
 }
@@ -121,32 +115,38 @@ $('#reset-sheet').addEventListener('click',()=>fillForm(defaults));
 $('#discover-search').addEventListener('input',e=>{state.q=e.target.value;render()});
 $('#clear-discovery').addEventListener('click',()=>{state={...defaults,universes:[]};render()});
 let focusAfterPeek=null;
-function openProfile(id){const p=profiles.find(p=>p.id===id);peek.innerHTML=`<button data-close-peek aria-label="Fermer le profil">${svg('close')}</button><div class="peek-layout"><div class="peek-visual">${p.photo?`<img src="${p.photo}" alt="Photo de profil validée par KINQ">`:`<div class="peek-private"><img src="assets/kinq-symbol.svg" alt="Symbole KINQ"><span>Photo sur demande</span></div>`}</div><div class="peek-body"><p class="eyebrow">${p.city.toUpperCase()} / ${p.id.startsWith("member-")?"MEMBRE KINQ":"PROFIL FICTIF"}</p><h2>${p.name}, ${p.age}</h2><div class="peek-tags">${p.kinks.map(k=>`<span>${gear(k)}${k}</span>`).join('')}<span>${p.role}</span></div><blockquote>« ${p.quote} »</blockquote><p>${p.bio}</p><h3>À son rythme</h3><p>${p.pace}. Échanger d’abord sur nos envies et nos limites.</p>${p.photo?'':'<p class="peek-disclosure">Photo sur demande dans le futur service. Aucun album privé dans cet aperçu.</p>'}${hooks.has(p.id)?`<p class="peek-hook-status">${p.id.startsWith('member-')?'Hook envoyé':mutualDemo.has(p.id)?'Hook réciproque · simulation':'Hook en attente · simulation'}</p>`:''}<div class="peek-actions"><button data-discover-pin="${p.id}" aria-pressed="${pins.has(p.id)}">${pins.has(p.id)?'Épinglé':'Garder en Pin'}</button><button data-discover-hook="${p.id}" aria-pressed="${hooks.has(p.id)}">${hooks.has(p.id)?'Hook envoyé':'Faire un Hook'}</button></div><p class="demo-note">${p.id.startsWith("member-") ? p.code + " · Profil membre." : p.code + " · Identité et préférences inventées. Aucun membre réel ne sera contacté."}</p></div></div>`;peek.showModal()}
+function openProfile(id){const p=profiles.find(p=>p.id===id);peek.innerHTML=`<button data-close-peek aria-label="Fermer le profil">${svg('close')}</button><div class="peek-layout"><div class="peek-visual">${p.photo?`<img src="${p.photo}" alt="Photo de profil validée par KINQ">`:`<div class="peek-private"><img src="assets/kinq-symbol.svg" alt="Symbole KINQ"><span>Photo sur demande</span></div>`}</div><div class="peek-body"><p class="eyebrow">${p.city.toUpperCase()} / MEMBRE KINQ</p><h2>${p.name}, ${p.age}</h2><div class="peek-tags">${p.kinks.map(k=>`<span>${gear(k)}${k}</span>`).join('')}<span>${p.role}</span></div><blockquote>« ${p.quote} »</blockquote><p>${p.bio}</p><h3>À son rythme</h3><p>${p.pace}. Échanger d’abord sur nos envies et nos limites.</p>${p.photo?'':'<p class="peek-disclosure">Photo sur demande dans le futur service. Aucun album privé dans cet aperçu.</p>'}${hooks.has(p.id)?`<p class="peek-hook-status">Hook envoyé</p>`:''}<div class="peek-actions"><button data-discover-pin="${p.id}" aria-pressed="${pins.has(p.id)}">${pins.has(p.id)?'Épinglé':'Garder en Pin'}</button><button data-discover-hook="${p.id}" aria-pressed="${hooks.has(p.id)}">${hooks.has(p.id)?'Hook envoyé':'Faire un Hook'}</button></div><p class="demo-note">${p.code} · Profil membre.</p></div></div>`;peek.showModal()}
 document.querySelector('.space-tabs').addEventListener('click',e=>{const b=e.target.closest('[data-collection]');if(!b)return;showMe=b.dataset.collection==='me';if(!showMe)state.collection=b.dataset.collection;render()});
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+document.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b)return;
  if(b.dataset.kink){const k=b.dataset.kink;state.universes=state.universes.includes(k)?state.universes.filter(x=>x!==k):[...state.universes,k];render();document.querySelector(`[data-kink="${k}"]`)?.focus()}
  if(b.dataset.remove){const k=b.dataset.remove;if(k.startsWith('kink:'))state.universes=state.universes.filter(x=>x!==k.slice(5));else if(k==='age'){state.min=18;state.max=80}else state[k]=defaults[k];render();$('#open-filters').focus()}
  if(b.dataset.peek){focusAfterPeek=b;openProfile(b.dataset.peek)}
  if(b.hasAttribute('data-close-peek'))peek.close();
- if(b.dataset.discoverPin){const id=b.dataset.discoverPin;pins.has(id)?pins.delete(id):pins.add(id);saveSignal('pin',id,pins.has(id));render();b.setAttribute('aria-pressed',pins.has(id));b.textContent=pins.has(id)?'Épinglé':'Garder en Pin';toast(pins.has(id)?'Profil gardé dans tes Pins.':'Profil retiré de tes Pins.')}
- if(b.dataset.discoverHook){const id=b.dataset.discoverHook;hooks.has(id)?hooks.delete(id):hooks.add(id);saveSignal('hook',id,hooks.has(id));render();b.setAttribute('aria-pressed',hooks.has(id));b.textContent=hooks.has(id)?'Hook envoyé':'Faire un Hook';const note=peek.querySelector('.peek-hook-status');if(note)note.textContent=hooks.has(id)?(mutualDemo.has(id)?'Hook réciproque · simulation':'Hook en attente · simulation'):'';toast(id.startsWith('member-')?'Hook enregistré.':'Démonstration : aucun membre réel n’a été contacté.')}
+ if(b.dataset.discoverPin||b.dataset.discoverHook){
+  const kind=b.dataset.discoverPin?'pin':'hook',id=b.dataset.discoverPin||b.dataset.discoverHook,selection=kind==='pin'?pins:hooks,active=!selection.has(id);
+  b.disabled=true;const saved=await saveSignal(kind,id,active);b.disabled=false;if(!saved)return;
+  active?selection.add(id):selection.delete(id);render();b.setAttribute('aria-pressed',String(active));
+  b.textContent=kind==='pin'?(active?'Épinglé':'Garder en Pin'):(active?'Hook envoyé':'Faire un Hook');
+  if(kind==='hook'){const note=peek.querySelector('.peek-hook-status');if(note)note.textContent=active?'Hook envoyé':'';}
+  toast(kind==='pin'?(active?'Profil gardé dans tes Pins.':'Profil retiré de tes Pins.'):(active?'Hook enregistré.':'Hook retiré.'));
+ }
 });
 peek.addEventListener('close',()=>{(focusAfterPeek?.isConnected?focusAfterPeek:$('#discover-search')).focus()});
 [peek].forEach(d=>d.addEventListener('click',e=>{if(e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close()}));
 function syncAccess(){
- document.body.classList.toggle('is-demo-connected',demoConnected);
- $('#encounters-gate').hidden=demoConnected;
- $('#discovery-inner').hidden=!demoConnected;
- memberGreeting.hidden=!demoConnected;
- if(demoConnected)updateMemberGreeting();
- if(demoConnected)render();
+ document.body.classList.toggle('is-demo-connected',memberConnected);
+ $('#encounters-gate').hidden=memberConnected;
+ $('#discovery-inner').hidden=!memberConnected;
+ memberGreeting.hidden=!memberConnected;
+ if(memberConnected)updateMemberGreeting();
+ if(memberConnected)render();
 }
 $('#enter-encounters-demo').addEventListener('click',()=>location.href='/connexion');
 $('#leave-encounters-demo').addEventListener('click',async()=>{await fetch('/api/member/auth/logout',{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':memberCsrf}});location.href='/connexion'});
-window.addEventListener('pageshow',()=>{if(demoConnected)updateMemberGreeting()});
-Promise.all([fetch('/api/member/me').then(r=>r.json()),fetch('/api/profiles').then(r=>r.json()),fetch('/api/member/signals').then(r=>r.json()),fetch('/api/member/profile').then(r=>r.json())]).then(([me,items,signals,myProfile])=>{
- memberCsrf=me.csrf;memberName=me.name||'';myProfileData=myProfile.data||{};profiles=items;profiles.forEach(p=>{if(extras[p.id])p.kinks=[...p.kinks,...extras[p.id]];p.temperament=temperaments[p.id]||p.temperament||''});
+window.addEventListener('pageshow',()=>{if(memberConnected)updateMemberGreeting()});
+Promise.all([fetch('/api/member/me').then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('/api/profiles').then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('/api/member/signals').then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('/api/member/profile').then(r=>{if(!r.ok)throw Error();return r.json()})]).then(([me,items,signals,myProfile])=>{
+ memberCsrf=me.csrf;memberName=me.name||'';myProfileData=myProfile.data||{};profiles=items;
  pins.clear();hooks.clear();for(const id of signals.pins)pins.add(id);for(const id of signals.hooks)hooks.add(id);
- demoConnected=true;syncAccess();
+ memberConnected=true;syncAccess();
 }).catch(()=>{$('#encounters-gate').hidden=false;toast('Profils momentanément indisponibles.');});
 })();

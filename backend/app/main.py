@@ -155,6 +155,13 @@ class MemberCode(Base):
     member_id: Mapped[int | None] = mapped_column(ForeignKey("members.id"), nullable=True)
 
 
+class MemberLoginCode(Base):
+    """Explicitly provisioned member credential; no client-side or global fallback."""
+    __tablename__ = "member_login_codes"
+    member_id: Mapped[int] = mapped_column(ForeignKey("members.id"), primary_key=True)
+    digest: Mapped[str] = mapped_column(String(64))
+
+
 class MemberProfile(Base):
     __tablename__ = "member_profiles"
     member_id: Mapped[int] = mapped_column(ForeignKey("members.id"), primary_key=True)
@@ -258,7 +265,7 @@ def current_member(request: Request, db: Session = Depends(db_session)) -> Membe
 
 @app.get("/api/profiles")
 def public_profiles(_: Member = Depends(current_member), db: Session = Depends(db_session)):
-    result = [p.data for p in db.scalars(select(DemoProfile).order_by(DemoProfile.id))]
+    result = []
     for profile, member in db.execute(select(MemberProfile, Member).join(Member, Member.id == MemberProfile.member_id)):
         data = profile.data or {}
         if effective_member_status(member) != "active" or data.get("invisible"):
@@ -307,8 +314,6 @@ async def request_member_code(body: CodeRequest, request: Request, db: Session =
         raise HTTPException(400, "Accords requis")
     key = os.environ.get("KINQ_RESEND_API_KEY", "")
     sender = os.environ.get("KINQ_RESEND_FROM", "KINQ <connexion@kinq-app.com>")
-    if not key:
-        raise HTTPException(503, "Envoi des e-mails KINQ non configuré")
     member = db.scalar(select(Member).where(Member.email == email))
     if member and effective_member_status(member) != "active":
         return {"ok": True}
@@ -320,25 +325,32 @@ async def request_member_code(body: CodeRequest, request: Request, db: Session =
     challenge = db.get(MemberCode, email)
     if challenge and challenge.sent_at.replace(tzinfo=timezone.utc) > now - timedelta(seconds=60):
         raise HTTPException(429, "Attends une minute avant de demander un autre code")
-    code = f"{secrets.randbelow(1_000_000):06d}"
-    async with httpx.AsyncClient(timeout=12) as client:
-        result = await client.post("https://api.resend.com/emails",
-            headers={"Authorization": f"Bearer {key}"},
-            json={"from": sender, "to": [email], "subject": "Ton code KINQ",
-                  "text": f"Ton code KINQ est {code}. Il expire dans 10 minutes. Si tu n'as rien demandé, ignore ce message."})
-    if result.status_code not in (200, 201):
-        raise HTTPException(502, "Impossible d'envoyer le code")
+    credential = db.get(MemberLoginCode, member.id) if member and body.purpose == "login" else None
+    if credential:
+        digest = credential.digest
+    else:
+        if not key:
+            raise HTTPException(503, "Envoi des e-mails KINQ non configuré")
+        code = f"{secrets.randbelow(1_000_000):06d}"
+        digest = code_digest(email, code)
+        async with httpx.AsyncClient(timeout=12) as client:
+            result = await client.post("https://api.resend.com/emails",
+                headers={"Authorization": f"Bearer {key}"},
+                json={"from": sender, "to": [email], "subject": "Ton code KINQ",
+                      "text": f"Ton code KINQ est {code}. Il expire dans 10 minutes. Si tu n'as rien demandé, ignore ce message."})
+        if result.status_code not in (200, 201):
+            raise HTTPException(502, "Impossible d'envoyer le code")
     if not challenge:
         challenge = MemberCode(email=email, digest="", purpose=body.purpose, expires_at=now, sent_at=now)
         db.add(challenge)
-    challenge.digest = code_digest(email, code)
+    challenge.digest = digest
     challenge.purpose = body.purpose
     challenge.expires_at = now + timedelta(minutes=10)
     challenge.sent_at = now
     challenge.attempts = 0
     challenge.consent = body.purpose == "signup"
     db.commit()
-    return {"ok": True}
+    return {"ok": True, "delivery": "configured_code" if credential else "email"}
 
 
 class CodeVerify(BaseModel):
@@ -395,7 +407,7 @@ def get_member_profile(member: Member = Depends(current_member), db: Session = D
 
 @app.get("/api/member/signals")
 def get_member_signals(member: Member = Depends(current_member), db: Session = Depends(db_session)):
-    signals = list(db.scalars(select(MemberSignal).where(MemberSignal.member_id == member.id)))
+    signals = list(db.scalars(select(MemberSignal).where(MemberSignal.member_id == member.id, MemberSignal.target_id.like("member-%"))))
     return {"pins": [s.target_id for s in signals if s.kind == "pin"],
             "hooks": [s.target_id for s in signals if s.kind == "hook"]}
 
@@ -408,7 +420,7 @@ class SignalEdit(BaseModel):
 
 @app.put("/api/member/signals")
 def set_member_signal(body: SignalEdit, member: Member = Depends(current_member), db: Session = Depends(db_session)):
-    if body.kind not in ("pin", "hook") or not re.fullmatch(r"(?:member-\d+|[a-z]{2,20})", body.target_id):
+    if body.kind not in ("pin", "hook") or not re.fullmatch(r"member-\d+", body.target_id):
         raise HTTPException(400)
     if body.target_id.startswith("member-"):
         target_id = int(body.target_id.split("-", 1)[1])
@@ -416,8 +428,6 @@ def set_member_signal(body: SignalEdit, member: Member = Depends(current_member)
         target_profile = db.get(MemberProfile, target_id)
         if target_id == member.id or not target or effective_member_status(target) != "active" or not target_profile or target_profile.data.get("invisible"):
             raise HTTPException(404)
-    elif not db.get(DemoProfile, body.target_id):
-        raise HTTPException(404)
     existing = db.scalar(select(MemberSignal).where(MemberSignal.member_id == member.id, MemberSignal.target_id == body.target_id, MemberSignal.kind == body.kind))
     if body.active and not existing:
         db.add(MemberSignal(member_id=member.id, target_id=body.target_id, kind=body.kind))
@@ -461,6 +471,9 @@ def close_member_account(request: Request, member: Member = Depends(current_memb
 
 
 def erase_member(db: Session, member: Member):
+    credential = db.get(MemberLoginCode, member.id)
+    if credential:
+        db.delete(credential)
     challenge = db.get(MemberCode, member.email)
     if challenge:
         db.delete(challenge)
