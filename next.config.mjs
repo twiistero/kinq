@@ -12,6 +12,7 @@ export default {
         destination: name === 'index.html' ? '/' : name === 'soirees.html' ? '/events' : journalSlugs.has(name.slice(0, -5)) ? `/guides/${name.slice(0, -5)}` : `/${name.slice(0, -5)}`,
         permanent: true,
       }));
-    return [...legacyPages, {source: '/admin/index.html', destination: '/admin', permanent: true}];
+    return [{ source: "/p/:code([A-F0-9]{8})", destination: "/rencontres?q=KQ-:code", permanent: false }, ...legacyPages, {source: '/admin/index.html', destination: '/admin', permanent: true}];
   },
 };
+

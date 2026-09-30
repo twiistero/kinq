@@ -29,6 +29,8 @@ loginCodeForm.addEventListener('submit', async event => {
   button.disabled = true;
   try {
     await memberLogin('verify', {email:loginForm.elements.email.value.trim(), code:loginCodeForm.elements.code.value});
-    location.href = '/compte';
+    const next = new URLSearchParams(location.search).get('next') || '';
+    location.href = /^\/rencontres\?q=KQ-[A-F0-9]{8}$/.test(next) ? next : '/compte';
   } catch(error) {loginStatus.textContent = error.message; button.disabled = false;}
 });
+

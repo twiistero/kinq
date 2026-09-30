@@ -141,12 +141,14 @@ function syncAccess(){
  if(memberConnected)updateMemberGreeting();
  if(memberConnected)render();
 }
-$('#enter-encounters-demo').addEventListener('click',()=>location.href='/connexion');
+$('#enter-encounters-demo').addEventListener('click',()=>{const code=query.get('q')||'';location.href=/^KQ-[A-F0-9]{8}$/.test(code)?'/connexion?next='+encodeURIComponent('/rencontres?q='+code):'/connexion'});
 $('#leave-encounters-demo').addEventListener('click',async()=>{await fetch('/api/member/auth/logout',{method:'POST',credentials:'same-origin',headers:{'X-CSRF-Token':memberCsrf}});location.href='/connexion'});
 window.addEventListener('pageshow',()=>{if(memberConnected)updateMemberGreeting()});
 Promise.all([fetch('/api/member/me').then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('/api/profiles').then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('/api/member/signals').then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('/api/member/profile').then(r=>{if(!r.ok)throw Error();return r.json()})]).then(([me,items,signals,myProfile])=>{
  memberCsrf=me.csrf;memberName=me.name||'';myProfileData=myProfile.data||{};profiles=items;
  pins.clear();hooks.clear();for(const id of signals.pins)pins.add(id);for(const id of signals.hooks)hooks.add(id);
  memberConnected=true;syncAccess();
+ const sharedCode=query.get('q')||'';if(/^KQ-[A-F0-9]{8}$/.test(sharedCode)){const shared=profiles.find(p=>p.code===sharedCode);if(shared)openProfile(shared.id);}
 }).catch(()=>{$('#encounters-gate').hidden=false;toast('Profils momentanément indisponibles.');});
 })();
+

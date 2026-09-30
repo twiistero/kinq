@@ -17,7 +17,7 @@ from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 from pydantic import BaseModel, Field
 from .profile_preferences import ProfileEdit
-from sqlalchemy import Boolean, DateTime, ForeignKey, JSON, LargeBinary, String, Text, UniqueConstraint, create_engine, select
+from sqlalchemy import Boolean, DateTime, ForeignKey, JSON, LargeBinary, String, Text, UniqueConstraint, create_engine, func, select, or_
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -224,6 +224,23 @@ def log(db: Session, staff: Staff, action: str, target: str):
     db.add(Audit(staff_id=staff.id, action=action, target=target))
 
 
+class MemberActivity(Base):
+    __tablename__ = "member_activity"
+    member_id: Mapped[int] = mapped_column(ForeignKey("members.id"), primary_key=True)
+    seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class MemberMessage(Base):
+    __tablename__ = "member_messages"
+    __table_args__ = (UniqueConstraint("sender_id", "nonce"),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    sender_id: Mapped[int] = mapped_column(ForeignKey("members.id"), index=True)
+    recipient_id: Mapped[int] = mapped_column(ForeignKey("members.id"), index=True)
+    body: Mapped[str] = mapped_column(Text)
+    nonce: Mapped[str] = mapped_column(String(36))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
 def effective_member_status(member: Member) -> str:
     if member.status == "banned_temporary" and member.ban_until and member.ban_until <= datetime.now(timezone.utc):
         return "active"
@@ -270,16 +287,26 @@ def public_profiles(_: Member = Depends(current_member), db: Session = Depends(d
         data = profile.data or {}
         if effective_member_status(member) != "active" or data.get("invisible"):
             continue
-        approved = db.scalar(select(Photo).where(Photo.member_id == member.id, Photo.status == "approved").order_by(Photo.created_at.desc()))
+        approved = list(db.scalars(select(Photo).where(Photo.member_id == member.id, Photo.status == "approved").order_by(Photo.created_at.desc(), Photo.id)))
+        photos = [f"/api/photos/{photo.id}" for photo in approved] if not data.get("discreet") else []
+        consent = db.get(MemberConsent, member.id)
+        activity = db.get(MemberActivity, member.id)
         safe = lambda value, limit: html.escape(str(value or "")[:limit], quote=True)
+        fields = ("experience", "dynamic", "exclusivity", "sex", "sexualPosition", "gear", "gearDetail", "relation", "wishes", "bio", "instagram", "twitter", "kinkPreferences")
+        details = {key: data[key] for key in fields if key in data}
+        if not data.get("hideLimits") and "limits" in data:
+            details["limits"] = data["limits"]
         result.append({
             "id": f"member-{member.id}", "name": safe(data.get("pseudo") or "Membre", 80),
             "age": int(data.get("age") or 18), "city": "" if data.get("hideCity") else safe(data.get("city"), 80),
-            "kinks": [safe(k, 80) for k in list(data.get("style") or []) + list(data.get("practice") or [])][:40],
+            "kinks": [safe(k, 80) for k in list(data.get("style") or []) + list(data.get("practice") or [])][:120],
             "role": safe(data.get("dynamic"), 80), "intent": "", "pace": "",
-            "quote": safe(data.get("wishes"), 240), "bio": safe(data.get("bio"), 1000),
-            "photo": f"/api/photos/{approved.id}" if approved and not data.get("discreet") else None,
-            "code": profile.code,
+            "quote": safe(data.get("wishes"), 300), "bio": safe(data.get("bio"), 1000),
+            "photo": photos[0] if photos else None, "photos": photos,
+            "code": profile.code, "details": {"data": details},
+            "joinedAt": consent.accepted_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds") if consent else None,
+            "online": bool(activity and activity.seen_at.replace(tzinfo=timezone.utc) > datetime.now(timezone.utc) - timedelta(seconds=90)),
+            "shareURL": PUBLIC_ORIGIN + "/p/" + profile.code.removeprefix("KQ-"),
         })
     return result
 
@@ -403,6 +430,77 @@ def member_logout(request: Request):
 def get_member_profile(member: Member = Depends(current_member), db: Session = Depends(db_session)):
     profile = db.get(MemberProfile, member.id)
     return {"code": profile.code if profile else None, "data": profile.data if profile else {}}
+
+
+@app.post("/api/member/presence")
+def member_presence(member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    activity = db.get(MemberActivity, member.id)
+    now = datetime.now(timezone.utc)
+    if activity:
+        activity.seen_at = now
+    else:
+        db.add(MemberActivity(member_id=member.id, seen_at=now))
+    db.commit()
+    return {"ok": True}
+
+
+def message_target(target_id: int, member: Member, db: Session):
+    target = db.get(Member, target_id)
+    profile = db.get(MemberProfile, target_id)
+    if target_id == member.id or not target or effective_member_status(target) != "active" or not profile or profile.data.get("invisible"):
+        raise HTTPException(404, "Profil indisponible")
+    return target
+
+
+def message_projection(message: MemberMessage):
+    return {"id": message.id, "senderID": message.sender_id, "body": message.body,
+            "createdAt": message.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")}
+
+
+@app.get("/api/member/conversations")
+def conversations(member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    recent = db.scalars(select(MemberMessage).where(or_(MemberMessage.sender_id == member.id, MemberMessage.recipient_id == member.id)).order_by(MemberMessage.created_at.desc(), MemberMessage.id).limit(500))
+    peers = {}
+    for message in recent:
+        peer = message.recipient_id if message.sender_id == member.id else message.sender_id
+        if peer not in peers:
+            peers[peer] = {"id": f"member-{peer}", "lastMessage": message.body, "updatedAt": message.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")}
+    return list(peers.values())
+
+
+@app.get("/api/member/messages/{target_id}")
+def messages(target_id: int, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    message_target(target_id, member, db)
+    rows = list(db.scalars(select(MemberMessage).where(or_(
+        (MemberMessage.sender_id == member.id) & (MemberMessage.recipient_id == target_id),
+        (MemberMessage.sender_id == target_id) & (MemberMessage.recipient_id == member.id)
+    )).order_by(MemberMessage.created_at.desc(), MemberMessage.id).limit(200)))
+    return [message_projection(message) for message in reversed(rows)]
+
+
+class MessageEdit(BaseModel):
+    body: str = Field(min_length=1, max_length=2000)
+    nonce: uuid.UUID
+
+
+@app.post("/api/member/messages/{target_id}")
+def send_message(target_id: int, body: MessageEdit, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    message_target(target_id, member, db)
+    text = body.body.strip()
+    if not text:
+        raise HTTPException(400, "Écris un message")
+    existing = db.scalar(select(MemberMessage).where(MemberMessage.sender_id == member.id, MemberMessage.nonce == str(body.nonce)))
+    if existing:
+        if existing.recipient_id != target_id or existing.body != text:
+            raise HTTPException(409, "Envoi déjà utilisé")
+        return message_projection(existing)
+    now = datetime.now(timezone.utc)
+    count = db.scalar(select(func.count()).select_from(MemberMessage).where(MemberMessage.sender_id == member.id, MemberMessage.created_at > now - timedelta(minutes=1)))
+    if count >= 20:
+        raise HTTPException(429, "Attends un instant avant de renvoyer un message")
+    message = MemberMessage(id=str(uuid.uuid4()), sender_id=member.id, recipient_id=target_id, body=text, nonce=str(body.nonce), created_at=now)
+    db.add(message); db.commit()
+    return message_projection(message)
 
 
 @app.get("/api/member/signals")
@@ -991,3 +1089,4 @@ app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET, same_site="lax"
 # The editorial MCP shares the Workspace identity and Article tables.
 from .mcp_editorial import router as mcp_router  # noqa: E402
 app.include_router(mcp_router)
+
