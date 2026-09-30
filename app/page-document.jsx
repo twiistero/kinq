@@ -32,7 +32,7 @@ export function RenderNode({node, slot, commentsSlot, commentCountSlot, articles
     const key = renamed[name] || name;
     attrs[key] = name === 'style' ? styleObject(value) : booleanAttrs.has(name) ? true : nestedArticle && (name === 'href' || name === 'src') ? nestedPath(value) : value;
   }
-  if (slot && attrs.id === 'dynamic-story') return createElement(node.tag, attrs, slot);
+  if (slot && (attrs.id === 'dynamic-story' || attrs.id === 'page-main')) return createElement(node.tag, attrs, slot);
   if (commentsSlot && attrs.id === 'journal-comments') return createElement(node.tag, attrs, commentsSlot);
   if (commentCountSlot && attrs.id === 'journal-comment-count') return createElement(node.tag, attrs, commentCountSlot);
   if (featureSlot && attrs.id === 'a-la-une') return featureSlot;

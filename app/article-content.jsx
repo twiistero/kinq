@@ -1,70 +1,103 @@
-import {createElement} from 'react';
+import {CoverWords,coverFor} from './no-taboo-covers';
 import {parseFragment} from 'parse5';
+import {RenderNode} from './page-document';
+import JournalComments from './journal-comments';
+import ArticleToc from './article-toc';
 
-const allowed = new Set(['p', 'h2', 'h3', 'em', 'strong', 'ul', 'ol', 'li', 'blockquote', 'a', 'br']);
-const excluded = new Set(['svg', 'script', 'style', 'iframe', 'img', 'object']);
-const editorialHighlights = new Map([
-  ['Ce que tu aimes, ce n’est pas “la transpiration”, c’est l’odeur du mec', 'l’odeur du mec'],
-  ['Aisselles, pieds, jock, cuir : chacun a ses préférences', 'ses préférences'],
-  ['Pourquoi sentir quelqu’un peut être plus intime que le regarder', 'plus intime'],
-  ['Dans un rapport Dom/sub, ça peut devenir un vrai levier', 'un vrai levier'],
-  ['Dire que tu aimes l’odeur d’un mec reste parfois plus difficile que parler de sexe', 'l’odeur d’un mec'],
-]);
+const legacyLabels = {
+  'premiers-pas': ['Premiers pas', 'DÉBUT'],
+  'parler-de-ses-limites': ['Entre nous', 'LIMITES'],
+  'les-mots-pour-se-comprendre': ['Le lexique', 'MOTS'],
+  'profil-et-vie-privee': ['Vie privée', 'PRIVÉ'],
+  'premiere-rencontre': ['Rencontres', 'RDV'],
+  aftercare: ['Entre nous', 'APRÈS'],
+};
+const allowed = new Set(['p','h2','h3','strong','b','em','i','a','ul','ol','li','blockquote','br']);
 
-function render(node, key, className) {
-  if (node.nodeName === '#text') return node.value;
-  if (!node.tagName || excluded.has(node.tagName)) return null;
-  const children = (node.childNodes || []).map(render);
-  if (!allowed.has(node.tagName)) return children;
-  const attrs = {key};
-  if (className) attrs.className = className;
-  if (node.tagName === 'a') {
-    const href = node.attrs?.find(attr => attr.name === 'href')?.value || '';
-    if (href.startsWith('/') && !href.startsWith('//') || /^https:\/\//.test(href)) {
-      attrs.href = href;
-      if (href.startsWith('https://')) attrs.rel = 'noopener noreferrer';
-    } else return children;
-  }
-  return createElement(node.tagName, attrs, ...children);
+function textOf(node) {
+  if (node?.tag === 'br') return ' ';
+  return typeof node === 'string' ? node : (node?.children || []).map(textOf).join('');
 }
-
-export default function ArticleContent({body}) {
-  const source = String(body || '').trim();
-  if (!/<(?:p|h2|h3|ul|ol|blockquote)\b/i.test(source)) {
-    return <div className="nt-editorial-body nt-user-article" id="article">{source.split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>;
+function find(node, predicate) {
+  if (!node || typeof node === 'string') return null;
+  if (predicate(node)) return node;
+  for (const child of node.children || []) {
+    const match = find(child, predicate);
+    if (match) return match;
   }
-  const nodes = parseFragment(source).childNodes || [];
-  const intro = [];
+  return null;
+}
+function hasClass(name) { return node => (node.attrs?.class || '').split(/\s+/).includes(name); }
+function withoutPhotos(node) {
+  if (typeof node === 'string') return node;
+  if (!node || node.tag === 'img' || node.tag === 'figure' || (node.attrs?.class || '').split(/\s+/).includes('eyebrow')) return null;
+  return {...node, children:(node.children || []).map(withoutPhotos).filter(child => child !== null)};
+}
+function childrenOf(document) { return document?.nodes || []; }
+function slugify(value) {
+  return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
+}
+function fromMcp(html) {
+  const fragment = parseFragment(String(html || ''));
+  const convert = node => {
+    if (node.nodeName === '#text') return node.value;
+    if (!allowed.has(node.tagName)) return (node.childNodes || []).flatMap(child => convert(child));
+    const attrs = {};
+    if (node.tagName === 'a') {
+      const href = (node.attrs || []).find(item => item.name === 'href')?.value || '';
+      if (/^https:\/\//i.test(href) || /^\//.test(href)) attrs.href = href;
+    }
+    return {tag: node.tagName, attrs, children: (node.childNodes || []).flatMap(child => convert(child))};
+  };
+  const parsed = (fragment.childNodes || []).flatMap(node => convert(node));
+  if (parsed.some(node => typeof node !== 'string' && node.tag === 'h2')) return parsed;
+  return String(html || '').split(/\n\s*\n/).filter(Boolean).map(block => {
+    const trimmed = block.trim();
+    if (trimmed.startsWith('## ')) return {tag:'h2',attrs:{},children:[trimmed.slice(3)]};
+    return {tag:'p',attrs:{},children:[trimmed.replace(/<[^>]*>/g, '')]};
+  });
+}
+function normalizeSections(nodes) {
   const sections = [];
+  let current = null;
+  let intro = [];
   for (const node of nodes) {
-    if (node.tagName === 'h2') {
-      const title = textContent(node).trim();
-      const base = title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'section';
-      let id = base;
-      for (let index = 2; sections.some(section => section.id === id); index++) id = `${base}-${index}`;
-      sections.push({id, title, heading: node, content: []});
-    } else if (sections.length) sections.at(-1).content.push(node);
+    if (typeof node !== 'string' && (node.tag === 'section' || node.tag === 'h2')) {
+      if (current) sections.push(current);
+      const heading = node.tag === 'h2' ? node : find(node, child => child.tag === 'h2');
+      current = {title: textOf(heading) || 'À retenir', nodes: [node]};
+    } else if (current) current.nodes.push(node);
     else intro.push(node);
   }
-  return <div className="nt-editorial-reading-layout">
-    {sections.length > 0 && <nav className="nt-editorial-toc" id="sommaire" aria-label="Sommaire de l’article"><div><h2>SOMMAIRE</h2></div><ol>{sections.map(section => <li key={section.id}><a href={`#${section.id}`}>{section.title}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg></a></li>)}</ol></nav>}
-    <div className="nt-editorial-body nt-user-article" id="article">
-      {intro.length > 0 && <div className="nt-editorial-intro"><p className="eyebrow">POUR COMMENCER</p>{intro.map((node, index) => render(node, index, node.tagName === 'p' && intro.findIndex(item => item.tagName === 'p') === index ? 'nt-dropcap' : undefined))}</div>}
-      {sections.map(section => <section className="nt-editorial-section" id={section.id} key={section.id}>
-        {section.heading.childNodes?.some(node => node.tagName === 'em') ? render(section.heading, 'heading') : <h2>{highlightHeading(section.title)}</h2>}{section.content.map((node, index) => render(node, index))}
-      </section>)}
-    </div>
+  if (current) sections.push(current);
+  return {intro, sections};
+}
+
+export default function ArticleContent({article, document, slug, comments, commentCount, related=[]}) {
+  const legacy = !article;
+  const nodes = childrenOf(document);
+  const hero = legacy && find({children:nodes}, hasClass('nt-editorial-hero'));
+  const title = article?.title || textOf(find(hero, node => node.tag === 'h1')) || document?.title || '';
+  const summary = article?.summary || textOf((hero?.children || []).find(node => hasClass('nt-editorial-hero-copy')(node))?.children?.find(node => node.tag === 'p' && !hasClass('eyebrow')(node))) || document?.description || '';
+  const body = legacy && (find({children:nodes}, hasClass('nt-editorial-body')) || find({children:nodes}, hasClass('nt-prose')));
+  const raw = legacy ? (body?.children || []) : fromMcp(article.body);
+  const {intro, sections} = normalizeSections(raw.map(withoutPhotos).filter(node => node !== null));
+  const firstIntroParagraph = intro.findIndex(node => typeof node !== 'string' && node.tag === 'p');
+  const toc = sections.map((section, index) => ({...section, id: `${slugify(section.title)}-${index + 1}`}));
+  const [category, coverWord] = legacyLabels[slug] || ['NO TABOO', 'KINQ'];
+  return <div className="nt-site nt-reading nt-unified wrap">
+    <header className="nt-masthead"><a href="/guides" aria-label="NO TABOO, accueil du journal"><strong>NO TABOO<span>.</span></strong><small>LE JOURNAL KINQ</small></a></header>
+    <article>
+      <header className="nt-unified-hero">
+        <div className="nt-unified-hero-copy"><h1>{title}</h1><p className="nt-unified-deck">{summary}</p><div className="nt-unified-actions"><a className="button" href="#article">Lire l’article <svg aria-hidden="true"><use href="#arrow"/></svg></a><a className="nt-unified-comment-link" href="#commentaires">Commentaires ({commentCount ?? comments?.length ?? 0}) <svg aria-hidden="true"><use href="#arrow"/></svg></a></div></div>
+        <div className={`nt-unified-cover nt-cover-${coverFor(slug, article?.art_words).theme}`} aria-label={`Illustration ${coverWord}`}><CoverWords slug={slug} words={article?.art_words}/></div>
+      </header>
+      <div className="nt-unified-layout" id="article"><aside className="nt-unified-rail"><ArticleToc items={toc.map(({id,title})=>({id,title}))}/><div className="nt-author"><strong>Auteur : Kinq Team</strong></div></aside>
+        <div className="nt-unified-body"><div className="nt-editorial-intro">{intro.length ? intro.map((node,index) => <RenderNode key={index} node={!legacy && index === firstIntroParagraph ? {...node,attrs:{...node.attrs,class:'nt-dropcap'}} : node}/>) : <p className="nt-dropcap">{summary}</p>}</div>{toc.map(item => <section className="nt-editorial-section" id={item.id} key={item.id}>{item.nodes.length ? item.nodes.map((node,index) => <RenderNode key={index} node={node}/>) : <h2>{item.title}</h2>}</section>)}</div>
+      </div>
+    </article>
+    <div id="commentaires"><JournalComments slug={slug} initialComments={comments || []}/></div>
+    {related.length > 0 && <nav className="nt-next" aria-label="Continuer à lire"><p className="eyebrow">CONTINUER À LIRE</p><div>{related.map((item,index) => <a href={item.href} key={item.slug}><small>{index === 0 ? 'À LIRE AUSSI' : 'ARTICLE SUIVANT'}</small><strong>{item.title}</strong></a>)}</div></nav>}
+    <aside className="nt-end"><p className="eyebrow">TES KINKS. TES CODES. TES RENCONTRES.</p><h2>La suite se vit<br/><em>sur Kinq.</em></h2><div><a className="button" href="/rencontres">Explorer les rencontres <svg aria-hidden="true"><use href="#up"/></svg></a></div></aside>
   </div>;
-}
-
-function textContent(node) {
-  if (node.nodeName === '#text') return node.value || '';
-  return (node.childNodes || []).map(textContent).join('');
-}
-
-function highlightHeading(title) {
-  const phrase = editorialHighlights.get(title);
-  if (!phrase) return title;
-  const at = title.indexOf(phrase);
-  return <>{title.slice(0, at)}<em>{phrase}</em>{title.slice(at + phrase.length)}</>;
 }
