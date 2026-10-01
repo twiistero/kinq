@@ -69,6 +69,27 @@ class Photo(Base):
     reviewed_by: Mapped[int | None] = mapped_column(ForeignKey("staff.id"), nullable=True)
 
 
+class PrivatePhoto(Base):
+    # Existing photos remain public. A row marks an explicitly private photo.
+    __tablename__ = "private_photos"
+    photo_id: Mapped[str] = mapped_column(ForeignKey("photos.id"), primary_key=True)
+
+
+class PhotoAccessRequest(Base):
+    __tablename__ = "photo_access_requests"
+    __table_args__ = (UniqueConstraint("owner_id", "requester_id"),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("members.id"), index=True)
+    requester_id: Mapped[int] = mapped_column(ForeignKey("members.id"), index=True)
+    status: Mapped[str] = mapped_column(String(12), default="pending")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
+def public_photo_condition():
+    return ~Photo.id.in_(select(PrivatePhoto.photo_id))
+
+
 class Article(Base):
     __tablename__ = "articles"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -287,7 +308,7 @@ def public_profiles(_: Member = Depends(current_member), db: Session = Depends(d
         data = profile.data or {}
         if effective_member_status(member) != "active" or data.get("invisible"):
             continue
-        approved = list(db.scalars(select(Photo).where(Photo.member_id == member.id, Photo.status == "approved").order_by(Photo.created_at.desc(), Photo.id)))
+        approved = list(db.scalars(select(Photo).where(Photo.member_id == member.id, Photo.status == "approved", public_photo_condition()).order_by(Photo.created_at.desc(), Photo.id)))
         photos = [f"/api/photos/{photo.id}" for photo in approved] if not data.get("discreet") else []
         consent = db.get(MemberConsent, member.id)
         activity = db.get(MemberActivity, member.id)
@@ -495,7 +516,7 @@ def notification_query(member_id: int):
         or_(Member.status == "active", (Member.status == "banned_temporary") & (Member.ban_until <= now)),
         func.coalesce(MemberProfile.data["invisible"].as_boolean(), False) == False,
         # Messages remain attributable to their sender even in discreet mode.
-        or_(MemberNotification.kind == "message", func.coalesce(MemberProfile.data["discreet"].as_boolean(), False) == False))
+        or_(MemberNotification.kind.in_(("message", "photo", "photo_grant")), func.coalesce(MemberProfile.data["discreet"].as_boolean(), False) == False))
 
 
 @app.get("/api/member/notifications")
@@ -505,7 +526,7 @@ def member_notifications(member: Member = Depends(current_member), db: Session =
     items = []
     for notification, actor, profile in db.execute(query.order_by(MemberNotification.created_at.desc(), MemberNotification.id).limit(100)):
         data = profile.data or {}
-        photo = None if data.get("discreet") else db.scalar(select(Photo).where(Photo.member_id == actor.id, Photo.status == "approved").order_by(Photo.created_at.desc(), Photo.id).limit(1))
+        photo = None if data.get("discreet") else db.scalar(select(Photo).where(Photo.member_id == actor.id, Photo.status == "approved", public_photo_condition()).order_by(Photo.created_at.desc(), Photo.id).limit(1))
         items.append({"id": notification.id, "actorID": f"member-{actor.id}",
             "actorName": str(data.get("pseudo") or actor.name or "Membre")[:80],
             "photo": f"/api/photos/{photo.id}" if photo else None, "kind": notification.kind,
@@ -513,6 +534,88 @@ def member_notifications(member: Member = Depends(current_member), db: Session =
             "read": notification.read_at is not None,
             "isTest": actor.email.startswith("presentation-") and actor.email.endswith("@example.invalid")})
     return {"items": items, "unreadCount": unread or 0}
+
+
+def photo_access_projection(item, owner_id: int, requester_id: int, db: Session):
+    photos = []
+    if item and item.status == "accepted":
+        photos = ["/api/member/private-photos/" + p.id for p in db.scalars(select(Photo).join(
+            PrivatePhoto, PrivatePhoto.photo_id == Photo.id).where(
+            Photo.member_id == owner_id, Photo.status == "approved").order_by(Photo.created_at.desc(), Photo.id))]
+    return {"id": item.id if item else None, "status": item.status if item else "none", "photos": photos}
+
+
+@app.get("/api/member/photo-access/{target_id}")
+def get_photo_access(target_id: int, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    message_target(target_id, member, db)
+    item = db.scalar(select(PhotoAccessRequest).where(PhotoAccessRequest.owner_id == target_id, PhotoAccessRequest.requester_id == member.id))
+    return photo_access_projection(item, target_id, member.id, db)
+
+
+@app.post("/api/member/photo-access/{target_id}")
+def request_photo_access(target_id: int, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    message_target(target_id, member, db)
+    from sqlalchemy.exc import IntegrityError
+    item = db.scalar(select(PhotoAccessRequest).where(PhotoAccessRequest.owner_id == target_id, PhotoAccessRequest.requester_id == member.id))
+    if not item:
+        # Deduplicate concurrent taps and notifications in the same transaction.
+        try:
+            with db.begin_nested():
+                item = PhotoAccessRequest(id=str(uuid.uuid4()), owner_id=target_id, requester_id=member.id, status="pending")
+                db.add(item); db.flush()
+        except IntegrityError:
+            item = db.scalar(select(PhotoAccessRequest).where(PhotoAccessRequest.owner_id == target_id, PhotoAccessRequest.requester_id == member.id))
+            if not item:
+                raise
+        add_member_notification(db, target_id, member.id, "photo", "photo-request:" + item.id)
+        db.commit()
+    return photo_access_projection(item, target_id, member.id, db)
+
+
+@app.get("/api/member/photo-access-requests")
+def received_photo_requests(member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    rows = []
+    for item, requester, profile in db.execute(select(PhotoAccessRequest, Member, MemberProfile).join(
+        Member, Member.id == PhotoAccessRequest.requester_id).join(MemberProfile, MemberProfile.member_id == Member.id).where(
+        PhotoAccessRequest.owner_id == member.id).order_by(PhotoAccessRequest.created_at.desc()).limit(100)):
+        if effective_member_status(requester) != "active" or profile.data.get("invisible"):
+            continue
+        rows.append({"id": item.id, "requesterID": f"member-{requester.id}", "name": str(profile.data.get("pseudo") or "Membre")[:80],
+                     "status": item.status, "createdAt": item.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")})
+    return rows
+
+
+class PhotoAccessDecision(BaseModel):
+    status: str
+
+
+@app.put("/api/member/photo-access-requests/{request_id}")
+def decide_photo_access(request_id: uuid.UUID, body: PhotoAccessDecision, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    item = db.get(PhotoAccessRequest, str(request_id))
+    if not item or item.owner_id != member.id:
+        raise HTTPException(404, "Demande indisponible")
+    if body.status not in ("accepted", "declined"):
+        raise HTTPException(400, "Décision invalide")
+    message_target(item.requester_id, member, db)
+    if item.status != body.status:
+        item.status, item.updated_at = body.status, datetime.now(timezone.utc)
+        if body.status == "accepted":
+            add_member_notification(db, item.requester_id, member.id, "photo_grant", "photo-grant:" + item.id + ":" + item.updated_at.isoformat())
+        db.commit()
+    return {"ok": True, "status": item.status}
+
+
+@app.get("/api/member/private-photos/{photo_id}")
+def private_photo(photo_id: str, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    photo = db.get(Photo, photo_id)
+    owner = db.get(Member, photo.member_id) if photo else None
+    profile = db.get(MemberProfile, photo.member_id) if photo else None
+    if not photo or not db.get(PrivatePhoto, photo_id) or photo.status != "approved" or not owner or effective_member_status(owner) != "active" or not profile or profile.data.get("invisible"):
+        raise HTTPException(404, "Photo indisponible")
+    if photo.member_id != member.id and not db.scalar(select(PhotoAccessRequest.id).where(
+        PhotoAccessRequest.owner_id == photo.member_id, PhotoAccessRequest.requester_id == member.id, PhotoAccessRequest.status == "accepted")):
+        raise HTTPException(404, "Photo indisponible")
+    return Response(photo.data, media_type=photo.mime, headers={"Cache-Control": "no-store, private", "Vary": "Cookie", "X-Content-Type-Options": "nosniff"})
 
 
 class NotificationRead(BaseModel):
@@ -654,13 +757,18 @@ def save_member_profile(body: ProfileEdit, member: Member = Depends(current_memb
 
 
 @app.post("/api/member/photos")
-async def member_photo(photo: UploadFile = File(), member: Member = Depends(current_member), db: Session = Depends(db_session)):
+async def member_photo(photo: UploadFile = File(), visibility: str = Form("public"), member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    if visibility not in ("public", "private"):
+        raise HTTPException(400, "Visibilité invalide")
     data = await photo.read(5_000_001)
     mime = "image/jpeg" if data.startswith(b"\xff\xd8\xff") else "image/png" if data.startswith(b"\x89PNG\r\n\x1a\n") else "image/webp" if data.startswith(b"RIFF") and data[8:12] == b"WEBP" else ""
     if not mime or len(data) > 5_000_000:
         raise HTTPException(400, "JPEG, PNG ou WebP de 5 Mo maximum")
     item = Photo(id=str(uuid.uuid4()), member_id=member.id, mime=mime, data=data, status="pending")
     db.add(item)
+    if visibility == "private":
+        db.flush()
+        db.add(PrivatePhoto(photo_id=item.id))
     db.commit()
     return {"id": item.id, "status": "pending", "message": "Photo en modération."}
 
@@ -997,7 +1105,7 @@ def photo_preview(photo_id: str, _: Staff = Depends(editor), db: Session = Depen
 def public_photo(photo_id: str, db: Session = Depends(db_session)):
     p = db.get(Photo, photo_id)
     m = db.get(Member, p.member_id) if p else None
-    if not p or p.status != "approved" or not m or effective_member_status(m) != "active":
+    if not p or db.get(PrivatePhoto, photo_id) or p.status != "approved" or not m or effective_member_status(m) != "active":
         raise HTTPException(404)
     return Response(p.data, media_type=p.mime, headers={"X-Content-Type-Options": "nosniff"})
 
