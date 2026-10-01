@@ -555,6 +555,13 @@ def conversations(member: Member = Depends(current_member), db: Session = Depend
         peer = message.recipient_id if message.sender_id == member.id else message.sender_id
         if peer not in peers:
             peers[peer] = {"id": f"member-{peer}", "lastMessage": message.body, "updatedAt": message.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")}
+    # Received previews are independent of the most recent sent message.
+    incoming = db.scalars(select(MemberMessage).where(MemberMessage.recipient_id == member.id).order_by(MemberMessage.created_at.desc(), MemberMessage.id).limit(500))
+    for message in incoming:
+        peer = peers.get(message.sender_id)
+        if peer is not None and "lastReceivedAt" not in peer:
+            peer["lastReceivedMessage"] = message.body
+            peer["lastReceivedAt"] = message.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")
     return list(peers.values())
 
 
