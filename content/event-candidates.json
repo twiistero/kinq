@@ -1382,6 +1382,27 @@
     }
   },
   {
+    "id": "fetish-strasbourg-4691",
+    "status": "pending",
+    "mode": "update",
+    "target_id": "fetish-strasbourg-4691",
+    "first_seen": "2026-10-01",
+    "event": {
+      "id": "fetish-strasbourg-4691",
+      "source_id": "fetish-strasbourg",
+      "origin_id": "4691",
+      "name": "Vendredi Apéro-Resto",
+      "start": "2026-10-23T20:00+02:00",
+      "end": "2026-10-23T23:00+02:00",
+      "city": "Strasbourg",
+      "country": "France",
+      "scope": "france",
+      "kind": "Rencontre",
+      "summary": "Événement annoncé par Fetish Social Strasbourg. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
+      "source": "https://fss-fetish.com/evenements/vendredi-apero-resto-5/"
+    }
+  },
+  {
     "id": "fetish-lyon-2946",
     "status": "pending",
     "mode": "new",
