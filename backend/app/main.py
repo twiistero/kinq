@@ -457,6 +457,96 @@ def message_projection(message: MemberMessage):
             "createdAt": message.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")}
 
 
+class MemberNotification(Base):
+    __tablename__ = "member_notifications"
+    __table_args__ = (UniqueConstraint("event_key"),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    recipient_id: Mapped[int] = mapped_column(ForeignKey("members.id"), index=True)
+    actor_id: Mapped[int] = mapped_column(ForeignKey("members.id"), index=True)
+    kind: Mapped[str] = mapped_column(String(12))
+    event_key: Mapped[str] = mapped_column(String(120))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    read_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+
+
+def add_member_notification(db: Session, recipient_id: int, actor_id: int, kind: str, event_key: str, created_at=None):
+    if recipient_id == actor_id:
+        return
+    # A concurrent duplicate must not abort the message/signal transaction.
+    from sqlalchemy.exc import IntegrityError
+    try:
+        with db.begin_nested():
+            db.add(MemberNotification(id=str(uuid.uuid4()), recipient_id=recipient_id,
+                actor_id=actor_id, kind=kind, event_key=event_key,
+                created_at=created_at or datetime.now(timezone.utc)))
+            db.flush()
+    except IntegrityError:
+        if not db.scalar(select(MemberNotification.id).where(MemberNotification.event_key == event_key)):
+            raise
+
+
+def notification_query(member_id: int):
+    # Suppress inaccessible identities, including after a moderation/privacy change.
+    now = datetime.now(timezone.utc)
+    return select(MemberNotification, Member, MemberProfile).join(
+        Member, Member.id == MemberNotification.actor_id).join(
+        MemberProfile, MemberProfile.member_id == Member.id).where(
+        MemberNotification.recipient_id == member_id,
+        or_(Member.status == "active", (Member.status == "banned_temporary") & (Member.ban_until <= now)),
+        func.coalesce(MemberProfile.data["invisible"].as_boolean(), False) == False,
+        # Messages remain attributable to their sender even in discreet mode.
+        or_(MemberNotification.kind == "message", func.coalesce(MemberProfile.data["discreet"].as_boolean(), False) == False))
+
+
+@app.get("/api/member/notifications")
+def member_notifications(member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    query = notification_query(member.id)
+    unread = db.scalar(select(func.count()).select_from(query.where(MemberNotification.read_at.is_(None)).subquery()))
+    items = []
+    for notification, actor, profile in db.execute(query.order_by(MemberNotification.created_at.desc(), MemberNotification.id).limit(100)):
+        data = profile.data or {}
+        photo = None if data.get("discreet") else db.scalar(select(Photo).where(Photo.member_id == actor.id, Photo.status == "approved").order_by(Photo.created_at.desc(), Photo.id).limit(1))
+        items.append({"id": notification.id, "actorID": f"member-{actor.id}",
+            "actorName": str(data.get("pseudo") or actor.name or "Membre")[:80],
+            "photo": f"/api/photos/{photo.id}" if photo else None, "kind": notification.kind,
+            "createdAt": notification.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds"),
+            "read": notification.read_at is not None,
+            "isTest": actor.email.startswith("presentation-") and actor.email.endswith("@example.invalid")})
+    return {"items": items, "unreadCount": unread or 0}
+
+
+class NotificationRead(BaseModel):
+    ids: list[uuid.UUID] = Field(default_factory=list, max_length=100)
+
+
+@app.put("/api/member/notifications/read")
+def read_member_notifications(body: NotificationRead, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    now = datetime.now(timezone.utc)
+    for item in db.scalars(select(MemberNotification).where(MemberNotification.recipient_id == member.id,
+            MemberNotification.id.in_([str(value) for value in body.ids]), MemberNotification.read_at.is_(None))):
+        item.read_at = now
+    db.commit()
+    return {"ok": True}
+
+
+@app.post("/api/member/profile-visits/{target_id}")
+def visit_member_profile(target_id: int, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    message_target(target_id, member, db)
+    profile = db.get(MemberProfile, member.id)
+    data = profile.data if profile else {}
+    if not profile or data.get("discreet") or data.get("invisible"):
+        return {"ok": True}
+    now = datetime.now(timezone.utc)
+    # At most one notification for this pair in a rolling 24-hour period.
+    previous = db.scalar(select(MemberNotification.id).where(MemberNotification.recipient_id == target_id,
+        MemberNotification.actor_id == member.id, MemberNotification.kind == "visit",
+        MemberNotification.created_at > now - timedelta(hours=24)))
+    if not previous:
+        add_member_notification(db, target_id, member.id, "visit", f"visit:{member.id}:{target_id}:{now.date().isoformat()}", now)
+        db.commit()
+    return {"ok": True}
+
+
 @app.get("/api/member/conversations")
 def conversations(member: Member = Depends(current_member), db: Session = Depends(db_session)):
     recent = db.scalars(select(MemberMessage).where(or_(MemberMessage.sender_id == member.id, MemberMessage.recipient_id == member.id)).order_by(MemberMessage.created_at.desc(), MemberMessage.id).limit(500))
@@ -499,7 +589,9 @@ def send_message(target_id: int, body: MessageEdit, member: Member = Depends(cur
     if count >= 20:
         raise HTTPException(429, "Attends un instant avant de renvoyer un message")
     message = MemberMessage(id=str(uuid.uuid4()), sender_id=member.id, recipient_id=target_id, body=text, nonce=str(body.nonce), created_at=now)
-    db.add(message); db.commit()
+    db.add(message)
+    add_member_notification(db, target_id, member.id, "message", "message:" + message.id, now)
+    db.commit()
     return message_projection(message)
 
 
@@ -528,8 +620,14 @@ def set_member_signal(body: SignalEdit, member: Member = Depends(current_member)
             raise HTTPException(404)
     existing = db.scalar(select(MemberSignal).where(MemberSignal.member_id == member.id, MemberSignal.target_id == body.target_id, MemberSignal.kind == body.kind))
     if body.active and not existing:
-        db.add(MemberSignal(member_id=member.id, target_id=body.target_id, kind=body.kind))
+        signal = MemberSignal(member_id=member.id, target_id=body.target_id, kind=body.kind)
+        db.add(signal); db.flush()
+        actor_profile = db.get(MemberProfile, member.id)
+        if actor_profile and not actor_profile.data.get("discreet") and not actor_profile.data.get("invisible"):
+            add_member_notification(db, target_id, member.id, body.kind, f"signal:{signal.id}")
     elif not body.active and existing:
+        for notification in db.scalars(select(MemberNotification).where(MemberNotification.event_key == f"signal:{existing.id}")):
+            db.delete(notification)
         db.delete(existing)
     db.commit()
     return {"ok": True}
@@ -569,6 +667,8 @@ def close_member_account(request: Request, member: Member = Depends(current_memb
 
 
 def erase_member(db: Session, member: Member):
+    for notification in db.scalars(select(MemberNotification).where(or_(MemberNotification.actor_id == member.id, MemberNotification.recipient_id == member.id))):
+        db.delete(notification)
     credential = db.get(MemberLoginCode, member.id)
     if credential:
         db.delete(credential)
@@ -1089,4 +1189,5 @@ app.add_middleware(SessionMiddleware, secret_key=SESSION_SECRET, same_site="lax"
 # The editorial MCP shares the Workspace identity and Article tables.
 from .mcp_editorial import router as mcp_router  # noqa: E402
 app.include_router(mcp_router)
+
 
