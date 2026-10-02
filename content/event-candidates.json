@@ -1,7 +1,7 @@
 [
   {
     "id": "maspalomas-485",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -21,7 +21,7 @@
   },
   {
     "id": "maspalomas-486",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -41,7 +41,7 @@
   },
   {
     "id": "maspalomas-733",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
