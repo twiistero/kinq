@@ -850,14 +850,22 @@ def close_member_account(request: Request, member: Member = Depends(current_memb
 
 
 def erase_member(db: Session, member: Member):
+    # Erase both sides of the member's exchanges; other pairs remain intact.
+    for message in db.scalars(select(MemberMessage).where(or_(MemberMessage.sender_id == member.id, MemberMessage.recipient_id == member.id))):
+        db.delete(message)
     for notification in db.scalars(select(MemberNotification).where(or_(MemberNotification.actor_id == member.id, MemberNotification.recipient_id == member.id))):
         db.delete(notification)
     credential = db.get(MemberLoginCode, member.id)
     if credential:
         db.delete(credential)
-    challenge = db.get(MemberCode, member.email)
-    if challenge:
+    for challenge in db.scalars(select(MemberCode).where(or_(MemberCode.email == member.email, MemberCode.member_id == member.id))):
         db.delete(challenge)
+    for model in (MemberConsent, MemberActivity, MemberLocation):
+        record = db.get(model, member.id)
+        if record:
+            db.delete(record)
+    for access in db.scalars(select(PhotoAccessRequest).where(or_(PhotoAccessRequest.owner_id == member.id, PhotoAccessRequest.requester_id == member.id))):
+        db.delete(access)
     profile = db.get(MemberProfile, member.id)
     if profile:
         db.delete(profile)
@@ -868,10 +876,15 @@ def erase_member(db: Session, member: Member):
     for comment in db.scalars(select(Comment).where(Comment.member_id == member.id)):
         db.delete(comment)
     for photo in db.scalars(select(Photo).where(Photo.member_id == member.id)):
-        photo.data, photo.status = b"", "deleted"
+        private = db.get(PrivatePhoto, photo.id)
+        if private:
+            db.delete(private)
+            db.flush()  # The private marker references the photo being removed.
+        db.delete(photo)
     member.email = f"deleted-{member.id}@invalid.local"
     member.name = ""
     member.status = "deleted"
+    member.ban_until = None
     member.deleted_at = datetime.now(timezone.utc)
 
 
