@@ -335,7 +335,8 @@ def profile_projection(profile: MemberProfile, member: Member, db: Session, view
         "distanceKm": distance, "distanceUpdatedAt": measured_at,
         "code": profile.code, "details": {"data": details},
         "joinedAt": consent.accepted_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds") if consent else None,
-        "online": bool(activity and activity.seen_at.replace(tzinfo=timezone.utc) > datetime.now(timezone.utc) - timedelta(seconds=90)),
+        "online": bool(activity and not data.get("discreet") and not data.get("invisible") and activity.seen_at.replace(tzinfo=timezone.utc) > datetime.now(timezone.utc) - timedelta(seconds=90)),
+        "lastSeenAt": activity.seen_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds") if activity and not data.get("discreet") and not data.get("invisible") else None,
         "shareURL": PUBLIC_ORIGIN + "/p/" + profile.code.removeprefix("KQ-"),
     }
 
@@ -343,7 +344,7 @@ def profile_projection(profile: MemberProfile, member: Member, db: Session, view
 @app.get("/api/profiles")
 def public_profiles(member: Member = Depends(current_member), db: Session = Depends(db_session)):
     return [profile_projection(profile, target, db, member)
-        for profile, target in db.execute(select(MemberProfile, Member).join(Member, Member.id == MemberProfile.member_id))
+        for profile, target in db.execute(select(MemberProfile, Member).join(Member, Member.id == MemberProfile.member_id).where(~Member.id.in_(blocked_ids(member.id))))
         if effective_member_status(target) == "active" and not (profile.data or {}).get("invisible")]
 
 
@@ -533,10 +534,40 @@ def member_presence(member: Member = Depends(current_member), db: Session = Depe
     return {"ok": True}
 
 
+class MemberBlock(Base):
+    __tablename__ = "member_blocks"
+    owner_id: Mapped[int] = mapped_column(ForeignKey("members.id"), primary_key=True)
+    target_id: Mapped[int] = mapped_column(ForeignKey("members.id"), primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
+class MemberReport(Base):
+    __tablename__ = "member_reports"
+    __table_args__ = (UniqueConstraint("reporter_id", "nonce"),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    reporter_id: Mapped[int] = mapped_column(ForeignKey("members.id"), index=True)
+    target_id: Mapped[int] = mapped_column(ForeignKey("members.id"), index=True)
+    reason: Mapped[str] = mapped_column(String(30))
+    detail: Mapped[str] = mapped_column(Text, default="")
+    nonce: Mapped[str] = mapped_column(String(36))
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+
+def blocked_ids(member_id: int):
+    # Both directions: neither person can discover or contact the other.
+    return select(MemberBlock.target_id).where(MemberBlock.owner_id == member_id).union(
+        select(MemberBlock.owner_id).where(MemberBlock.target_id == member_id))
+
+
+def members_blocked(db: Session, first: int, second: int):
+    return bool(db.get(MemberBlock, (first, second)) or db.get(MemberBlock, (second, first)))
+
+
 def message_target(target_id: int, member: Member, db: Session):
     target = db.get(Member, target_id)
     profile = db.get(MemberProfile, target_id)
-    if target_id == member.id or not target or effective_member_status(target) != "active" or not profile or profile.data.get("invisible"):
+    if target_id == member.id or not target or effective_member_status(target) != "active" or not profile or profile.data.get("invisible") or members_blocked(db, member.id, target_id):
         raise HTTPException(404, "Profil indisponible")
     return target
 
@@ -559,7 +590,7 @@ class MemberNotification(Base):
 
 
 def add_member_notification(db: Session, recipient_id: int, actor_id: int, kind: str, event_key: str, created_at=None):
-    if recipient_id == actor_id:
+    if recipient_id == actor_id or members_blocked(db, recipient_id, actor_id):
         return
     # A concurrent duplicate must not abort the message/signal transaction.
     from sqlalchemy.exc import IntegrityError
@@ -581,6 +612,7 @@ def notification_query(member_id: int):
         Member, Member.id == MemberNotification.actor_id).join(
         MemberProfile, MemberProfile.member_id == Member.id).where(
         MemberNotification.recipient_id == member_id,
+        ~Member.id.in_(blocked_ids(member_id)),
         or_(Member.status == "active", (Member.status == "banned_temporary") & (Member.ban_until <= now)),
         func.coalesce(MemberProfile.data["invisible"].as_boolean(), False) == False,
         # Messages remain attributable to their sender even in discreet mode.
@@ -646,7 +678,7 @@ def received_photo_requests(member: Member = Depends(current_member), db: Sessio
     for item, requester, profile in db.execute(select(PhotoAccessRequest, Member, MemberProfile).join(
         Member, Member.id == PhotoAccessRequest.requester_id).join(MemberProfile, MemberProfile.member_id == Member.id).where(
         PhotoAccessRequest.owner_id == member.id).order_by(PhotoAccessRequest.created_at.desc()).limit(100)):
-        if effective_member_status(requester) != "active" or profile.data.get("invisible"):
+        if effective_member_status(requester) != "active" or profile.data.get("invisible") or members_blocked(db, member.id, requester.id):
             continue
         rows.append({"id": item.id, "requesterID": f"member-{requester.id}", "name": str(profile.data.get("pseudo") or "Membre")[:80],
                      "status": item.status, "createdAt": item.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")})
@@ -678,7 +710,7 @@ def private_photo(photo_id: str, member: Member = Depends(current_member), db: S
     photo = db.get(Photo, photo_id)
     owner = db.get(Member, photo.member_id) if photo else None
     profile = db.get(MemberProfile, photo.member_id) if photo else None
-    if not photo or not db.get(PrivatePhoto, photo_id) or photo.status != "approved" or not owner or effective_member_status(owner) != "active" or not profile or profile.data.get("invisible"):
+    if not photo or not db.get(PrivatePhoto, photo_id) or photo.status != "approved" or not owner or effective_member_status(owner) != "active" or not profile or profile.data.get("invisible") or members_blocked(db, member.id, photo.member_id):
         raise HTTPException(404, "Photo indisponible")
     if photo.member_id != member.id and not db.scalar(select(PhotoAccessRequest.id).where(
         PhotoAccessRequest.owner_id == photo.member_id, PhotoAccessRequest.requester_id == member.id, PhotoAccessRequest.status == "accepted")):
@@ -718,13 +750,118 @@ def visit_member_profile(target_id: int, member: Member = Depends(current_member
     return {"ok": True}
 
 
+@app.get("/api/member/profiles/{target_id}")
+def member_profile_detail(target_id: int, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    target = message_target(target_id, member, db)
+    return profile_projection(db.get(MemberProfile, target_id), target, db, member)
+
+
+@app.get("/api/member/blocks")
+def member_blocks(member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    # Only expose a minimal label for blocks initiated by this member.
+    return [{"id": f"member-{item.target_id}", "name": html.escape(str((profile.data or {}).get("pseudo") or "Membre")[:80]) if profile else "Membre"}
+        for item, profile in db.execute(select(MemberBlock, MemberProfile).outerjoin(MemberProfile,
+            MemberProfile.member_id == MemberBlock.target_id).where(MemberBlock.owner_id == member.id).order_by(MemberBlock.created_at.desc()))]
+
+
+@app.put("/api/member/blocks/{target_id}")
+def block_member(target_id: int, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    existing = db.get(MemberBlock, (member.id, target_id))
+    if not existing:
+        # A reciprocal block cannot prevent someone from creating their own block.
+        target, profile = db.get(Member, target_id), db.get(MemberProfile, target_id)
+        if target_id == member.id or not target or not profile or effective_member_status(target) != "active":
+            raise HTTPException(404, "Profil indisponible")
+        from sqlalchemy.exc import IntegrityError
+        try:
+            with db.begin_nested():
+                db.add(MemberBlock(owner_id=member.id, target_id=target_id)); db.flush()
+        except IntegrityError:
+            if not db.get(MemberBlock, (member.id, target_id)): raise
+    for row in db.scalars(select(MemberSignal).where(or_(
+        (MemberSignal.member_id == member.id) & (MemberSignal.target_id == f"member-{target_id}"),
+        (MemberSignal.member_id == target_id) & (MemberSignal.target_id == f"member-{member.id}")))):
+        db.delete(row)
+    for row in db.scalars(select(MemberNotification).where(or_(
+        (MemberNotification.actor_id == member.id) & (MemberNotification.recipient_id == target_id),
+        (MemberNotification.actor_id == target_id) & (MemberNotification.recipient_id == member.id)))):
+        db.delete(row)
+    for row in db.scalars(select(PhotoAccessRequest).where(or_(
+        (PhotoAccessRequest.owner_id == member.id) & (PhotoAccessRequest.requester_id == target_id),
+        (PhotoAccessRequest.owner_id == target_id) & (PhotoAccessRequest.requester_id == member.id)))):
+        db.delete(row)
+    db.commit()
+    return {"ok": True}
+
+
+@app.delete("/api/member/blocks/{target_id}")
+def unblock_member(target_id: int, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    row = db.get(MemberBlock, (member.id, target_id))
+    if row: db.delete(row)
+    db.commit()
+    return {"ok": True}
+
+
+class ReportEdit(BaseModel):
+    reason: str = Field(max_length=30)
+    detail: str = Field(default="", max_length=1000)
+    nonce: uuid.UUID
+
+
+@app.post("/api/member/reports/{target_id}")
+def report_member(target_id: int, body: ReportEdit, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    message_target(target_id, member, db)
+    if body.reason not in ("profile", "photo", "harassment", "spam", "other") or (body.reason == "other" and not body.detail.strip()):
+        raise HTTPException(400, "Précise le motif du signalement")
+    previous = db.scalar(select(MemberReport).where(MemberReport.reporter_id == member.id, MemberReport.nonce == str(body.nonce)))
+    detail = body.detail.strip()
+    if previous:
+        if (previous.target_id, previous.reason, previous.detail) != (target_id, body.reason, detail):
+            raise HTTPException(409, "Signalement déjà utilisé")
+        return {"ok": True, "status": previous.status}
+    recent = db.scalar(select(func.count()).select_from(MemberReport).where(MemberReport.reporter_id == member.id, MemberReport.created_at > datetime.now(timezone.utc) - timedelta(hours=1)))
+    if recent >= 10: raise HTTPException(429, "Trop de signalements. Réessaie plus tard.")
+    from sqlalchemy.exc import IntegrityError
+    try:
+        with db.begin_nested():
+            db.add(MemberReport(id=str(uuid.uuid4()), reporter_id=member.id, target_id=target_id,
+                reason=body.reason, detail=detail, nonce=str(body.nonce))); db.flush()
+    except IntegrityError:
+        previous = db.scalar(select(MemberReport).where(MemberReport.reporter_id == member.id, MemberReport.nonce == str(body.nonce)))
+        if not previous: raise
+        if (previous.target_id, previous.reason, previous.detail) != (target_id, body.reason, detail): raise HTTPException(409, "Signalement déjà utilisé")
+    db.commit()
+    return {"ok": True, "status": "pending"}
+
+
+@app.get("/api/admin/member-reports")
+def member_report_queue(_: Staff = Depends(editor), db: Session = Depends(db_session)):
+    return [{"id": row.id, "reporter_id": row.reporter_id, "target_id": row.target_id, "reason": row.reason,
+             "detail": row.detail, "status": row.status, "created_at": row.created_at}
+        for row in db.scalars(select(MemberReport).where(MemberReport.status == "pending").order_by(MemberReport.created_at).limit(100))]
+
+
+class ReportDecision(BaseModel):
+    status: str
+
+
+@app.patch("/api/admin/member-reports/{report_id}")
+def review_member_report(report_id: uuid.UUID, body: ReportDecision, staff: Staff = Depends(editor), db: Session = Depends(db_session)):
+    row = db.get(MemberReport, str(report_id))
+    if not row or body.status not in ("reviewed", "dismissed"): raise HTTPException(400, "Décision invalide")
+    row.status = body.status
+    log(db, staff, "member_report." + body.status, row.id); db.commit()
+    return {"ok": True}
+
+
 @app.get("/api/member/conversations")
 def conversations(member: Member = Depends(current_member), db: Session = Depends(db_session)):
     recent = db.scalars(select(MemberMessage).where(or_(MemberMessage.sender_id == member.id, MemberMessage.recipient_id == member.id)).order_by(MemberMessage.created_at.desc(), MemberMessage.id).limit(500))
     peers = {}
+    blocked = set(db.scalars(blocked_ids(member.id)))
     for message in recent:
         peer = message.recipient_id if message.sender_id == member.id else message.sender_id
-        if peer not in peers:
+        if peer not in peers and peer not in blocked:
             peers[peer] = {"id": f"member-{peer}", "lastMessage": message.body, "updatedAt": message.created_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds")}
     # Received previews are independent of the most recent sent message.
     incoming = db.scalars(select(MemberMessage).where(MemberMessage.recipient_id == member.id).order_by(MemberMessage.created_at.desc(), MemberMessage.id).limit(500))
@@ -775,7 +912,8 @@ def send_message(target_id: int, body: MessageEdit, member: Member = Depends(cur
 
 @app.get("/api/member/signals")
 def get_member_signals(member: Member = Depends(current_member), db: Session = Depends(db_session)):
-    signals = list(db.scalars(select(MemberSignal).where(MemberSignal.member_id == member.id, MemberSignal.target_id.like("member-%"))))
+    blocked = {f"member-{target}" for target in db.scalars(blocked_ids(member.id))}
+    signals = [s for s in db.scalars(select(MemberSignal).where(MemberSignal.member_id == member.id, MemberSignal.target_id.like("member-%"))) if s.target_id not in blocked]
     return {"pins": [s.target_id for s in signals if s.kind == "pin"],
             "hooks": [s.target_id for s in signals if s.kind == "hook"]}
 
@@ -794,7 +932,7 @@ def set_member_signal(body: SignalEdit, member: Member = Depends(current_member)
         target_id = int(body.target_id.split("-", 1)[1])
         target = db.get(Member, target_id)
         target_profile = db.get(MemberProfile, target_id)
-        if target_id == member.id or not target or effective_member_status(target) != "active" or not target_profile or target_profile.data.get("invisible"):
+        if target_id == member.id or not target or effective_member_status(target) != "active" or not target_profile or target_profile.data.get("invisible") or members_blocked(db, member.id, target_id):
             raise HTTPException(404)
     existing = db.scalar(select(MemberSignal).where(MemberSignal.member_id == member.id, MemberSignal.target_id == body.target_id, MemberSignal.kind == body.kind))
     if body.active and not existing:
@@ -850,6 +988,9 @@ def close_member_account(request: Request, member: Member = Depends(current_memb
 
 
 def erase_member(db: Session, member: Member):
+    for model, first, second in ((MemberBlock, MemberBlock.owner_id, MemberBlock.target_id), (MemberReport, MemberReport.reporter_id, MemberReport.target_id)):
+        for record in db.scalars(select(model).where(or_(first == member.id, second == member.id))):
+            db.delete(record)
     # Erase both sides of the member's exchanges; other pairs remain intact.
     for message in db.scalars(select(MemberMessage).where(or_(MemberMessage.sender_id == member.id, MemberMessage.recipient_id == member.id))):
         db.delete(message)
@@ -1183,12 +1324,12 @@ def photo_preview(photo_id: str, _: Staff = Depends(editor), db: Session = Depen
 
 
 @app.get("/api/photos/{photo_id}")
-def public_photo(photo_id: str, db: Session = Depends(db_session)):
+def public_photo(photo_id: str, request: Request, db: Session = Depends(db_session)):
     p = db.get(Photo, photo_id)
     m = db.get(Member, p.member_id) if p else None
-    if not p or db.get(PrivatePhoto, photo_id) or p.status != "approved" or not m or effective_member_status(m) != "active":
+    if not p or db.get(PrivatePhoto, photo_id) or p.status != "approved" or not m or effective_member_status(m) != "active" or (request.session.get("member_id") and members_blocked(db, int(request.session["member_id"]), m.id)):
         raise HTTPException(404)
-    return Response(p.data, media_type=p.mime, headers={"X-Content-Type-Options": "nosniff"})
+    return Response(p.data, media_type=p.mime, headers={"X-Content-Type-Options": "nosniff", "Cache-Control": "no-store, private", "Vary": "Cookie"})
 
 
 class Decision(BaseModel):

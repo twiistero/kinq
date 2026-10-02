@@ -2,6 +2,7 @@
 import os
 import unittest
 import uuid
+from types import SimpleNamespace
 os.environ['DATABASE_URL'] = 'sqlite://'
 os.environ['KINQ_SESSION_SECRET'] = 'isolated-unit-test-secret-not-for-runtime'
 from fastapi import HTTPException
@@ -37,8 +38,8 @@ class PhotoAccessTests(unittest.TestCase):
     def test_private_photo_never_leaks_via_public_routes_or_notification_portraits(self):
         profile = next(p for p in public_profiles(self.viewer, self.db) if p['id'] == f'member-{self.owner.id}')
         self.assertEqual(profile['photos'], ['/api/photos/' + self.public.id])
-        self.assertEqual(public_photo(self.public.id, self.db).body, b'public')
-        self.assertDenied(lambda: public_photo(self.private.id, self.db))
+        self.assertEqual(public_photo(self.public.id, SimpleNamespace(session={}), self.db).body, b'public')
+        self.assertDenied(lambda: public_photo(self.private.id, SimpleNamespace(session={}), self.db))
         result = self.request(); self.decide(result, 'accepted')
         notice = member_notifications(self.viewer, self.db)['items'][0]
         self.assertEqual(notice['photo'], '/api/photos/' + self.public.id)
