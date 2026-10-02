@@ -7,3 +7,5 @@ requests==2.32.5
 httpx==0.28.1
 itsdangerous==2.2.0
 python-multipart==0.0.20
+cryptography==50.0.2
+Pillow==12.3.0

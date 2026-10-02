@@ -1374,3 +1374,6 @@ from .mcp_editorial import router as mcp_router  # noqa: E402
 app.include_router(mcp_router)
 
 
+
+from .wallet_card import register_kinqcard  # noqa: E402
+register_kinqcard(app, current_member, db_session, get_member_profile, Photo, PUBLIC_ORIGIN)
