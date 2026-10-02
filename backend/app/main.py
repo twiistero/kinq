@@ -7,6 +7,7 @@ import hashlib
 import hmac
 import html
 import base64
+import math
 from datetime import datetime, timedelta, timezone
 from urllib.parse import urlencode
 
@@ -17,7 +18,7 @@ from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 from pydantic import BaseModel, Field
 from .profile_preferences import ProfileEdit
-from sqlalchemy import Boolean, DateTime, ForeignKey, JSON, LargeBinary, String, Text, UniqueConstraint, create_engine, func, select, or_
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, JSON, LargeBinary, String, Text, UniqueConstraint, create_engine, func, select, or_
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -251,6 +252,17 @@ class MemberActivity(Base):
     seen_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
 
+class MemberLocation(Base):
+    # Only the authenticated location endpoint writes here; coordinates never
+    # enter profile JSON or a public response. One current fix, no history.
+    __tablename__ = "member_locations"
+    member_id: Mapped[int] = mapped_column(ForeignKey("members.id"), primary_key=True)
+    latitude: Mapped[float] = mapped_column(Float)
+    longitude: Mapped[float] = mapped_column(Float)
+    accuracy: Mapped[float] = mapped_column(Float)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
 class MemberMessage(Base):
     __tablename__ = "member_messages"
     __table_args__ = (UniqueConstraint("sender_id", "nonce"),)
@@ -301,35 +313,38 @@ def current_member(request: Request, db: Session = Depends(db_session)) -> Membe
     return member
 
 
+def profile_projection(profile: MemberProfile, member: Member, db: Session, viewer: Member):
+    data = profile.data or {}
+    approved = list(db.scalars(select(Photo).where(Photo.member_id == member.id, Photo.status == "approved", public_photo_condition()).order_by(Photo.created_at.desc(), Photo.id)))
+    photos = [f"/api/photos/{photo.id}" for photo in approved] if not data.get("discreet") else []
+    consent = db.get(MemberConsent, member.id)
+    activity = db.get(MemberActivity, member.id)
+    safe = lambda value, limit: html.escape(str(value or "")[:limit], quote=True)
+    fields = ("experience", "dynamic", "exclusivity", "sex", "sexualPosition", "gear", "gearDetail", "relation", "wishes", "bio", "instagram", "twitter", "kinkPreferences")
+    details = {key: data[key] for key in fields if key in data}
+    if not data.get("hideLimits") and "limits" in data:
+        details["limits"] = data["limits"]
+    distance, measured_at = profile_distance(viewer, member, db)
+    return {
+        "id": f"member-{member.id}", "name": safe(data.get("pseudo") or "Membre", 80),
+        "age": int(data.get("age") or 18), "city": "" if data.get("hideCity") else safe(data.get("city"), 80),
+        "kinks": [safe(k, 80) for k in list(data.get("style") or []) + list(data.get("practice") or [])][:120],
+        "role": safe(data.get("dynamic"), 80), "intent": "", "pace": "",
+        "quote": safe(data.get("wishes"), 300), "bio": safe(data.get("bio"), 1000),
+        "photo": photos[0] if photos else None, "photos": photos,
+        "distanceKm": distance, "distanceUpdatedAt": measured_at,
+        "code": profile.code, "details": {"data": details},
+        "joinedAt": consent.accepted_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds") if consent else None,
+        "online": bool(activity and activity.seen_at.replace(tzinfo=timezone.utc) > datetime.now(timezone.utc) - timedelta(seconds=90)),
+        "shareURL": PUBLIC_ORIGIN + "/p/" + profile.code.removeprefix("KQ-"),
+    }
+
+
 @app.get("/api/profiles")
-def public_profiles(_: Member = Depends(current_member), db: Session = Depends(db_session)):
-    result = []
-    for profile, member in db.execute(select(MemberProfile, Member).join(Member, Member.id == MemberProfile.member_id)):
-        data = profile.data or {}
-        if effective_member_status(member) != "active" or data.get("invisible"):
-            continue
-        approved = list(db.scalars(select(Photo).where(Photo.member_id == member.id, Photo.status == "approved", public_photo_condition()).order_by(Photo.created_at.desc(), Photo.id)))
-        photos = [f"/api/photos/{photo.id}" for photo in approved] if not data.get("discreet") else []
-        consent = db.get(MemberConsent, member.id)
-        activity = db.get(MemberActivity, member.id)
-        safe = lambda value, limit: html.escape(str(value or "")[:limit], quote=True)
-        fields = ("experience", "dynamic", "exclusivity", "sex", "sexualPosition", "gear", "gearDetail", "relation", "wishes", "bio", "instagram", "twitter", "kinkPreferences")
-        details = {key: data[key] for key in fields if key in data}
-        if not data.get("hideLimits") and "limits" in data:
-            details["limits"] = data["limits"]
-        result.append({
-            "id": f"member-{member.id}", "name": safe(data.get("pseudo") or "Membre", 80),
-            "age": int(data.get("age") or 18), "city": "" if data.get("hideCity") else safe(data.get("city"), 80),
-            "kinks": [safe(k, 80) for k in list(data.get("style") or []) + list(data.get("practice") or [])][:120],
-            "role": safe(data.get("dynamic"), 80), "intent": "", "pace": "",
-            "quote": safe(data.get("wishes"), 300), "bio": safe(data.get("bio"), 1000),
-            "photo": photos[0] if photos else None, "photos": photos,
-            "code": profile.code, "details": {"data": details},
-            "joinedAt": consent.accepted_at.replace(tzinfo=timezone.utc).isoformat(timespec="seconds") if consent else None,
-            "online": bool(activity and activity.seen_at.replace(tzinfo=timezone.utc) > datetime.now(timezone.utc) - timedelta(seconds=90)),
-            "shareURL": PUBLIC_ORIGIN + "/p/" + profile.code.removeprefix("KQ-"),
-        })
-    return result
+def public_profiles(member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    return [profile_projection(profile, target, db, member)
+        for profile, target in db.execute(select(MemberProfile, Member).join(Member, Member.id == MemberProfile.member_id))
+        if effective_member_status(target) == "active" and not (profile.data or {}).get("invisible")]
 
 
 def normalized_email(value: str) -> str:
@@ -373,6 +388,9 @@ async def request_member_code(body: CodeRequest, request: Request, db: Session =
     challenge = db.get(MemberCode, email)
     if challenge and challenge.sent_at.replace(tzinfo=timezone.utc) > now - timedelta(seconds=60):
         raise HTTPException(429, "Attends une minute avant de demander un autre code")
+    location = db.get(MemberLocation, member.id)
+    if location:
+        db.delete(location)
     credential = db.get(MemberLoginCode, member.id) if member and body.purpose == "login" else None
     if credential:
         digest = credential.digest
@@ -450,7 +468,57 @@ def member_logout(request: Request):
 @app.get("/api/member/profile")
 def get_member_profile(member: Member = Depends(current_member), db: Session = Depends(db_session)):
     profile = db.get(MemberProfile, member.id)
-    return {"code": profile.code if profile else None, "data": profile.data if profile else {}}
+    return {"code": profile.code if profile else None, "data": profile.data if profile else {},
+            "view": profile_projection(profile, member, db, member) if profile else None,
+            "locationEnabled": db.get(MemberLocation, member.id) is not None}
+
+
+class LocationEdit(BaseModel):
+    latitude: float = Field(ge=-90, le=90, allow_inf_nan=False)
+    longitude: float = Field(ge=-180, le=180, allow_inf_nan=False)
+    accuracy: float = Field(ge=0, le=5000, allow_inf_nan=False)
+
+
+@app.put("/api/member/location")
+def save_member_location(body: LocationEdit, member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    fix = db.get(MemberLocation, member.id)
+    if not fix:
+        fix = MemberLocation(member_id=member.id)
+        db.add(fix)
+    fix.latitude, fix.longitude, fix.accuracy = body.latitude, body.longitude, body.accuracy
+    fix.updated_at = datetime.now(timezone.utc)
+    db.commit()
+    return {"ok": True}
+
+
+@app.delete("/api/member/location")
+def remove_member_location(member: Member = Depends(current_member), db: Session = Depends(db_session)):
+    fix = db.get(MemberLocation, member.id)
+    if fix:
+        db.delete(fix)
+        db.commit()
+    return {"ok": True}
+
+
+def profile_distance(viewer: Member, target: Member, db: Session):
+    if viewer.id == target.id:
+        return None, None
+    for person in (viewer, target):
+        profile = db.get(MemberProfile, person.id)
+        data = profile.data if profile else {}
+        if not profile or data.get("invisible") or data.get("discreet") or data.get("hideCity", True):
+            return None, None
+    fixes = [db.get(MemberLocation, person.id) for person in (viewer, target)]
+    now = datetime.now(timezone.utc)
+    if any(not fix or fix.accuracy > 1000 or not 0 <= (now - fix.updated_at.replace(tzinfo=timezone.utc)).total_seconds() <= 180 for fix in fixes):
+        return None, None
+    a, b = fixes
+    lat1, lat2 = math.radians(a.latitude), math.radians(b.latitude)
+    dlat, dlon = lat2 - lat1, math.radians(b.longitude - a.longitude)
+    h = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+    km = 6371.0088 * 2 * math.asin(math.sqrt(min(1, max(0, h))))
+    # A kilometre estimate, never coordinates or a metre-level tracking signal.
+    return math.floor(km + 0.5), min(fix.updated_at for fix in fixes).replace(tzinfo=timezone.utc).isoformat(timespec="seconds")
 
 
 @app.post("/api/member/presence")
