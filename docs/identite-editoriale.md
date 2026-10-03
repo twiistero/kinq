@@ -6,7 +6,7 @@ Le 24 septembre 2026, le porteur du projet a explicitement validé les cartes FI
 
 ## Voix et signature proposée
 
-Tutoiement partout. Signature de la direction 03 : « Tes kinks. Tes codes. Tes rencontres. » Déclinée dans la home, le menu et le pied de page. Hook = dire hey ; Pin = retrouver un profil privé dans ses favoris. Rubrique « Mes Pins ».
+Tutoiement partout. Signature de la direction 03 : « Make it kinky. » Déclinée dans la home, le menu et le pied de page. Hook = dire hey ; Pin = retrouver un profil privé dans ses favoris. Rubrique « Mes Pins ».
 
 Arguments sous le hero demandés pour le concept : « Accès sécurisé », « Entièrement gratuit » ; troisième argument proposé : « Profils privés ». Ces éléments expriment le positionnement du futur produit, pas une certification du prototype statique.
 

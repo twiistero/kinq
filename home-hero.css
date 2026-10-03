@@ -17,12 +17,12 @@
   padding: 70px 24px 70px max(56px, calc((100vw - 1440px) / 2));
 }
 .hero-home h1 {
-  font-size: clamp(68px, 7.1vw, 114px);
+  font-size: clamp(88px, 9.3vw, 150px);
   line-height: 1.02;
   letter-spacing: -.035em;
   margin: 0 0 46px;
 }
-.hero-home h1 span { color: var(--hero-black); }
+.hero-home h1 span { color: var(--hero-black); font-size: 1.08em; }
 .hero-home h1 span::before { inset: 13% -7px 2%; transform: rotate(-1.2deg); }
 .hero-home .hero-actions { margin: 0; flex-direction: row; flex-wrap: wrap; gap: 12px; }
 .hero-home .hero-actions .button {
@@ -67,13 +67,13 @@
 }
 @media (max-width: 1100px) and (min-width: 761px) {
   .hero-home .hero-copy { padding: 56px 12px 56px 32px; }
-  .hero-home h1 { font-size: 7.1vw; }
+  .hero-home h1 { font-size: 9.3vw; }
   .hero-home .hero-benefits { gap: 14px; max-width: 310px; }
 }
 @media (max-width: 760px) {
   .hero.hero-home { grid-template-columns: minmax(0, 1fr); min-height: 0; }
   .hero-home .hero-copy { padding: 48px 24px 30px; }
-  .hero-home h1 { font-size: clamp(49px, 12.7vw, 86px); line-height: 1.05; margin-bottom: 30px; }
+  .hero-home h1 { font-size: clamp(64px, 16.4vw, 104px); line-height: 1.05; margin-bottom: 30px; }
   .hero-home .hero-actions .button { min-height: 54px; font-size: 12px; padding-inline: 20px; }
   .hero-home .hero-benefits { gap: 12px; margin-top: 24px; justify-content: flex-start; }
   .hero-home .hero-benefits span { font-size: 9px; gap: 5px; }

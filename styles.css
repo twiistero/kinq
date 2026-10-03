@@ -967,3 +967,7 @@ h1>br+span,h2>br+em,#universe-title>em{display:inline-block;margin-top:.09em}
 @media(max-width:1100px){.menu-journal-wordmark{font-size:42px}}
 @media(max-width:760px){.menu-journal-wordmark{font-size:39px}.mega-links>.mega-journal-link>.menu-journal-brand{gap:9px}.menu-journal-label{font-size:8px;padding:6px 7px;letter-spacing:0}}
 @media(max-width:370px){.menu-journal-wordmark{font-size:35px}.mega-links>.mega-journal-link>.menu-journal-brand{gap:7px}.menu-journal-label{font-size:7px;padding:6px 5px}}
+
+/* The signature sits directly beneath the footer logo. */
+#site-footer .footer-brand p{margin:8px 0 20px 67px;text-align:left;white-space:nowrap}
+@media(max-width:600px){#site-footer .footer-brand p{margin-left:56px}}

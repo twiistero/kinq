@@ -30,7 +30,7 @@ Vérification direction 02 : nouveau menu desktop/mobile, profils et recherche p
 
 ## Direction 03
 
-Style des cartes éditoriales explicitement validé et documenté dans `docs/identite-editoriale.md`. Nouveau symbole de deux liens horizontaux entrelacés en SVG, favicon carrée. Signature proposée : « Tes kinks. Tes codes. Tes rencontres. ». Terminologie Hook et Pin / Mes Pins.
+Style des cartes éditoriales explicitement validé et documenté dans `docs/identite-editoriale.md`. Nouveau symbole de deux liens horizontaux entrelacés en SVG, favicon carrée. Signature proposée : « Make it kinky. ». Terminologie Hook et Pin / Mes Pins.
 
 La home affiche maintenant un diaporama Cuir / Puppy / Latex / Sport avec sélection directe et pause, ainsi qu’une tapisserie de photos décorative à cinq colonnes (trois visibles sur mobile), avec contenu fixe au premier plan. Animations suspendues hors écran, en onglet masqué et pour la préférence de réduction du mouvement. Les boutons changent uniquement de couleur au survol/clic.
 
