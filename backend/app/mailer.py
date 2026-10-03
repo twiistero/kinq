@@ -1,5 +1,6 @@
 """Shared transactional code emails for the website and native app."""
 import html
+import base64
 import os
 import re
 from email.utils import formataddr, parseaddr
@@ -11,6 +12,7 @@ from fastapi import HTTPException
 
 
 CODE_TEMPLATE = Template((Path(__file__).parent / "templates" / "member-code.html").read_text(encoding="utf-8"))
+LOGO_CONTENT = base64.b64encode((Path(__file__).parent / "templates" / "kinq-logo.png").read_bytes()).decode("ascii")
 CODE_COPY = {
     "signup": ("Ton code pour créer ton compte KINQ", "Bienvenue chez KINQ.",
                "Saisis ce code sur le site ou dans l’app pour confirmer ton adresse e-mail et créer ton compte."),
@@ -21,7 +23,7 @@ CODE_COPY = {
 }
 
 
-def code_email(code: str, purpose: str) -> dict[str, str]:
+def code_email(code: str, purpose: str) -> dict:
     if not re.fullmatch(r"[0-9]{6}", code) or purpose not in CODE_COPY:
         raise ValueError("Invalid transactional code or purpose")
     subject, title, intro = CODE_COPY[purpose]
@@ -29,6 +31,7 @@ def code_email(code: str, purpose: str) -> dict[str, str]:
     security = "Ne partage jamais ce code. Kinq Team ne te le demandera jamais."
     ignore = "Si tu n’as pas fait cette demande, ignore simplement cet e-mail."
     return {
+        "attachments": [{"filename": "kinq-logo.png", "content": LOGO_CONTENT, "content_id": "kinq-logo"}],
         "subject": subject,
         "text": f"{title}\n\n{intro}\n\nTon code KINQ : {code}\n\n{expiry}\n{security}\n\n{ignore}\n\nKinq Team",
         "html": CODE_TEMPLATE.substitute({key: html.escape(value) for key, value in {

@@ -1,5 +1,7 @@
 """Isolated auth/email checks. No runtime account and no real email delivery."""
 import json
+import base64
+from pathlib import Path
 import os
 import unittest
 from datetime import datetime, timedelta, timezone
@@ -66,6 +68,12 @@ class MemberAuthEmailTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("connexion", payload["subject"])
         self.assertIn("#b2ff1a", payload["html"])
         self.assertIn("#171916", payload["html"])
+        self.assertIn('src="cid:kinq-logo"', payload["html"])
+        attachment = payload["attachments"][0]
+        self.assertEqual(attachment["content_id"], "kinq-logo")
+        self.assertEqual(attachment["filename"], "kinq-logo.png")
+        self.assertEqual(base64.b64decode(attachment["content"]),
+                         (Path(mailer.__file__).parent / "templates/kinq-logo.png").read_bytes())
         code = self.sent_code()
         self.assertIn(code, payload["html"])
         challenge = self.db.get(main.MemberCode, self.member.email)

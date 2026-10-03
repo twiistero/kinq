@@ -6,6 +6,8 @@ Le nom d’envoi est toujours **Kinq Team**. `KINQ_RESEND_FROM` conserve l’adr
 
 Le message contient une version HTML anthracite / vert acide `#b2ff1a` et une version texte. Son titre et ses instructions s’adaptent à l’inscription, à la connexion ou au changement d’adresse. Aucune image externe ni police téléchargée n’est nécessaire pour lire le code.
 
+Le logo reprend le symbole officiel `assets/kinq-symbol.svg` et le mot-symbole DM Sans ExtraBold de `Brand` dans l’app. `scripts/build-email-logo.py` exporte un PNG transparent à trois fois sa taille, embarqué dans le message via une pièce jointe Resend et la référence `cid:kinq-logo`. Le code reste du texte lisible même si un client masque les images. L’image est copiée avec le reste de `backend/app` dans le conteneur API ; aucune dépendance de génération n’est nécessaire sur le serveur.
+
 Les codes aléatoires à six chiffres restent à usage unique, valables dix minutes et limités à cinq essais. Un challenge n’est enregistré qu’après acceptation par Resend. Une panne réseau ou un refus de Resend produit une erreur permettant de réessayer ; aucune réussite fictive. L’acceptation API ne prouve pas la réception dans la boîte e-mail.
 
 Le compte de test unique avec identifiant de connexion provisionné conserve le parcours normal et la réponse `configured_code`, sans envoi à son adresse. Les doubles de transport et données isolées se limitent à `tests/test_member_auth_email.py`.
