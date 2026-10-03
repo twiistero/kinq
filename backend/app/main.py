@@ -18,6 +18,7 @@ from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
 from pydantic import BaseModel, Field
 from .profile_preferences import ProfileEdit
+from .mailer import send_member_code
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, JSON, LargeBinary, String, Text, UniqueConstraint, create_engine, func, select, or_
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 from starlette.middleware.sessions import SessionMiddleware
@@ -376,8 +377,6 @@ async def request_member_code(body: CodeRequest, request: Request, db: Session =
     email = normalized_email(body.email)
     if body.purpose == "signup" and not (body.adult and body.terms and body.charter):
         raise HTTPException(400, "Accords requis")
-    key = os.environ.get("KINQ_RESEND_API_KEY", "")
-    sender = os.environ.get("KINQ_RESEND_FROM", "KINQ <connexion@kinq-app.com>")
     member = db.scalar(select(Member).where(Member.email == email))
     if member and effective_member_status(member) != "active":
         return {"ok": True}
@@ -389,24 +388,16 @@ async def request_member_code(body: CodeRequest, request: Request, db: Session =
     challenge = db.get(MemberCode, email)
     if challenge and challenge.sent_at.replace(tzinfo=timezone.utc) > now - timedelta(seconds=60):
         raise HTTPException(429, "Attends une minute avant de demander un autre code")
-    location = db.get(MemberLocation, member.id)
+    location = db.get(MemberLocation, member.id) if member else None
     if location:
         db.delete(location)
     credential = db.get(MemberLoginCode, member.id) if member and body.purpose == "login" else None
     if credential:
         digest = credential.digest
     else:
-        if not key:
-            raise HTTPException(503, "Envoi des e-mails KINQ non configuré")
         code = f"{secrets.randbelow(1_000_000):06d}"
         digest = code_digest(email, code)
-        async with httpx.AsyncClient(timeout=12) as client:
-            result = await client.post("https://api.resend.com/emails",
-                headers={"Authorization": f"Bearer {key}"},
-                json={"from": sender, "to": [email], "subject": "Ton code KINQ",
-                      "text": f"Ton code KINQ est {code}. Il expire dans 10 minutes. Si tu n'as rien demandé, ignore ce message."})
-        if result.status_code not in (200, 201):
-            raise HTTPException(502, "Impossible d'envoyer le code")
+        await send_member_code(email, code, body.purpose)
     if not challenge:
         challenge = MemberCode(email=email, digest="", purpose=body.purpose, expires_at=now, sent_at=now)
         db.add(challenge)
@@ -1039,22 +1030,12 @@ async def request_email_change(body: EmailChange, member: Member = Depends(curre
     email = normalized_email(body.email)
     if email == member.email or db.scalar(select(Member).where(Member.email == email)):
         raise HTTPException(409, "Adresse déjà utilisée")
-    key = os.environ.get("KINQ_RESEND_API_KEY", "")
-    if not key:
-        raise HTTPException(503, "Envoi des e-mails KINQ non configuré")
     now = datetime.now(timezone.utc)
     challenge = db.get(MemberCode, email)
     if challenge and challenge.sent_at.replace(tzinfo=timezone.utc) > now - timedelta(seconds=60):
         raise HTTPException(429, "Attends une minute avant de demander un autre code")
     code = f"{secrets.randbelow(1_000_000):06d}"
-    async with httpx.AsyncClient(timeout=12) as client:
-        result = await client.post("https://api.resend.com/emails",
-            headers={"Authorization": f"Bearer {key}"},
-            json={"from": os.environ.get("KINQ_RESEND_FROM", "KINQ <connexion@kinq-app.com>"),
-                  "to": [email], "subject": "Confirme ta nouvelle adresse KINQ",
-                  "text": f"Ton code de confirmation KINQ est {code}. Il expire dans 10 minutes."})
-    if result.status_code not in (200, 201):
-        raise HTTPException(502, "Impossible d'envoyer le code")
+    await send_member_code(email, code, "change")
     if not challenge:
         challenge = MemberCode(email=email, digest="", purpose="change", expires_at=now, sent_at=now)
         db.add(challenge)

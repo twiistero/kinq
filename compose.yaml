@@ -32,7 +32,7 @@ services:
       KINQ_WALLET_WWDR_PATH: ${KINQ_WALLET_WWDR_PATH:-}
       KINQ_WALLET_KEY_PASSWORD: ${KINQ_WALLET_KEY_PASSWORD:-}
       KINQ_RESEND_API_KEY: ${KINQ_RESEND_API_KEY}
-      KINQ_RESEND_FROM: ${KINQ_RESEND_FROM:-KINQ <connexion@kinq-app.com>}
+      KINQ_RESEND_FROM: ${KINQ_RESEND_FROM:-Kinq Team <connexion@kinq-app.com>}
     depends_on:
       db:
         condition: service_healthy

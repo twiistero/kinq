@@ -1,5 +1,7 @@
 # KINQ
 
+Les codes de création de compte et de connexion du site et de l’app partent via Resend, avec le modèle KINQ anthracite / vert acide et le nom d’envoi **Kinq Team**. Configuration et modèle commun : [docs/member-emails.md](docs/member-emails.md).
+
 KINQ est rendu par **Next.js/React sur Node.js** (`app/`) : pages publiques, espace membre, journal et Administration. Les données et la logique métier passent par **FastAPI** (`backend/app/main.py`) et sont conservées dans **PostgreSQL**. La composition de production est dans `compose.yaml`. Les 27 pages ont été converties en documents structurés (`content/page-documents.json`) importés dans PostgreSQL. Les anciens fichiers HTML sont archivés dans `legacy-pages/` et exclus des images de production. Les feuilles de style et scripts de parcours existants sont conservés pour maintenir le design et les interactions.
 
 Les comptes membres utilisent un code à six chiffres envoyé par Resend. Le profil, les Pins, les Hooks et les photos soumises à modération sont enregistrés en base. L’Administration `/admin` utilise exclusivement Google Workspace pour les comptes `@theethercompany.com`. `olestang@theethercompany.com` est propriétaire ; les autres membres du Workspace disposent au départ d’un rôle lecture seule. Les six articles historiques NO TABOO conservent leurs URLs et leur mise en page ; les nouveaux articles sont créés dans l’Administration et diffusés depuis PostgreSQL.
