@@ -971,3 +971,27 @@ h1>br+span,h2>br+em,#universe-title>em{display:inline-block;margin-top:.09em}
 /* The signature sits directly beneath the footer logo. */
 #site-footer .footer-brand p{margin:8px 0 20px 67px;text-align:left;white-space:nowrap}
 @media(max-width:600px){#site-footer .footer-brand p{margin-left:56px}}
+
+/* Keep the mobile logo and both actions in one compact header row. */
+@media(max-width:650px){
+  .header{display:flex;height:78px;min-height:78px;gap:8px;padding-block:0;align-items:center}
+  .header .brand-group{width:auto;gap:4px;flex:0 0 auto}
+  .header .account{width:auto;flex-direction:row;align-items:center;gap:6px;margin-left:auto;flex:0 0 auto}
+  .header .account .account-entry{width:auto;flex:0 0 auto;min-height:44px;padding:0 9px;font-size:10px;gap:0}
+  .header .account .account-entry>svg{display:none}
+  .header .account .app-download{width:44px;min-height:44px;padding:0;gap:0;justify-content:center;flex:0 0 44px}
+  .header .account .app-download>span{display:none}
+  .header .account .app-download svg{width:20px;height:20px}
+}
+@media(max-width:370px){.header{gap:6px}.header .account .account-entry{font-size:9px;padding-inline:8px}}
+
+/* Charter follows the commitments on mobile and stays in the heading on desktop. */
+.commitments{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:24px}
+.commitments-heading{grid-column:1;grid-row:1}
+.commitment-grid{grid-column:1/-1;grid-row:2}
+.commitments-charter{grid-column:2;grid-row:1;align-self:start}
+@media(max-width:760px){
+  .commitments{grid-template-columns:minmax(0,1fr)}
+  .commitments-heading .eyebrow{margin-bottom:0}
+  .commitments-charter{grid-column:1;grid-row:3;justify-self:end;margin-top:26px;font-size:11px}
+}
