@@ -6,6 +6,12 @@ import {parse} from 'parse5';
 const root = process.cwd();
 const archive = path.join(root, 'legacy-pages');
 const source = fs.existsSync(archive) ? archive : root;
+if (!fs.existsSync(archive) && !fs.readdirSync(root).some(name => name.endsWith('.html'))) {
+  const prepared = JSON.parse(fs.readFileSync(path.join(root, 'content/page-documents.json'), 'utf8'));
+  if (!prepared['index.html']) throw new Error('Prepared homepage document missing');
+  console.log(`Using ${Object.keys(prepared).length} prepared React page documents`);
+  process.exit(0);
+}
 const files = fs.readdirSync(source).filter(name => name.endsWith('.html') && name !== 'preview.html');
 const attrMap = attrs => Object.fromEntries((attrs || []).map(({name, value}) => [name, value]));
 const textOf = node => (node.childNodes || []).map(child => child.value || textOf(child)).join('');

@@ -98,6 +98,6 @@ export default function ArticleContent({article, document, slug, comments, comme
     </article>
     <div id="commentaires"><JournalComments slug={slug} initialComments={comments || []}/></div>
     {related.length > 0 && <nav className="nt-next" aria-label="Continuer à lire"><p className="eyebrow">CONTINUER À LIRE</p><div>{related.map((item,index) => <a href={item.href} key={item.slug}><small>{index === 0 ? 'À LIRE AUSSI' : 'ARTICLE SUIVANT'}</small><strong>{item.title}</strong></a>)}</div></nav>}
-    <aside className="nt-end"><p className="eyebrow">TES KINKS. TES CODES. TES RENCONTRES.</p><h2>La suite se vit<br/><em>sur Kinq.</em></h2><div><a className="button" href="/rencontres">Explorer les rencontres <svg aria-hidden="true"><use href="#up"/></svg></a></div></aside>
+    <aside className="nt-end"><p className="eyebrow">TES KINKS. TES CODES. TES RENCONTRES.</p><h2>La suite se vit<br/><em>dans l’app.</em></h2><div><a className="button" href="/application">Découvrir l’app Kinq <svg aria-hidden="true"><use href="#up"/></svg></a></div></aside>
   </div>;
 }

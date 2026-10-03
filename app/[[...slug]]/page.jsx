@@ -1,8 +1,9 @@
-import {cookies} from 'next/headers';
 import {notFound, permanentRedirect, redirect} from 'next/navigation';
 import PageDocument from '../page-document';
 import ArticleContent from '../article-content';
 import NoTabooHome from '../no-taboo-home';
+import NoTabooTeaser from '../no-taboo-teaser';
+import AppPreviewJournal from '../app-preview-journal';
 
 export const dynamic = 'force-dynamic';
 const api = process.env.KINQ_API_URL || 'http://127.0.0.1:8000';
@@ -69,24 +70,19 @@ export default async function KinqPage({params}) {
   const {name, possibleArticleSlug, rootCandidate, nestedArticle} = await route(params);
   if (name === 'preview.html') notFound();
   if (name === 'soirees.html') redirect('/events');
-  if (memberPages.has(name)) {
-    const cookie = (await cookies()).toString();
-    const response = await fetch(`${api}/api/member/me`, {headers: {cookie}, cache: 'no-store'});
-    if (response.status === 401) redirect('/connexion');
-    if (!response.ok) throw new Error('Espace membre indisponible');
-  }
+  if (memberPages.has(name)) redirect('/application');
   let document = await getDocument(name, Boolean(possibleArticleSlug));
   const article = !document && possibleArticleSlug ? await getArticle(possibleArticleSlug) : null;
   if (article && rootCandidate) permanentRedirect(`/guides/${article.slug}`);
   if (article) document = await getDocument('journal-article.html');
   const legacySlug = name.endsWith('.html') ? name.slice(0, -5) : '';
   const commentSlug = article?.slug || (legacyArticles.has(legacySlug) ? legacySlug : '');
-  const [comments, articles] = await Promise.all([commentSlug ? getComments(commentSlug) : Promise.resolve([]), name === 'guides.html' || commentSlug ? getArticles() : Promise.resolve([])]);
+  const [comments, articles] = await Promise.all([commentSlug ? getComments(commentSlug) : Promise.resolve([]), name === 'index.html' || name === 'guides.html' || commentSlug ? getArticles() : Promise.resolve([])]);
   const catalogue = [...articles, ...legacyArticleCards].map(item => ({...item, href:`/guides/${item.slug}`}));
   const active = catalogue.findIndex(item => item.slug === commentSlug);
   const related = active < 0 ? [] : [1,2].map(offset => catalogue[(active + offset) % catalogue.length]).filter(item => item.slug !== commentSlug);
   const slot = commentSlug ? <ArticleContent document={document} article={article} slug={commentSlug} comments={comments} commentCount={comments.length} related={related}/> : name === 'guides.html' ? <NoTabooHome published={articles}/> : null;
-  return <PageDocument document={document} slot={slot}
+  return <PageDocument document={document} slot={slot} slots={name === 'index.html' ? {journal:<NoTabooTeaser published={articles}/>, 'app-preview-journal':<AppPreviewJournal published={articles}/>} : undefined}
     bodyAttrs={article ? {...document.bodyAttrs, 'data-page': 'journal', 'data-breadcrumb-category': article.category || 'Entre nous', 'data-breadcrumb-title': article.title} : null}
     nestedArticle={nestedArticle}/>;
 }

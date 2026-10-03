@@ -21,7 +21,7 @@ menu.addEventListener('click',async e=>{if(e.target===menu){closeMenu();return;}
 
 function modal(html){document.querySelector('#dialog-content').innerHTML=html;if(!dialog.open)dialog.showModal()}
 const content={
- download:`<p class="eyebrow">KINQ / L’APP</p><h2>Ton univers.<br>Dans ta poche.</h2><p>L’app Kinq est en préparation. Le téléchargement sur iOS et Android sera disponible au lancement.</p><p>Tu peux déjà explorer le concept sur ce site.</p><button class="button" data-explore>Découvrir Kinq ${icon('arrow')}</button>`,
+ download:`<p class="eyebrow">KINQ / L’APP</p><h2>Ton univers.<br>Dans ta poche.</h2><p>L’app Kinq est en préparation. Le téléchargement sur iOS et Android sera disponible au lancement.</p><p>Les profils, les rencontres, les Pins, les Hooks et les messages se vivent exclusivement dans l’app. Crée ton compte sur le site, puis complète ton profil dans Kinq.</p><a class="button" href="/inscription">Créer mon compte ${icon('arrow')}</a>`,
  coming:`<p class="eyebrow">APERÇU DU CONCEPT</p><h2>Hors ligne.<br>En préparation.</h2><p>Cette page présente la future rubrique. Les exemples sont fictifs : aucun événement, lieu ou réservation réelle n’est proposé ici.</p>`,
  message:`<p class="eyebrow">CONVERSATION / DÉMONSTRATION</p><h2>Un premier mot.</h2><p>La messagerie sera connectée à de vrais comptes dans le produit final. Aucun message ne peut être envoyé aux personnes photographiées dans cet aperçu.</p>`,
  album:`<p class="eyebrow">ALBUM PRIVÉ</p><h2>C’est toi<br>qui choisis.</h2><p>Dans le produit final, le membre pourra accepter ou refuser l’accès et le retirer à tout moment. Cet album de démonstration ne contient aucune photo privée.</p>`,
@@ -40,11 +40,11 @@ document.addEventListener('click',async e=>{const b=e.target.closest('button');i
  if(b.dataset.modal==='join'||b.dataset.modal==='login'){if(menu.open)await closeMenu();location.href=b.dataset.modal==='join'?'/inscription':'/connexion';return;}
  if(b.dataset.modal){if(menu.open)await closeMenu();modal(content[b.dataset.modal]);}
  if(b.matches('.dialog-close'))dialog.close();
- if(b.hasAttribute('data-explore')){dialog.close();location.href='/rencontres'}
+ if(b.hasAttribute('data-explore')){dialog.close();location.href='/application'}
  if(b.dataset.filter){currentFilter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>{x.classList.toggle('active',x.dataset.filter===currentFilter);x.setAttribute('aria-pressed',x.dataset.filter===currentFilter)});render()}
- if(b.dataset.universe)location.href='/rencontres'+(b.dataset.universe==='Tous'?'':'?kink='+encodeURIComponent(b.dataset.universe));
- if(b.dataset.pin||b.dataset.hook)location.href='/connexion';
- if(b.dataset.profile)location.href='/profil?id='+encodeURIComponent(b.dataset.profile);
+ if(b.dataset.universe)location.href='/application'+(b.dataset.universe==='Tous'?'':'?kink='+encodeURIComponent(b.dataset.universe));
+ if(b.dataset.pin||b.dataset.hook)location.href='/application';
+ if(b.dataset.profile)location.href='/application';
  if(b.dataset.copy){try{await navigator.clipboard.writeText(b.dataset.copy);toast('Code de démonstration copié.')}catch{toast('Copie le code affiché dans le profil.')}}
  if(b.dataset.article){const a=articles[b.dataset.article];modal(`<p class="eyebrow">${a[0]} / NO TABOO</p><h2>${a[1]}</h2>${a.slice(2).map(t=>`<p>${t}</p>`).join('')}<p class="demo-note">Texte de présentation du concept éditorial.</p>`)}
  if(b.matches('.menu-toggle'))openMenu();
@@ -201,6 +201,4 @@ if(gearViewport){
  gearViewport.addEventListener('wheel',e=>{if(e.ctrlKey||Math.abs(e.deltaX)>Math.abs(e.deltaY))return;const delta=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?gearViewport.clientWidth:1),max=gearViewport.scrollWidth-gearViewport.clientWidth;if((delta>0&&gearViewport.scrollLeft<max-1)||(delta<0&&gearViewport.scrollLeft>1)){e.preventDefault();gearViewport.scrollLeft+=delta}},{passive:false});
  gearViewport.addEventListener('scroll',syncGearArrows,{passive:true});new ResizeObserver(syncGearArrows).observe(gearViewport);syncGearArrows();
 }
-const gearDescriptions={Leather:'L’uniforme cuir, les détails, l’attitude. Un univers à partager à ta façon.',Sportswear:'Sneakers, chaussettes et tracksuits. Tes codes sportifs, tes rencontres.',Rubber:'La combinaison latex, la matière et les reflets. Explore ta seconde peau.',Puppy:'Masques, accessoires et codes puppy. Suis ta curiosité, dans le respect des envies de chacun.',Bondage:'Chaînes, liens et accessoires. La confiance et les limites se discutent toujours à deux.',Lycra:'Lutte, singlets et tenues près du corps. Un univers de matières et de silhouettes.',Diaper:'Un univers autour des couches pour adultes. Tes préférences ont leur place, sans jugement.',Harnais:'Du cuir, des sangles et des anneaux. Trouve les mecs qui partagent tes codes.',Boots:'Bottes, rangers et détails affirmés. À chacun son allure.',Masques:'Cagoules et masques. Une autre façon d’explorer ton univers.'};
-document.addEventListener('click',e=>{const button=e.target.closest('[data-gear]');if(!button)return;const name=button.dataset.gear;if(!gearDescriptions[name])return;modal(`<p class="eyebrow">TON TERRAIN DE JEU</p><h2>${name}</h2><p>${gearDescriptions[name]}</p><button class="button" data-modal="join">Créer mon compte ${icon('up')}</button>`)});
 document.querySelectorAll('.lex-card').forEach(card=>card.addEventListener('click',()=>{const open=card.getAttribute('aria-pressed')!=='true';card.setAttribute('aria-pressed',String(open));const word=card.querySelector('.lex-card-front strong').textContent;card.setAttribute('aria-label',(open?'Masquer':'Voir')+' la définition de '+word)}));

@@ -884,11 +884,11 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 .nt-home-card-art,.nt-unified-cover{container-type:inline-size}
 .nt-home-card-art.nt-cover-lime,.nt-unified-cover.nt-cover-lime{background:var(--lime);color:var(--ink)}
 .nt-home-card-art.nt-cover-dark,.nt-unified-cover.nt-cover-dark{background:var(--ink);color:var(--paper)}
-.nt-cover-words{font:800 clamp(24px,20cqw,110px)/.98 'Barlow Condensed',Impact,sans-serif;letter-spacing:0;transform:rotate(-6deg);text-align:left;width:max-content;max-width:100%;padding:0}
+.nt-cover-words{font:800 clamp(24px,var(--nt-cover-size,20cqw),110px)/.98 'Barlow Condensed',Impact,sans-serif;letter-spacing:0;transform:rotate(-6deg);text-align:left;width:max-content;max-width:100%;padding:0}
 .nt-cover-words>span{display:block;white-space:nowrap}
 .nt-cover-dark .nt-cover-last{color:var(--lime)}
-.nt-cover-words:has(>span:nth-child(3)){font-size:clamp(24px,21cqw,96px)}
-.nt-unified-cover .nt-cover-words{font-size:clamp(38px,20cqw,110px)}
+.nt-cover-words:has(>span:nth-child(3)){font-size:clamp(24px,var(--nt-cover-size,21cqw),96px)}
+.nt-unified-cover .nt-cover-words{font-size:clamp(38px,var(--nt-cover-size,20cqw),110px)}
 /* A compact, anchored editorial cluster with one clear lead. */
 .nt-home-list{padding-top:42px}
 .nt-home-list-head{margin-bottom:26px;max-width:900px}
@@ -925,3 +925,45 @@ body[data-page=events] .events-heading h2{font-size:clamp(54px,5.8vw,82px)}
 .nt-unified-actions .nt-unified-comment-link{background-image:linear-gradient(var(--paper),var(--paper))}
 .nt-toc-toggle{display:none}
 @media(max-width:760px){.nt-toc-desktop-label{display:none}.nt-toc-toggle{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0;background:none;color:var(--ink);font-size:13px;font-weight:800;text-align:left}.nt-toc-toggle svg{width:19px;height:19px}.nt-article-toc ol{margin-top:18px}.nt-article-toc ol[data-collapsed=true]{display:none}}
+
+
+.home-journal-intro{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:end;padding:38px 0 30px}
+.home-journal-intro h2{font:700 clamp(42px,5.5vw,72px)/1.02 'Barlow Condensed',Impact,sans-serif;letter-spacing:-1px;margin:0}
+.home-journal-intro h2 em{font-style:normal;color:var(--ink)}
+.home-journal-intro p{font-size:15px;line-height:1.7;max-width:460px;margin:0}
+.home-journal-selection{margin-bottom:30px}
+.home-journal-invitation{display:flex;align-items:center;justify-content:space-between;gap:30px;background:var(--ink);color:var(--paper);padding:30px;border-radius:5px}
+.home-journal-invitation h3{font:700 clamp(27px,3.3vw,42px)/1.1 'Barlow Condensed',Impact,sans-serif;margin:0 0 12px}
+.home-journal-invitation p{font-size:13px;line-height:1.6;max-width:500px;margin:0;color:#d4d8cb}
+.home-journal-invitation .button{flex-shrink:0}
+.app-continuation .account-flow-copy>.button{margin-top:18px}
+.app-availability{font-weight:800;margin-top:30px}
+.app-shared-profile{padding:18px 0;border-top:1px solid currentColor;border-bottom:1px solid currentColor;margin:25px 0}
+.app-shared-profile strong{font:700 30px 'Barlow Condensed',Impact,sans-serif;overflow-wrap:anywhere}
+@media(max-width:760px){.home-journal-intro{grid-template-columns:1fr;gap:20px;padding:27px 0}.home-journal-intro h2{font-size:48px}.home-journal-invitation{display:block;padding:24px}.home-journal-invitation .button{margin-top:24px}.home-journal-invitation h3{font-size:32px}}
+.home-journal-intro{padding-top:0}
+.home-journal-selection.nt-magazine-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n){grid-column:auto;grid-row:auto;display:flex;padding:0;gap:0}
+.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n) .nt-home-card-art{min-height:220px;height:220px;flex:none}
+.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n) .nt-home-card-copy{display:flex;flex-direction:column;flex:1}
+.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n) h3{font-size:clamp(27px,2.5vw,35px);line-height:1.1;margin:0 0 24px}
+@media(max-width:900px){.home-journal-selection.nt-magazine-grid{grid-template-columns:1fr}.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n){display:grid;grid-template-columns:36% minmax(0,1fr)}.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n) .nt-home-card-art{height:100%;min-height:215px}.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n) h3{font-size:27px}}
+@media(max-width:450px){.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n){grid-template-columns:1fr}.home-journal-selection.nt-magazine-grid .nt-home-card:nth-child(n) .nt-home-card-art{height:185px;min-height:185px}.home-journal-selection .nt-cover-words{font-size:clamp(24px,var(--nt-cover-size,20cqw),58px)}}
+
+/* Header actions remain together on the right. */
+.header .account .app-download{display:inline-flex;min-height:44px;flex-shrink:0;white-space:nowrap}
+.header .brand-group{min-width:0}
+.header .account{gap:12px}
+@media(max-width:1200px){.header .header-journey{display:none}}
+@media(max-width:650px){.header .brand-group{justify-content:flex-start;width:100%;gap:7px}.header .account{justify-content:flex-end;gap:8px}.header .account .app-download{padding:10px;font-size:10px;gap:7px}.header .account .app-download svg{width:16px;height:16px}.header .account .account-entry{flex:0 1 auto;min-height:44px}}
+@media(max-width:370px){.header .account .app-download{width:44px;padding:0;justify-content:center}.header .account .app-download>span{display:none}}
+/* A little breathing room before highlighted title lines. */
+h1>br+span,h2>br+em,#universe-title>em{display:inline-block;margin-top:.09em}
+/* Shared journal identity, matching the app: wordmark, green dot and badge. */
+.mega-links>.mega-journal-link>.menu-journal-brand{display:flex;align-items:center;gap:14px;min-width:0;flex:1;background:none!important;-webkit-text-fill-color:var(--paper);letter-spacing:0}
+.menu-journal-wordmark{font:800 48px/.95 'Barlow Condensed',Impact,sans-serif;letter-spacing:-.6px;white-space:nowrap}
+.menu-journal-wordmark>span{color:var(--lime);-webkit-text-fill-color:var(--lime)}
+.menu-journal-label{display:inline-block;background:var(--lime);color:var(--ink);-webkit-text-fill-color:var(--ink);font:800 9px/1.2 'DM Sans',Arial,sans-serif;letter-spacing:.4px;padding:7px 9px;border-radius:2px;white-space:nowrap}
+@media(max-width:1100px){.menu-journal-wordmark{font-size:42px}}
+@media(max-width:760px){.menu-journal-wordmark{font-size:39px}.mega-links>.mega-journal-link>.menu-journal-brand{gap:9px}.menu-journal-label{font-size:8px;padding:6px 7px;letter-spacing:0}}
+@media(max-width:370px){.menu-journal-wordmark{font-size:35px}.mega-links>.mega-journal-link>.menu-journal-brand{gap:7px}.menu-journal-label{font-size:7px;padding:6px 5px}}

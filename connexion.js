@@ -30,7 +30,7 @@ loginCodeForm.addEventListener('submit', async event => {
   try {
     await memberLogin('verify', {email:loginForm.elements.email.value.trim(), code:loginCodeForm.elements.code.value});
     const next = new URLSearchParams(location.search).get('next') || '';
-    location.href = /^\/rencontres\?q=KQ-[A-F0-9]{8}$/.test(next) ? next : '/compte';
+    location.href = /^\/guides(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)?(?:#commentaires)?$/.test(next) ? next : '/guides';
   } catch(error) {loginStatus.textContent = error.message; button.disabled = false;}
 });
 

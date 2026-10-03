@@ -36,7 +36,10 @@ document.querySelector('#signup-code-form').addEventListener('submit', async eve
   signupStatus.textContent = '';
   try {
     await memberAuth('verify', {email: signupForm.elements.email.value.trim(), code: event.currentTarget.elements.code.value});
-    location.href = '/mon-profil';
+    signupNextView.hidden = true;
+    const success = document.querySelector('#signup-success-view');
+    success.hidden = false;
+    success.querySelector('h2').focus();
   } catch (error) { signupStatus.textContent = error.message; button.disabled = false; }
 });
 document.querySelector('#signup-back').addEventListener('click', () => {

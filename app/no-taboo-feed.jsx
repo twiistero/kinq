@@ -1,7 +1,6 @@
 'use client';
 
-import SequentialTitle from './sequential-title';
-import {CoverWords,coverFor} from './no-taboo-covers';
+import NoTabooCard from './no-taboo-card';
 import {useCallback, useEffect, useRef, useState} from 'react';
 
 export default function NoTabooFeed({articles}) {
@@ -30,10 +29,7 @@ export default function NoTabooFeed({articles}) {
   }, [hasMore, visible, loadMore]);
   useEffect(() => () => clearTimeout(pending.current), []);
   return <>
-    <div className="nt-magazine-grid" aria-busy={loading}>{articles.slice(0, visible).map(item => <a className="nt-home-card" href={item.href || `/guides/${item.slug}`} key={item.slug}>
-      <div className={`nt-home-card-art nt-cover-${coverFor(item.slug, item.art_words).theme}`}><CoverWords slug={item.slug} words={item.art_words}/><svg aria-hidden="true"><use href="#up"/></svg></div>
-      <div className="nt-home-card-copy"><h3><SequentialTitle>{item.title}</SequentialTitle></h3><p>{item.summary}</p><span className="nt-home-card-link">Lire l’article <svg aria-hidden="true"><use href="#up"/></svg></span></div>
-    </a>)}</div>
+    <div className="nt-magazine-grid" aria-busy={loading}>{articles.slice(0, visible).map(item => <NoTabooCard article={item} key={item.slug}/>)}</div>
     {hasMore && <div className="nt-feed-more"><div className="nt-feed-loader" role="status" hidden={!loading}><img src="/assets/kinq-symbol.svg" alt=""/><span>La suite arrive…</span></div><button className="button" type="button" onClick={loadMore} disabled={loading}>Continuer la lecture</button><div ref={sentinel} className="nt-feed-sentinel" aria-hidden="true"/></div>}
     <noscript><div className="nt-feed-fallback">{articles.slice(3).map(item => <a href={item.href || `/guides/${item.slug}`} key={item.slug}>{item.title}</a>)}</div></noscript>
   </>;
