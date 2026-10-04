@@ -12,6 +12,7 @@ if (!fs.existsSync(archive) && !fs.readdirSync(root).some(name => name.endsWith(
   console.log(`Using ${Object.keys(prepared).length} prepared React page documents`);
   process.exit(0);
 }
+await import('./build-home-hero.mjs');
 const files = fs.readdirSync(source).filter(name => name.endsWith('.html') && name !== 'preview.html');
 const attrMap = attrs => Object.fromEntries((attrs || []).map(({name, value}) => [name, value]));
 const textOf = node => (node.childNodes || []).map(child => child.value || textOf(child)).join('');

@@ -17,7 +17,7 @@
   padding: 70px 24px 70px max(56px, calc((100vw - 1440px) / 2));
 }
 .hero-home h1 {
-  font-size: clamp(88px, 9.3vw, 150px);
+  font-size: clamp(100px, 10.7vw, 174px);
   line-height: 1.02;
   letter-spacing: -.035em;
   margin: 0 0 46px;
@@ -37,49 +37,81 @@
 .hero-home .hero-benefits { display: flex; flex-wrap: wrap; gap: 17px; margin-top: 30px; color: #c1c5ba; }
 .hero-home .hero-benefits span { font-size: 10px; }
 .hero-home .hero-benefits svg { color: var(--lime); width: 18px; height: 18px; }
-.hero-home .hero-art { align-self: stretch; height: auto; min-height: 620px; border-radius: 0; background: var(--hero-black); }
-.hero-home .hero-slide { filter: grayscale(1) brightness(.85); transition: none; }
-.hero-home .hero-slide--minet { filter: saturate(.72) brightness(.78); }
-.hero-home .hero-slide--latex { filter: grayscale(1) brightness(1.12); }
-.hero-home .hero-slide--sportswear { filter: saturate(.48) brightness(.77); }
-.hero-home .hero-slide--puppy { filter: sepia(.12) brightness(.85); }
-.hero-home .hero-slide.is-active { z-index: 1; }
-.hero-home .hero-slide.is-leaving { opacity: 1; z-index: 1; }
-.hero-home .hero-slide.is-entering {
-  z-index: 2;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 48%, #000 67%, #000 100%);
-  mask-image: linear-gradient(90deg, transparent 0%, transparent 48%, #000 67%, #000 100%);
-  -webkit-mask-size: 300% 100%;
-  mask-size: 300% 100%;
-  animation: hero-vertical-reveal 1.85s cubic-bezier(.22, .61, .36, 1) both;
+/* Static wallpaper with recognisable kink pictograms and staggered columns. */
+.hero-home .hero-art {
+  position: absolute;
+  inset: 0;
+  height: auto;
+  min-height: 0;
+  min-width: 0;
+  padding: 0;
+  border-radius: 0;
+  background: var(--hero-black);
+  overflow: hidden;
 }
-@keyframes hero-vertical-reveal {
-  from { -webkit-mask-position: 0% 0%; mask-position: 0% 0%; transform: scale(1.025); }
-  to { -webkit-mask-position: 100% 0%; mask-position: 100% 0%; transform: scale(1); }
+.hero-home .hero-art::after { content: none; }
+.hero-kink-tapestry { position: absolute; inset: 0; }
+.hero-kink-tapestry::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, #10120ffa 0%, #10120ff2 28%, #10120fc4 42%, #10120f38 65%, transparent 100%);
 }
-.hero-home .hero-art::after {
-  z-index: 3;
-  background: linear-gradient(90deg, var(--hero-black) 0%, #10120ff2 10%, #10120fc4 23%, #10120f66 39%, transparent 58%), linear-gradient(0deg, #10120f66, transparent 35%);
+.hero-kink-field {
+  --tile-gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: var(--tile-gap);
+  height: 100%;
+  padding-inline: var(--tile-gap);
+}
+.hero-kink-field--mobile { display: none; }
+.hero-kink-column { min-width: 0; }
+.hero-kink-track {
+  display: flex;
+  flex-direction: column;
+}
+.hero-kink-column:nth-child(even) .hero-kink-track { transform: translateY(-64px); }
+.hero-kink-group { display: grid; gap: var(--tile-gap); padding-bottom: var(--tile-gap); }
+.hero-kink-tile {
+  --ink: var(--lime);
+  --accent: var(--lime);
+  --cut: var(--hero-black);
+  --muted: var(--lime);
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background: #1b2116;
+}
+.hero-kink-tile:nth-child(even) { background: #202719; }
+.hero-kink-tile svg {
+  width: 70%;
+  height: 70%;
+  fill: none;
+  stroke: var(--lime);
+  stroke-width: 1.5;
 }
 .hero-home :focus-visible { outline-color: var(--lime); }
-@media (prefers-reduced-motion: reduce) {
-  .hero-home .hero-slide.is-entering { animation: none; -webkit-mask-image: none; mask-image: none; }
-}
 @media (max-width: 1100px) and (min-width: 761px) {
   .hero-home .hero-copy { padding: 56px 12px 56px 32px; }
-  .hero-home h1 { font-size: 9.3vw; }
+  .hero-home h1 { font-size: 10.7vw; }
   .hero-home .hero-benefits { gap: 14px; max-width: 310px; }
 }
 @media (max-width: 760px) {
   .hero.hero-home { grid-template-columns: minmax(0, 1fr); min-height: 0; }
   .hero-home .hero-copy { padding: 48px 24px 30px; }
-  .hero-home h1 { font-size: clamp(64px, 16.4vw, 104px); line-height: 1.05; margin-bottom: 30px; }
+  .hero-home h1 { font-size: clamp(74px, 18.8vw, 120px); line-height: 1.05; margin-bottom: 30px; }
   .hero-home .hero-actions .button { min-height: 54px; font-size: 12px; padding-inline: 20px; }
   .hero-home .hero-benefits { gap: 12px; margin-top: 24px; justify-content: flex-start; }
   .hero-home .hero-benefits span { font-size: 9px; gap: 5px; }
   .hero-home .hero-benefits svg { width: 16px; height: 16px; }
-  .hero-home .hero-art { min-height: 480px; height: 118vw; max-height: 620px; }
-  .hero-home .hero-art::after { background: linear-gradient(180deg, var(--hero-black), transparent 18%); }
+  .hero.hero-home { min-height: 850px; align-items: start; }
+  .hero-kink-field--desktop { display: none; }
+  .hero-kink-field--mobile { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); --tile-gap: 8px; }
+  .hero-kink-tapestry::after { background: linear-gradient(180deg, #10120ff5 0%, #10120ff2 39%, #10120f99 58%, transparent 80%); }
+  .hero-kink-column:nth-child(even) .hero-kink-track { transform: translateY(-40px); }
 }
 @media (max-width: 370px) {
   .hero-home .hero-copy { padding-inline: 20px; }
