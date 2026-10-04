@@ -344,8 +344,8 @@ body[data-page="journal"] .nt-masthead{margin-top:14px}
 #site-footer .footer-column{display:flex;flex-direction:column;align-items:stretch;gap:0;min-width:0}
 #site-footer .footer-column h2{font-family:'DM Sans',Arial,sans-serif;font-size:12px;line-height:1.4;letter-spacing:1.3px;text-transform:uppercase;font-weight:750;color:var(--lime);margin:0 0 23px}
 #site-footer .footer-column>a,#site-footer .footer-column>button,#site-footer .footer-placeholder{width:100%;min-height:43px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;font-size:13px;line-height:1.4;color:#e2e4dc;background:none;border:0;padding:8px 0;white-space:normal}
-#site-footer .footer-column>a,#site-footer .footer-column>button{transition:color .2s ease,transform .2s ease!important;background-image:none!important}
-#site-footer .footer-column>a:hover,#site-footer .footer-column>button:hover{color:var(--lime)!important;transform:translateX(4px)!important}
+#site-footer .footer-column>a,#site-footer .footer-column>button{transition:color .2s ease!important;background-image:none!important;transform:none!important}
+#site-footer .footer-column>a:hover,#site-footer .footer-column>button:hover{color:var(--lime)!important}
 #site-footer .footer-column svg{width:15px;height:15px;opacity:.65;transition:transform .2s ease}
 #site-footer .footer-column>a:hover svg,#site-footer .footer-column>button:hover svg{transform:translateX(3px)}
 #site-footer .footer-placeholder{color:#a7aba0;cursor:default}

@@ -10,7 +10,7 @@ document.querySelector("#site-footer").innerHTML = `<footer class="site-footer">
           <span class="footer-baseline">Make it kinky.</span>
         </a>
         <span class="footer-positioning">RENCONTRES FETISH.</span>
-        <p class="footer-description">Kinq est ton app de rencontres fetish. Retrouve autour de toi les mecs qui ont le même délire que toi, discute, échange et amuse-toi ! Tout est entièrement gratuit et sans limitation, tu n'a plus qu'à créer ton compte et ton profil en quelques minutes. Ta sécurité est garantie et notre équipe veille. À toi de jouer.</p>
+        <p class="footer-description">Kinq est ton app de rencontres fetish. Retrouve autour de toi les mecs qui ont le même kiff, discute, échange et amuse-toi ! Tout est entièrement gratuit et sans limitation, tu n'as plus qu'à créer ton compte et ton profil en quelques minutes. Ta sécurité est garantie et notre équipe veille. À toi de jouer.</p>
         <p class="footer-download-title">TÉLÉCHARGE L'APP</p>
         <div class="footer-stores" aria-label="Téléchargement de l’application">
           <button type="button" class="footer-store" data-modal="download" aria-label="Kinq sur l’App Store, bientôt disponible"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M17.1 12.4c0-2.2 1.8-3.2 1.9-3.3-1-1.5-2.5-1.7-3-1.7-1.3-.1-2.5.8-3.2.8-.6 0-1.6-.8-2.7-.8-1.4 0-2.7.8-3.5 2-1.5 2.4-.4 6 1 8 .7 1 1.5 2.1 2.5 2 1 0 1.4-.7 2.7-.7 1.2 0 1.5.7 2.7.7 1.1 0 1.8-1 2.4-2 .8-1.1 1.1-2.1 1.1-2.2-.1 0-1.9-.7-1.9-2.8ZM14.9 5.8c.6-.8 1-1.8.9-2.8-.9.1-1.9.6-2.5 1.3-.6.7-1.1 1.7-1 2.7 1 0 2-.5 2.6-1.2Z"/></svg><span><small>Bientôt sur</small><strong>App Store</strong></span></button>
