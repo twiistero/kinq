@@ -2,7 +2,10 @@ import AnalyticsConsent from './analytics-consent';
 import Disclosures from './disclosures';
 import './analytics-consent.css';
 
-export const metadata = {title: 'KINQ'};
+export const metadata = {
+  title: 'KINQ',
+  icons: {icon: {url: '/assets/kinq-icon.svg', type: 'image/svg+xml', sizes: 'any'}},
+};
 export const viewport = {themeColor: '#b2ff1a'};
 export const dynamic = 'force-dynamic';
 

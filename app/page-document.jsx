@@ -48,7 +48,7 @@ export function RenderNode({node, slot, slots, commentsSlot, commentCountSlot, a
 
 export default function PageDocument({document, slot, slots, commentsSlot, commentCountSlot, articlesSlot, featureSlot, nestedArticle, bodyAttrs}) {
   return <>
-    {document.links.map((link, index) => <RenderNode key={`link-${index}`} node={link} nestedArticle={nestedArticle}/>)}
+    {document.links.filter(link => !/(?:^|\s)icon(?:\s|$)/.test(link.attrs?.rel || '')).map((link, index) => <RenderNode key={`link-${index}`} node={link} nestedArticle={nestedArticle}/>)}
     {document.nodes.map((node, index) => <RenderNode key={index} node={node} slot={slot} slots={slots} commentsSlot={commentsSlot} commentCountSlot={commentCountSlot} articlesSlot={articlesSlot} featureSlot={featureSlot} nestedArticle={nestedArticle}/>)}
     <PageEffects bodyAttrs={bodyAttrs || document.bodyAttrs} scripts={nestedArticle ? document.scripts.map(script => ({...script, src: nestedPath(script.src)})) : document.scripts}/>
   </>;
