@@ -341,7 +341,7 @@
   },
   {
     "id": "maspalomas-530",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -361,7 +361,7 @@
   },
   {
     "id": "maspalomas-531",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -381,7 +381,7 @@
   },
   {
     "id": "maspalomas-1068",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "target_id": null,
     "first_seen": "2026-09-27",
@@ -402,7 +402,7 @@
   },
   {
     "id": "maspalomas-488",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -422,7 +422,7 @@
   },
   {
     "id": "maspalomas-532",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -618,6 +618,27 @@
       "kind": "Soirée",
       "summary": "Événement annoncé par Maspalomas Fetish Pride. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
       "source": "https://maspalomasfetishpride.es/event/puppy-handler-boat-party/"
+    }
+  },
+  {
+    "id": "maspalomas-1158",
+    "status": "pending",
+    "mode": "new",
+    "target_id": null,
+    "first_seen": "2026-10-05",
+    "event": {
+      "id": "maspalomas-1158",
+      "source_id": "maspalomas",
+      "origin_id": "1158",
+      "name": "Bondage Workshop Beginner",
+      "start": "2026-10-06T15:00+01:00",
+      "end": "2026-10-06T17:00+01:00",
+      "city": "Maspalomas",
+      "country": "Espagne",
+      "scope": "europe",
+      "kind": "Soirée",
+      "summary": "Événement annoncé par Maspalomas Fetish Pride. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
+      "source": "https://maspalomasfetishpride.es/event/bondage-workshop-beginner-2/"
     }
   },
   {
