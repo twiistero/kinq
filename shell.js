@@ -22,11 +22,17 @@ document.querySelector("#site-footer").innerHTML = `<footer class="site-footer">
           <a href="/"><span>Découvrir Kinq</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
           <a href="/application"><span>L’application</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
           <a href="/inscription"><span>Créer mon compte</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a href="/comment-ca-marche"><span>Comment ça marche</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a href="/kinqcard"><span>La KinqCard</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a href="/rencontrer-en-confiance"><span>Rencontrer en confiance</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
         </div>
         <div class="footer-column"><h2>Découvrir</h2>
           <a href="/guides"><span>No Taboo</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
           <a href="/events"><span>Events</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
           <a href="/lexique"><span>Le lexique</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a href="/profil-fetish"><span>Ton profil fetish</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a href="/univers-fetish"><span>Les univers fetish</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a href="/kit-rencontre"><span>Le kit de rencontre</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
 
 
         </div>
@@ -51,6 +57,12 @@ document.querySelector("#site-footer").innerHTML = `<footer class="site-footer">
 
   const trail = [{ label: 'Accueil', href: page ? '/' : null }];
   const pages = {
+    'comment-ca-marche': 'Comment ça marche',
+    kinqcard: 'La KinqCard',
+    'rencontrer-en-confiance': 'Rencontrer en confiance',
+    'profil-fetish': 'Ton profil fetish',
+    'univers-fetish': 'Les univers fetish',
+    'kit-rencontre': 'Le kit de rencontre',
     application: 'L’application',
     inscription: 'Inscription',
     connexion: 'Connexion NO TABOO',

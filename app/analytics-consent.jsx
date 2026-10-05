@@ -1,10 +1,13 @@
 'use client';
 
 import {useEffect, useState} from 'react';
+import {usePathname} from 'next/navigation';
 
 const storageKey = 'kinq_analytics_consent';
 
 export default function AnalyticsConsent({siteId}) {
+  const pathname = usePathname();
+  const privateTool = ['/profil-fetish','/kit-rencontre'].includes(pathname);
   const [choice, setChoice] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -16,6 +19,11 @@ export default function AnalyticsConsent({siteId}) {
   }, []);
 
   useEffect(() => {
+    if (privateTool) {
+      window.Analytics?.consent(false);
+      document.querySelector('script[data-kinq-analytics]')?.remove();
+      return;
+    }
     if (!siteId || choice !== 'accepted') {
       window.Analytics?.consent(false);
       return;
@@ -38,7 +46,7 @@ export default function AnalyticsConsent({siteId}) {
     script.addEventListener('load', activate);
     activate();
     return () => script.removeEventListener('load', activate);
-  }, [siteId, choice]);
+  }, [siteId, choice, privateTool]);
 
   function decide(value) {
     try { localStorage.setItem(storageKey, value); } catch {}

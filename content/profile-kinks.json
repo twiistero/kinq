@@ -33,7 +33,8 @@
       "predicament-bondage",
       "vacuum-bed",
       "straitjacket"
-    ]
+    ],
+    "icon": "bondage"
   },
   {
     "category": "constraint",
@@ -64,7 +65,8 @@
     "help": "Rigger désigne la personne qui attache ; rope bottom, celle qui est attachée. Ce rôle ne dit pas si tu es dom ou sub.",
     "related": [
       "suspension"
-    ]
+    ],
+    "icon": "shibari"
   },
   {
     "category": "constraint",
@@ -93,7 +95,8 @@
     ],
     "variants": [],
     "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
-    "related": []
+    "related": [],
+    "icon": "restraints"
   },
   {
     "category": "constraint",
@@ -122,7 +125,8 @@
     ],
     "variants": [],
     "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
-    "related": []
+    "related": [],
+    "icon": "mummification"
   },
   {
     "category": "impact",
@@ -151,7 +155,8 @@
     ],
     "variants": [],
     "help": "Donner et recevoir sont des rôles dans cette pratique, sans présumer de ta dynamique dom/sub.",
-    "related": []
+    "related": [],
+    "icon": "spanking"
   },
   {
     "category": "impact",
@@ -180,7 +185,8 @@
     ],
     "variants": [],
     "help": "Donner et recevoir sont des rôles dans cette pratique, sans présumer de ta dynamique dom/sub.",
-    "related": []
+    "related": [],
+    "icon": "flogging"
   },
   {
     "category": "impact",
@@ -209,7 +215,8 @@
     ],
     "variants": [],
     "help": "Donner et recevoir sont des rôles dans cette pratique, sans présumer de ta dynamique dom/sub.",
-    "related": []
+    "related": [],
+    "icon": "paddling"
   },
   {
     "category": "impact",
@@ -238,7 +245,8 @@
     ],
     "variants": [],
     "help": "Donner et recevoir sont des rôles dans cette pratique, sans présumer de ta dynamique dom/sub.",
-    "related": []
+    "related": [],
+    "icon": "caning"
   },
   {
     "category": "sensation",
@@ -267,7 +275,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
-    "related": []
+    "related": [],
+    "icon": "blindfold"
   },
   {
     "category": "sensation",
@@ -296,7 +305,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
-    "related": []
+    "related": [],
+    "icon": "electro"
   },
   {
     "category": "sensation",
@@ -325,7 +335,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
-    "related": []
+    "related": [],
+    "icon": "wax"
   },
   {
     "category": "control",
@@ -357,7 +368,8 @@
     "related": [
       "edging-denial",
       "chastity"
-    ]
+    ],
+    "icon": "orgasm-control"
   },
   {
     "category": "psych",
@@ -386,7 +398,8 @@
     ],
     "variants": [],
     "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
-    "related": []
+    "related": [],
+    "icon": "humiliation"
   },
   {
     "category": "psych",
@@ -432,7 +445,8 @@
       }
     ],
     "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
-    "related": []
+    "related": [],
+    "icon": "discipline"
   },
   {
     "category": "psych",
@@ -461,7 +475,8 @@
     ],
     "variants": [],
     "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
-    "related": []
+    "related": [],
+    "icon": "objectification"
   },
   {
     "category": "psych",
@@ -502,7 +517,8 @@
     "related": [
       "praise",
       "body-worship"
-    ]
+    ],
+    "icon": "praise"
   },
   {
     "category": "fetish",
@@ -556,7 +572,8 @@
       "harnais",
       "boots",
       "gloves"
-    ]
+    ],
+    "icon": "leather"
   },
   {
     "category": "fetish",
@@ -610,7 +627,8 @@
       "vacuum-bed",
       "masks-hoods",
       "gloves"
-    ]
+    ],
+    "icon": "rubber"
   },
   {
     "category": "fetish",
@@ -664,7 +682,8 @@
       "sneakers",
       "socks",
       "lycra-spandex"
-    ]
+    ],
+    "icon": "sportswear"
   },
   {
     "category": "fetish",
@@ -710,7 +729,8 @@
       }
     ],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "uniform"
   },
   {
     "category": "fetish",
@@ -756,7 +776,8 @@
       }
     ],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "boots"
   },
   {
     "category": "fetish",
@@ -802,7 +823,8 @@
       }
     ],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "sneakers"
   },
   {
     "category": "fetish",
@@ -844,7 +866,8 @@
       }
     ],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "socks"
   },
   {
     "category": "body",
@@ -873,7 +896,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "feet"
   },
   {
     "category": "fetish",
@@ -923,7 +947,8 @@
       }
     ],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "underwear"
   },
   {
     "category": "fetish",
@@ -952,7 +977,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "hood"
   },
   {
     "category": "roleplay",
@@ -1002,7 +1028,8 @@
       }
     ],
     "help": "Un jeu de rôle entre adultes. Le pup incarne le rôle ; le handler l’accompagne. Aucun rôle ni hiérarchie n’est obligatoire.",
-    "related": []
+    "related": [],
+    "icon": "pup"
   },
   {
     "category": "roleplay",
@@ -1048,7 +1075,8 @@
       "pup-play",
       "pony-play",
       "furry"
-    ]
+    ],
+    "icon": "pet"
   },
   {
     "category": "roleplay",
@@ -1090,7 +1118,8 @@
       }
     ],
     "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
-    "related": []
+    "related": [],
+    "icon": "scenarios"
   },
   {
     "category": "roleplay",
@@ -1119,7 +1148,8 @@
     ],
     "variants": [],
     "help": "Regarder ou être regardé dans un cadre privé ou prévu pour cela, avec l’accord de toutes les personnes présentes.",
-    "related": []
+    "related": [],
+    "icon": "exhibition"
   },
   {
     "category": "edge",
@@ -1148,7 +1178,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "suspension"
   },
   {
     "category": "edge",
@@ -1177,7 +1208,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "breath"
   },
   {
     "category": "body",
@@ -1223,7 +1255,8 @@
       }
     ],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "muscle"
   },
   {
     "category": "body",
@@ -1269,7 +1302,8 @@
       }
     ],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "body-hair"
   },
   {
     "category": "body",
@@ -1298,7 +1332,8 @@
     ],
     "variants": [],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "scent"
   },
   {
     "category": "body",
@@ -1327,7 +1362,8 @@
     ],
     "variants": [],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "belly"
   },
   {
     "category": "fetish",
@@ -1356,7 +1392,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "neoprene"
   },
   {
     "category": "fetish",
@@ -1385,7 +1422,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "lycra"
   },
   {
     "category": "fetish",
@@ -1414,7 +1452,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "denim"
   },
   {
     "category": "fetish",
@@ -1443,7 +1482,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "gloves"
   },
   {
     "category": "fetish",
@@ -1472,7 +1512,8 @@
     ],
     "variants": [],
     "help": "L’esthétique du masque et du look industriel ; ce choix ne signifie pas un intérêt pour le contrôle respiratoire.",
-    "related": []
+    "related": [],
+    "icon": "gas-mask"
   },
   {
     "category": "fluids",
@@ -1501,7 +1542,8 @@
     ],
     "variants": [],
     "help": "Un centre d’intérêt à discuter avec ton partenaire.",
-    "related": []
+    "related": [],
+    "icon": "watersports"
   },
   {
     "category": "fluids",
@@ -1530,7 +1572,8 @@
     ],
     "variants": [],
     "help": "Un centre d’intérêt à discuter avec ton partenaire.",
-    "related": []
+    "related": [],
+    "icon": "spit"
   },
   {
     "category": "fluids",
@@ -1559,7 +1602,8 @@
     ],
     "variants": [],
     "help": "Un centre d’intérêt à discuter avec ton partenaire.",
-    "related": []
+    "related": [],
+    "icon": "messy"
   },
   {
     "category": "sensitive",
@@ -1588,7 +1632,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "scat"
   },
   {
     "category": "roleplay",
@@ -1630,7 +1675,8 @@
       }
     ],
     "help": "Ici, le fétichisme des couches entre adultes. Choisis uniquement les aspects qui te correspondent.",
-    "related": []
+    "related": [],
+    "icon": "diaper"
   },
   {
     "category": "roleplay",
@@ -1659,7 +1705,8 @@
     ],
     "variants": [],
     "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
-    "related": []
+    "related": [],
+    "icon": "pony"
   },
   {
     "category": "roleplay",
@@ -1688,7 +1735,8 @@
     ],
     "variants": [],
     "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
-    "related": []
+    "related": [],
+    "icon": "doll"
   },
   {
     "category": "body",
@@ -1733,7 +1781,8 @@
     "related": [
       "roughhousing",
       "submission-wrestling"
-    ]
+    ],
+    "icon": "wrestling"
   },
   {
     "category": "roleplay",
@@ -1762,7 +1811,8 @@
     ],
     "variants": [],
     "help": "",
-    "related": []
+    "related": [],
+    "icon": "medical"
   },
   {
     "category": "control",
@@ -1791,7 +1841,8 @@
     ],
     "variants": [],
     "help": "Porter une cage ou être keyholder (garder la clé) sont des préférences distinctes de ta dynamique générale.",
-    "related": []
+    "related": [],
+    "icon": "chastity"
   },
   {
     "category": "edge",
@@ -1820,7 +1871,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "cbt"
   },
   {
     "category": "ass",
@@ -1849,7 +1901,8 @@
     ],
     "variants": [],
     "help": "",
-    "related": []
+    "related": [],
+    "icon": "fisting"
   },
   {
     "category": "edge",
@@ -1878,7 +1931,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "sounding"
   },
   {
     "category": "ass",
@@ -1907,7 +1961,8 @@
     ],
     "variants": [],
     "help": "",
-    "related": []
+    "related": [],
+    "icon": "enema"
   },
   {
     "category": "psych",
@@ -1936,7 +1991,8 @@
     ],
     "variants": [],
     "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
-    "related": []
+    "related": [],
+    "icon": "findom"
   },
   {
     "category": "constraint",
@@ -1965,7 +2021,8 @@
     ],
     "variants": [],
     "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
-    "related": []
+    "related": [],
+    "icon": "predicament"
   },
   {
     "category": "constraint",
@@ -1994,7 +2051,8 @@
     ],
     "variants": [],
     "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
-    "related": []
+    "related": [],
+    "icon": "vacuum"
   },
   {
     "category": "constraint",
@@ -2023,7 +2081,8 @@
     ],
     "variants": [],
     "help": "Ta place dans le jeu de contrainte peut changer selon la pratique ou le partenaire.",
-    "related": []
+    "related": [],
+    "icon": "straitjacket"
   },
   {
     "category": "sensation",
@@ -2052,7 +2111,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
-    "related": []
+    "related": [],
+    "icon": "tickling"
   },
   {
     "category": "sensation",
@@ -2081,7 +2141,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
-    "related": []
+    "related": [],
+    "icon": "clamps"
   },
   {
     "category": "sensation",
@@ -2110,7 +2171,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
-    "related": []
+    "related": [],
+    "icon": "scratching"
   },
   {
     "category": "control",
@@ -2139,7 +2201,8 @@
     ],
     "variants": [],
     "help": "Indique ta place dans ce jeu, indépendamment de ta position sexuelle.",
-    "related": []
+    "related": [],
+    "icon": "edging"
   },
   {
     "category": "control",
@@ -2168,7 +2231,8 @@
     ],
     "variants": [],
     "help": "Indique ta place dans ce jeu, indépendamment de ta position sexuelle.",
-    "related": []
+    "related": [],
+    "icon": "collar"
   },
   {
     "category": "roleplay",
@@ -2197,7 +2261,8 @@
     ],
     "variants": [],
     "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
-    "related": []
+    "related": [],
+    "icon": "primal"
   },
   {
     "category": "roleplay",
@@ -2226,7 +2291,8 @@
     ],
     "variants": [],
     "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
-    "related": []
+    "related": [],
+    "icon": "furry"
   },
   {
     "category": "roleplay",
@@ -2255,7 +2321,8 @@
     ],
     "variants": [],
     "help": "Des rôles et des imaginaires entre adultes consentants, à définir ensemble.",
-    "related": []
+    "related": [],
+    "icon": "balloon"
   },
   {
     "category": "ass",
@@ -2284,7 +2351,8 @@
     ],
     "variants": [],
     "help": "",
-    "related": []
+    "related": [],
+    "icon": "toys"
   },
   {
     "category": "edge",
@@ -2313,7 +2381,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "cnc"
   },
   {
     "category": "body",
@@ -2342,7 +2411,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour le corps à corps ou son esthétique.",
-    "related": []
+    "related": [],
+    "icon": "roughhousing"
   },
   {
     "category": "body",
@@ -2371,7 +2441,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour le corps à corps ou son esthétique.",
-    "related": []
+    "related": [],
+    "icon": "submission-wrestling"
   },
   {
     "category": "sensitive",
@@ -2400,7 +2471,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "needle"
   },
   {
     "category": "sensitive",
@@ -2429,7 +2501,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "blood"
   },
   {
     "category": "sensitive",
@@ -2458,7 +2531,8 @@
     ],
     "variants": [],
     "help": "Un intitulé pour exprimer un intérêt, sans présumer de ton expérience.",
-    "related": []
+    "related": [],
+    "icon": "fire"
   },
   {
     "name": "Domination / soumission",
@@ -2512,7 +2586,8 @@
       }
     ],
     "help": "Dom, sub ou switch décrivent une dynamique de pouvoir consentie, indépendante de la position sexuelle.",
-    "related": []
+    "related": [],
+    "icon": "domination-soumission"
   },
   {
     "name": "PVC / vinyle",
@@ -2541,7 +2616,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "pvc-vinyle"
   },
   {
     "name": "Harnais",
@@ -2570,7 +2646,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "harness"
   },
   {
     "name": "Satin / soie",
@@ -2599,7 +2676,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "satin-soie"
   },
   {
     "name": "Résille / dentelle",
@@ -2628,7 +2706,8 @@
     ],
     "variants": [],
     "help": "Précise ce qui t’attire dans cet univers.",
-    "related": []
+    "related": [],
+    "icon": "resille-dentelle"
   },
   {
     "name": "Cross-dressing",
@@ -2674,7 +2753,8 @@
       }
     ],
     "help": "Une préférence vestimentaire ou un jeu d’expression ; elle ne permet pas de déduire ton identité de genre.",
-    "related": []
+    "related": [],
+    "icon": "cross-dressing"
   },
   {
     "name": "Service",
@@ -2703,7 +2783,8 @@
     ],
     "variants": [],
     "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
-    "related": []
+    "related": [],
+    "icon": "service"
   },
   {
     "name": "Praise",
@@ -2732,7 +2813,8 @@
     ],
     "variants": [],
     "help": "Les mots décrivent une envie ; leur sens se discute ensemble.",
-    "related": []
+    "related": [],
+    "icon": "praise"
   },
   {
     "name": "Body worship",
@@ -2761,7 +2843,8 @@
     ],
     "variants": [],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "body-worship"
   },
   {
     "name": "Mains",
@@ -2790,7 +2873,8 @@
     ],
     "variants": [],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "mains"
   },
   {
     "name": "Voix",
@@ -2819,7 +2903,8 @@
     ],
     "variants": [],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "voix"
   },
   {
     "name": "Barbe",
@@ -2848,7 +2933,8 @@
     ],
     "variants": [],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "barbe"
   },
   {
     "name": "Tatouages / piercings",
@@ -2877,7 +2963,8 @@
     ],
     "variants": [],
     "help": "Une attirance pour un aspect du corps, chez l’autre ou chez toi.",
-    "related": []
+    "related": [],
+    "icon": "tatouages-piercings"
   },
   {
     "name": "Massage",
@@ -2919,7 +3006,8 @@
       }
     ],
     "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
-    "related": []
+    "related": [],
+    "icon": "massage"
   },
   {
     "name": "Plumes / textures",
@@ -2948,7 +3036,8 @@
     ],
     "variants": [],
     "help": "Un intérêt pour les sensations, à préciser à ton rythme.",
-    "related": []
+    "related": [],
+    "icon": "plumes-textures"
   },
   {
     "name": "Sodomie",
@@ -2977,6 +3066,7 @@
       }
     ],
     "variants": [],
-    "related": []
+    "related": [],
+    "icon": "sodomie"
   }
 ]

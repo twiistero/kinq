@@ -37,49 +37,6 @@
     update();
   }));
 
-  // Animate the native disclosure without losing its keyboard and screen-reader behavior.
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  document.querySelectorAll('.help-questions details').forEach(details => {
-    const summary = details.querySelector('summary');
-    const answer = details.querySelector('.help-answer');
-    let frame;
-    let timer;
-    summary.addEventListener('click', event => {
-      if (reducedMotion.matches) {
-        delete details.dataset.helpExpanded;
-        return;
-      }
-      event.preventDefault();
-      const expanded = details.dataset.helpExpanded === 'true' || (details.dataset.helpExpanded === undefined && details.open);
-      const next = !expanded;
-      const start = details.getBoundingClientRect().height;
-      clearTimeout(frame);
-      clearTimeout(timer);
-      details.classList.remove('is-animating');
-      details.style.height = `${start}px`;
-      details.open = true;
-      details.dataset.helpExpanded = String(next);
-      details.style.overflow = 'hidden';
-      answer.style.opacity = next ? '0' : '1';
-      answer.style.transform = next ? 'translateY(-6px)' : 'translateY(0)';
-      const end = next ? details.scrollHeight + 2 : summary.offsetHeight + 2;
-      frame = setTimeout(() => {
-        details.classList.add('is-animating');
-        details.style.height = `${end}px`;
-        answer.style.opacity = next ? '1' : '0';
-        answer.style.transform = next ? 'translateY(0)' : 'translateY(-6px)';
-      }, 20);
-      timer = setTimeout(() => {
-        details.open = next;
-        details.classList.remove('is-animating');
-        details.style.height = '';
-        details.style.overflow = '';
-        answer.style.opacity = '';
-        answer.style.transform = '';
-      }, 380);
-    });
-  });
-
   function revealHash() {
     const id = decodeURIComponent(location.hash.slice(1));
     if (!id) return;
@@ -90,7 +47,6 @@
       buttons[0].click();
       if (target.tagName === 'DETAILS') {
         target.open = true;
-        target.dataset.helpExpanded = 'true';
       }
     }
     requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));

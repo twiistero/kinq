@@ -40,7 +40,7 @@ try {
     document.querySelector('#kink-search-status').textContent = q ? (matches ? `${matches} univers trouvé${matches > 1 ? 's' : ''}` : 'Pas encore de résultat. Essaie un synonyme en français ou en anglais.') : '';
   });
   updatePreview();
-} catch {picker.textContent = 'Catalogue indisponible dans cet aperçu.';}
+} catch {picker.textContent = 'Catalogue indisponible. Réessaie dans un instant.';}
 function updatePreview() {
   window.kinqPreferences.sync();
   for (const input of featured.querySelectorAll('input')) input.checked = [...picker.querySelectorAll('input:checked')].some(original => original.value === input.value);
@@ -109,7 +109,7 @@ let relationMatch = null;
 function updateRelationLookup() {
   const code = relationCode.value.trim().toUpperCase();
   const next = code ? people.find(person => person.code.toUpperCase() === code) : null;
-  if (next?.id !== relationMatch?.id || !next) {form.elements.relationConfirm.checked = false; relationStatus.textContent = 'Aucune demande réelle n’est envoyée dans cette maquette. La réponse Oui/Non sera ajoutée avec les comptes.';}
+  if (next?.id !== relationMatch?.id || !next) {form.elements.relationConfirm.checked = false; relationStatus.textContent = 'Les liens entre membres se gèrent dans l’app Kinq.';}
   relationMatch = next || null;
   relationConfirm.hidden = !next;
   relationSend.disabled = !next || !form.elements.relationConfirm.checked || !form.elements.relation.value;
