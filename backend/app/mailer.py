@@ -68,3 +68,30 @@ async def send_member_code(email: str, code: str, purpose: str) -> None:
         accepted = False
     if not accepted:
         raise HTTPException(502, "Impossible d’envoyer le code. Réessaie dans un instant.")
+
+
+async def send_contract_email(email: str, subject: str, title: str, message: str,
+                              *, code=None, pdf=None, filename="accord-kinq.pdf", idempotency=None):
+    key = os.environ.get("KINQ_RESEND_API_KEY", "")
+    if not key:
+        raise HTTPException(503, "Envoi des e-mails Kinq indisponible pour le moment.")
+    esc = lambda value: html.escape(str(value), quote=True)
+    content = f'<p style="line-height:1.7;color:#d4d8cd">{esc(message)}</p>'
+    if code:
+        content += f'<p style="background:#b2ff1a;color:#171916;padding:20px;font:700 32px monospace;text-align:center;letter-spacing:4px">{esc(code)}</p>'
+    attachments = [{"filename":"kinq-logo.png","content":LOGO_CONTENT,"content_id":"kinq-logo"}]
+    if pdf:
+        attachments.append({"filename":filename,"content":base64.b64encode(pdf).decode("ascii")})
+    payload = {"from":resend_sender(),"to":[email],"subject":subject,
+        "text":f'{title}\n\n{message}\n\n{code or ""}\n\nPowered by Kinq - Rencontres fetish - kinq-app.com',
+        "html":f'<!doctype html><html lang="fr"><body style="margin:0;background:#171916;font-family:Arial,sans-serif;color:#f4f4ee"><div style="max-width:520px;margin:32px auto;padding:28px;border:1px solid #383d32;border-top:6px solid #b2ff1a"><img src="cid:kinq-logo" alt="Kinq" width="180"><h1 style="font-size:28px">{esc(title)}</h1>{content}<p style="border-top:1px solid #383d32;padding-top:24px;color:#aeb5a6;font-size:12px">Powered by Kinq - Rencontres fetish - kinq-app.com</p></div></body></html>',
+        "attachments":attachments}
+    headers={"Authorization":f"Bearer {key}"}
+    if idempotency: headers["Idempotency-Key"]=idempotency
+    try:
+        async with httpx.AsyncClient(timeout=15) as client:
+            response=await client.post("https://api.resend.com/emails",headers=headers,json=payload)
+        if response.status_code not in (200,201) or not response.json().get("id"):
+            raise ValueError("Provider did not accept the message")
+    except (httpx.RequestError,ValueError,AttributeError):
+        raise HTTPException(502,"L’e-mail n’a pas pu être envoyé. Réessaie dans un instant.") from None

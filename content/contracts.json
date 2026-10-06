@@ -1,0 +1,1269 @@
+{
+  "version": "2026-10-06-v2",
+  "common": [
+    {
+      "id": "frame",
+      "title": "Le cadre choisi",
+      "help": "Écrivez les moments et les lieux où les règles s’appliquent, puis ce qui reste en dehors du jeu.",
+      "example": "Le jeu s’applique chez nous, le samedi soir. Il commence et se termine avec la phrase convenue. Les rôles ne s’appliquent pas en dehors de ces séances.",
+      "default": "Cet accord s’applique pendant : à préciser.\nLieu ou contexte choisi : à préciser.\nEn dehors de ces moments, les rôles prennent fin et chacun reprend son autonomie.",
+      "faq": [
+        {
+          "question": "Faut-il que les règles s’appliquent tout le temps ?",
+          "answer": "Non. Vous pouvez choisir une séance, certains soirs, un week-end ou des créneaux précis. Écrivez ces moments au lieu de « quand on joue ». "
+        },
+        {
+          "question": "Comment commencer et terminer le rôle ?",
+          "answer": "Choisissez un signal identifiable : une phrase, la mise en place d’un collier ou un échange avant la séance. Indiquez également le signal de fin."
+        }
+      ],
+      "prompts": [
+        "Quand le jeu commence-t-il et quand finit-il ?",
+        "Dans quels lieux les rôles s’appliquent-ils ?",
+        "Quels moments de la vie restent hors du contrat ?"
+      ]
+    },
+    {
+      "id": "permissions",
+      "title": "Ce qui est autorisé",
+      "help": "Listez les pratiques ou comportements acceptés. Pour chacun, indiquez qui fait quoi, avec quel matériel et jusqu’où.",
+      "example": "Le partenaire qui mène peut proposer un bandeau et des attaches aux poignets. Le partenaire qui reçoit accepte ces accessoires pendant la séance. Nous choisissons une intensité légère ; aucune marque visible n’est recherchée. Toute autre pratique demande une discussion avant le jeu.",
+      "default": "Pratiques et comportements autorisés : à lister ensemble.\nPour chacun, préciser qui donne, qui reçoit ou qui porte, ainsi que les conditions et l’intensité.\nUne pratique absente de cette liste n’est pas ajoutée automatiquement au jeu.",
+      "faq": [
+        {
+          "question": "Peut-on écrire simplement « tout est autorisé » ?",
+          "answer": "Cela ne dit pas ce que chacun accepte. Faites une liste courte et précise, même si vous avez déjà de l’expérience ensemble."
+        },
+        {
+          "question": "Doit-on tout faire à chaque séance ?",
+          "answer": "Non. Cette liste décrit ce qui peut être proposé. Elle ne constitue pas un programme obligatoire et chacun peut changer d’avis."
+        }
+      ],
+      "prompts": [
+        "Quelle pratique ou quel comportement est accepté ?",
+        "Qui donne, qui reçoit ou qui porte ?",
+        "Quelle intensité, quelle durée et quelles conditions ?"
+      ]
+    },
+    {
+      "id": "ask",
+      "title": "Ce qui demande un accord avant",
+      "help": "Nommez les changements qui nécessitent une nouvelle demande avant de commencer. Indiquez comment l’autre personne donne sa réponse.",
+      "example": "Il faut demander avant de changer d’accessoire, de monter l’intensité, d’ajouter une pratique ou d’inviter une autre personne. Nous en parlons hors du rôle et attendons une réponse claire. Sans réponse, le changement n’a pas lieu.",
+      "default": "Toute nouveauté, toute augmentation d’intensité et toute participation d’une autre personne font l’objet d’une demande et d’une réponse explicites avant de commencer.",
+      "faq": [
+        {
+          "question": "Qu’est-ce qui mérite une nouvelle demande ?",
+          "answer": "Une nouveauté, une intensité plus forte, une règle prolongée ou un changement de contexte. Écrivez les situations qui comptent pour vous."
+        },
+        {
+          "question": "Peut-on considérer l’absence de réponse comme un oui ?",
+          "answer": "Non. Décrivez une réponse explicite, donnée avant le changement. Un accord pour une pratique ne vaut pas automatiquement pour une autre."
+        }
+      ],
+      "prompts": [
+        "Quels changements doivent être validés ?",
+        "Par message, à l’oral ou avant chaque séance ?",
+        "Que faites-vous si la réponse tarde ou reste incertaine ?"
+      ]
+    },
+    {
+      "id": "limits",
+      "title": "Ce qui est exclu",
+      "help": "Écrivez les interdictions de chacun sous forme de liste. Ajoutez les zones, mots, accessoires, photos ou contextes que vous refusez.",
+      "example": "Sont exclus : les marques visibles, les insultes sur le physique, les photos et le jeu en public. Ces exclusions s’appliquent pendant toute la durée du contrat. Elles ne sont pas remises en discussion au milieu d’une séance.",
+      "default": "Pratiques, mots, zones et accessoires exclus : à lister ensemble.\nLes exclusions sont respectées sans insistance. Un silence ou une hésitation ne transforme pas une exclusion en permission.",
+      "faq": [
+        {
+          "question": "Comment distinguer « jamais » et « à demander » ?",
+          "answer": "Mettez ici ce que vous excluez. Réservez la rubrique précédente à ce qui pourrait vous plaire sous certaines conditions."
+        },
+        {
+          "question": "Faut-il expliquer chaque limite ?",
+          "answer": "Vous pouvez donner une précision utile, mais vous n’avez pas à raconter votre histoire personnelle ni à justifier un refus."
+        }
+      ],
+      "prompts": [
+        "Quelles pratiques ou zones excluez-vous ?",
+        "Quels mots, attitudes ou accessoires ne voulez-vous pas ?",
+        "Y a-t-il une limite liée aux images, au lieu ou à la visibilité des marques ?"
+      ]
+    },
+    {
+      "id": "stop",
+      "title": "Pause et arrêt",
+      "help": "Choisissez un mot pour ralentir ou faire une pause, un mot pour tout arrêter et un signal utilisable sans parler.",
+      "example": "« Orange » signifie : on fait une pause et on échange. « Rouge » signifie : le jeu s’arrête immédiatement. Si parler devient difficile, trois tapes avec la main remplacent « Rouge ». Le signal est vérifié avant la séance et reste possible avec le matériel choisi.",
+      "default": "« Orange » demande une pause et un échange. « Rouge » demande l’arrêt immédiat du jeu. Si la parole n’est pas disponible, les partenaires conviennent d’un signal accessible avant de commencer. Un refus exprimé autrement est également pris en compte.",
+      "faq": [
+        {
+          "question": "Faut-il utiliser exactement Orange et Rouge ?",
+          "answer": "Non. Choisissez des mots faciles à distinguer, puis écrivez leur sens. Les deux personnes doivent les connaître."
+        },
+        {
+          "question": "Que noter si la personne ne peut pas parler ?",
+          "answer": "Un geste qu’elle pourra réellement faire avec le matériel prévu : ouvrir la main, donner un nombre de tapes ou lâcher un objet. Vérifiez le signal avant de jouer."
+        }
+      ],
+      "prompts": [
+        "Quel mot demande une pause ?",
+        "Quel mot demande l’arrêt immédiat ?",
+        "Quel geste reste possible sans parler ?"
+      ]
+    },
+    {
+      "id": "aftercare",
+      "title": "Après le jeu",
+      "help": "Décrivez concrètement la fin du jeu : combien de temps ensemble, quel contact et quel échange le lendemain.",
+      "example": "Après le jeu, nous gardons vingt minutes au calme. Chacun dit s’il préfère un câlin, parler ou avoir de l’espace. Nous échangeons un message le lendemain pour dire ce qui nous a plu et ce que nous voulons ajuster.",
+      "default": "Un temps de retour au calme est prévu selon les besoins de chacun. Les partenaires échangent sur ce qu’ils ont apprécié et ce qu’ils souhaitent ajuster, sans obligation de rester ensemble au-delà du moment convenu.",
+      "faq": [
+        {
+          "question": "Et si nous avons des besoins différents ?",
+          "answer": "Écrivez les besoins de chacun séparément. Vous pouvez convenir d’un temps commun bref, puis laisser de l’espace à celui qui le souhaite."
+        },
+        {
+          "question": "Sommes-nous obligés de rester dormir ?",
+          "answer": "Non. Précisez le temps passé ensemble et l’organisation du départ au lieu de supposer que l’autre personne restera."
+        }
+      ],
+      "prompts": [
+        "De quoi chaque personne a-t-elle besoin après ?",
+        "Combien de temps gardez-vous avant le départ ?",
+        "Quand faites-vous un retour sur la séance ?"
+      ]
+    },
+    {
+      "id": "privacy",
+      "title": "Discrétion et images",
+      "help": "Distinguez ce qui peut être photographié, conservé, montré ou raconté. Précisez les destinataires et les supports autorisés.",
+      "example": "Aucune photo ni vidéo pendant le jeu. Le contrat, nos pseudos et nos messages restent privés. Toute demande d’image ou de partage est discutée séparément ; une autorisation de prise de vue ne vaut pas autorisation de diffusion.",
+      "default": "Les identités, les échanges et le contenu de cet accord restent privés. La prise de photo ou de vidéo et sa diffusion demandent des autorisations distinctes ; sans accord précis, elles ne sont pas permises.",
+      "faq": [
+        {
+          "question": "Autoriser une photo permet-il de la publier ?",
+          "answer": "Non. Écrivez séparément l’autorisation de prendre l’image et celle de la partager, avec le support et les destinataires précis."
+        },
+        {
+          "question": "Faut-il mettre un vrai nom et une adresse personnelle ?",
+          "answer": "Un pseudo suffit. Ajoutez uniquement les informations nécessaires au jeu ; les adresses e-mail de signature ne figurent pas dans le PDF."
+        }
+      ],
+      "prompts": [
+        "Autorisez-vous des images ou aucune prise de vue ?",
+        "Qui peut voir ou recevoir le document et les images ?",
+        "Quelles informations peuvent être racontées à d’autres ?"
+      ]
+    },
+    {
+      "id": "review",
+      "title": "Faire évoluer l’accord",
+      "help": "Fixez une date ou un rythme pour relire l’accord et décrivez comment proposer une modification ou terminer le jeu.",
+      "example": "Nous faisons un point après chaque séance et relisons tout l’accord dans deux semaines. Une nouvelle règle est discutée et acceptée par les deux personnes avant de s’appliquer. Chacun peut arrêter l’accord par un message simple, sans pénalité.",
+      "default": "Chaque personne peut demander un point sur l’accord. Une modification n’entre en jeu qu’après avoir été discutée et acceptée par les deux partenaires. Chacun peut mettre fin à cet accord à tout moment, sans pénalité.",
+      "faq": [
+        {
+          "question": "Peut-on modifier un document déjà partagé pour signature ?",
+          "answer": "La version à signer est figée. Retirez-la, préparez une nouvelle version et faites-la relire aux deux personnes."
+        },
+        {
+          "question": "Le contrat se renouvelle-t-il automatiquement ?",
+          "answer": "Seulement si vous le choisissez et l’écrivez. Une date de fin avec un échange avant renouvellement est souvent plus simple à suivre."
+        }
+      ],
+      "prompts": [
+        "Quand relisez-vous l’accord ?",
+        "Comment proposez-vous un changement ?",
+        "Quel message ou signal permet de terminer la dynamique ?"
+      ]
+    },
+    {
+      "id": "extra",
+      "title": "Vos clauses supplémentaires",
+      "help": "Ajoutez une règle qui ne rentre dans aucune autre rubrique. Décrivez l’action, la personne concernée et le moment prévu.",
+      "example": "Avant chaque rencontre, chacun confirme le matériel qu’il apporte. Si l’un de nous annule, il prévient dès qu’il le sait. Cette organisation ne donne lieu à aucune pénalité.",
+      "default": "",
+      "faq": [
+        {
+          "question": "Faut-il remplir cette rubrique ?",
+          "answer": "Non. Laissez-la vide si les autres rubriques couvrent votre accord. Elle n’apparaîtra alors pas dans le document final."
+        },
+        {
+          "question": "Comment éviter une clause trop vague ?",
+          "answer": "Remplacez « être disponible » par un créneau, « être discret » par des informations à garder privées et « obéir » par une consigne identifiable."
+        }
+      ],
+      "prompts": [
+        "Quelle règle manque encore ?",
+        "Qui fait quoi et à quel moment ?",
+        "Est-elle réalisable et comprise de la même façon par les deux personnes ?"
+      ]
+    }
+  ],
+  "models": [
+    {
+      "id": "bdsm",
+      "title": "Contrat BDSM",
+      "short": "BDSM",
+      "icon": "harness",
+      "tagline": "Posez le cadre de votre jeu.",
+      "description": "Pratiques, sensations, rôles et limites : un accord complet pour définir votre terrain de jeu.",
+      "intro": "Nous choisissons de partager une expérience BDSM dont nous définissons ensemble le cadre. Cet accord décrit nos envies, nos rôles et les conditions dans lesquelles nous souhaitons jouer. Il sert de référence commune et peut être arrêté ou révisé à la demande de l’un de nous.",
+      "roles": [
+        "Partenaire 1",
+        "Partenaire 2"
+      ],
+      "fields": [
+        {
+          "id": "dynamic",
+          "title": "Les rôles et la dynamique",
+          "help": "Nommez les rôles de chacun et dites s’ils restent fixes ou peuvent s’inverser. Décrivez la façon de proposer un changement.",
+          "example": "Pendant cette séance, [pseudo A] mène le jeu et [pseudo B] reçoit. Nous pouvons inverser les rôles après une pause et une discussion. Aucun changement n’est déduit d’une tenue ou d’un accessoire.",
+          "default": "Nous précisons nos rôles avant de commencer. Un changement de rôle ou de dynamique se discute ; il ne se déduit pas d’un accessoire, d’une tenue ou d’une expérience passée.",
+          "faq": [
+            {
+              "question": "Et si nous sommes tous les deux switch ?",
+              "answer": "Écrivez qui commence dans quel rôle et comment vous changez. « Switch » seul ne précise pas le déroulement de cette séance."
+            }
+          ],
+          "prompts": [
+            "Qui mène et qui reçoit ?",
+            "Les rôles changent-ils ?",
+            "Comment proposez-vous le changement ?"
+          ]
+        },
+        {
+          "id": "intensity",
+          "title": "Les sensations et l’intensité",
+          "help": "Décrivez les sensations recherchées, le rythme et la visibilité des marques. Remplacez « doux » ou « intense » par des repères compris des deux côtés.",
+          "example": "Nous recherchons une contrainte légère et une progression lente. La personne qui mène demande un retour avant d’augmenter l’intensité. Aucune marque visible après la séance n’est recherchée.",
+          "default": "L’intensité progresse dans le cadre discuté. Nous faisons des points pendant le jeu et adaptons le rythme aux retours exprimés. Une intensité acceptée une fois ne devient pas une règle permanente.",
+          "faq": [
+            {
+              "question": "Faut-il utiliser une note sur dix ?",
+              "answer": "Vous pouvez, à condition de définir ensemble ce qu’elle signifie. Des repères comme le rythme, les sensations et les marques attendues sont plus parlants qu’un chiffre seul."
+            }
+          ],
+          "prompts": [
+            "Quelles sensations cherchez-vous ?",
+            "Quel rythme et quelle progression ?",
+            "Quelles marques souhaitez-vous ou excluez-vous ?"
+          ]
+        },
+        {
+          "id": "equipment",
+          "title": "Le matériel et la préparation",
+          "help": "Listez les accessoires et le gear, qui les apporte et ce qui est présenté avant usage. Notez les moyens de retrait utiles.",
+          "example": "[Pseudo A] apporte les attaches et le bandeau ; [pseudo B] apporte son gear. Chaque accessoire est présenté avant utilisation. Le matériel de retrait reste à portée pendant toute la séance.",
+          "default": "Le matériel prévu est présenté avant le jeu. Nous vérifions son état, son utilisation et les moyens de retirer rapidement ce qui doit l’être. Un accessoire nouveau se discute avant d’être utilisé.",
+          "faq": [
+            {
+              "question": "Peut-on ajouter un accessoire surprise ?",
+              "answer": "S’il n’a pas été accepté, il faut le présenter et demander avant de l’utiliser. Une surprise prévue peut aussi être délimitée par une liste d’accessoires autorisés."
+            }
+          ],
+          "prompts": [
+            "Quels accessoires sont prévus ?",
+            "Qui apporte quoi ?",
+            "Comment retirez-vous rapidement le matériel ?"
+          ]
+        },
+        {
+          "id": "expectations",
+          "title": "Ce que chacun apporte",
+          "help": "Écrivez une responsabilité concrète pour chaque partenaire avant, pendant et après la séance.",
+          "example": "La personne qui mène explique ses consignes et reste attentive aux retours. La personne qui reçoit signale ses sensations et ses demandes de pause. Les deux personnes prennent un moment pour faire le point après.",
+          "default": "Nous nous engageons à rester attentifs, à communiquer honnêtement et à respecter les demandes de pause. Aucune personne n’a à cacher une difficulté pour préserver le rôle qu’elle joue.",
+          "faq": [
+            {
+              "question": "Que noter en plus des pratiques ?",
+              "answer": "La façon de communiquer, l’attention pendant le jeu et le retour après. Le contrat doit décrire ce que les deux personnes apportent à la séance."
+            }
+          ],
+          "prompts": [
+            "Que prépare chacun ?",
+            "Comment échangez-vous pendant le jeu ?",
+            "Quel retour attendez-vous après ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Quand choisir ce contrat ?",
+          "answer": "Lorsque vous souhaitez définir un cadre général avec plusieurs pratiques ou sensations. Pour une seule rencontre datée, le contrat de séance peut être plus ciblé."
+        },
+        {
+          "question": "Quelles règles faut-il surtout préciser ?",
+          "answer": "Le rôle de chacun, les sensations recherchées, l’intensité, le matériel, les permissions et les exclusions. Une rubrique ne doit pas seulement annoncer que vous allez en parler."
+        }
+      ]
+    },
+    {
+      "id": "domination-soumission",
+      "title": "Contrat de domination / soumission",
+      "short": "Domination / soumission",
+      "icon": "praise",
+      "tagline": "Une dynamique à votre mesure.",
+      "description": "Règles, rituels, disponibilité et responsabilités : construisez une dynamique suivie qui vous ressemble.",
+      "intro": "Nous souhaitons vivre une dynamique de domination et de soumission selon les rôles que nous choisissons. Nous en définissons la portée, les règles et les engagements réciproques. L’autorité de jeu existe uniquement dans ce cadre et ne donne pas de contrôle sur la vie de l’autre au-delà de ce qui a été convenu.",
+      "roles": [
+        "Personne dominante",
+        "Personne soumise"
+      ],
+      "fields": [
+        {
+          "id": "authority",
+          "title": "La portée de l’autorité",
+          "help": "Écrivez précisément sur quoi la personne dominante peut donner des consignes et ce qui échappe à son autorité de jeu.",
+          "example": "L’autorité concerne les postures, le dress code et les consignes pendant nos rencontres privées. Elle ne concerne ni le travail, ni l’argent, ni les relations personnelles, ni les décisions de santé.",
+          "default": "L’autorité de jeu s’exerce pendant les moments convenus. La santé, les finances, le travail et les relations personnelles restent sous le contrôle de chaque personne, sauf organisation distincte librement discutée.",
+          "faq": [
+            {
+              "question": "Comment décrire une dynamique quotidienne ?",
+              "answer": "Listez les domaines choisis et les créneaux concernés. « Au quotidien » ne doit pas remplacer une définition de ce qui est demandé et de ce qui reste personnel."
+            }
+          ],
+          "prompts": [
+            "Dans quels domaines les consignes s’appliquent-elles ?",
+            "Sur quels créneaux ?",
+            "Quels domaines restent personnels ?"
+          ]
+        },
+        {
+          "id": "rituals",
+          "title": "Les règles et les rituels",
+          "help": "Listez les appellations, gestes et consignes. Pour chaque rituel, indiquez son début, sa fréquence et sa fin.",
+          "example": "Au début du jeu, [pseudo B] met le collier choisi et utilise l’appellation convenue. À la fin, nous retirons le collier et reprenons nos pseudos ordinaires. Aucun rituel ne s’applique devant d’autres personnes.",
+          "default": "Les consignes et les rituels sont choisis ensemble et décrits sans ambiguïté. Nous discutons de leur fréquence et de leur sens. Une règle qui ne convient plus peut être suspendue pour être réexaminée.",
+          "faq": [
+            {
+              "question": "Faut-il choisir un titre comme Maître ou Monsieur ?",
+              "answer": "Uniquement si cela vous plaît. Notez les appellations acceptées et celles qui sont exclues ; un titre ne se devine pas."
+            }
+          ],
+          "prompts": [
+            "Quels mots ou gestes vous plaisent ?",
+            "Quand et à quelle fréquence ?",
+            "Comment revenez-vous hors du rôle ?"
+          ]
+        },
+        {
+          "id": "availability",
+          "title": "La disponibilité et les échanges",
+          "help": "Indiquez les jours, heures et canaux de contact. Précisez le délai habituel de réponse et les périodes sans disponibilité.",
+          "example": "Nous échangeons par message le soir entre 19 h et 22 h. Aucune réponse n’est attendue pendant le travail. Si l’un de nous est absent plusieurs jours, il le signale lorsqu’il le peut.",
+          "default": "Nous convenons du rythme des échanges en tenant compte de nos vies personnelles. Un message sans réponse immédiate n’est pas traité comme une faute. Les périodes d’indisponibilité peuvent être annoncées simplement.",
+          "faq": [
+            {
+              "question": "Que faire si un message reste sans réponse ?",
+              "answer": "Écrivez le délai attendu et la façon de relancer. Une indisponibilité annoncée ne doit pas être interprétée comme un refus de la relation ou une faute de jeu."
+            }
+          ],
+          "prompts": [
+            "Sur quelle app ou par quel canal ?",
+            "Quels jours et quels horaires ?",
+            "Quel délai de réponse est réaliste ?"
+          ]
+        },
+        {
+          "id": "reciprocity",
+          "title": "Les engagements réciproques",
+          "help": "Décrivez les engagements des deux rôles : clarté des consignes, attention, retours et moments d’échange en dehors du jeu.",
+          "example": "La personne dominante annonce clairement les consignes et écoute les retours. La personne soumise exprime ce qui lui plaît et ce qui ne lui convient plus. Nous faisons un point sans titres ni rôles chaque dimanche.",
+          "default": "La personne dominante donne des consignes claires et reste attentive aux retours. La personne soumise exprime ses envies et ses difficultés. Nous consacrons des moments à échanger en dehors des rôles, d’égal à égal.",
+          "faq": [
+            {
+              "question": "Le contrat doit-il seulement lister les devoirs de la personne soumise ?",
+              "answer": "Non. Décrivez aussi ce que la personne dominante s’engage à apporter et le moment où chacun peut parler hors du rôle."
+            }
+          ],
+          "prompts": [
+            "Que promet la personne dominante ?",
+            "Que promet la personne soumise ?",
+            "Quand échangez-vous d’égal à égal ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Que définit ce contrat ?",
+          "answer": "La portée de l’autorité de jeu, les consignes, les rituels et la disponibilité. Il distingue les rôles choisis des domaines personnels qui restent en dehors."
+        },
+        {
+          "question": "Peut-on être switch dans ce contrat ?",
+          "answer": "Oui. Renommez les deux rôles et expliquez quand ils changent. Précisez aussi qui donne les consignes pendant chaque moment de jeu."
+        }
+      ]
+    },
+    {
+      "id": "chastete",
+      "title": "Contrat de chasteté",
+      "short": "Chasteté",
+      "icon": "chastity",
+      "tagline": "Vos clés. Vos règles.",
+      "description": "Durée, garde de la clé, permissions et ouvertures : définissez un jeu de chasteté précis et adaptable.",
+      "intro": "Nous choisissons un jeu de chasteté dont nous définissons ensemble la durée, les permissions et l’organisation. La garde d’une clé est un rôle de jeu et une responsabilité. Elle n’empêche jamais la personne qui porte le dispositif de demander son retrait ou de mettre fin à l’accord.",
+      "roles": [
+        "Personne qui porte",
+        "Personne qui garde la clé"
+      ],
+      "fields": [
+        {
+          "id": "keys",
+          "title": "Le dispositif et la garde des clés",
+          "help": "Nommez le dispositif, qui garde la clé et comment la personne qui porte peut le retirer immédiatement. N’inscrivez aucun code secret.",
+          "example": "Le dispositif choisi est [modèle]. [Pseudo A] garde la clé principale. [Pseudo B] dispose immédiatement d’un moyen de retrait autonome, y compris lorsque [pseudo A] ne répond pas. Aucun code secret ne figure dans cet accord.",
+          "default": "Le dispositif est choisi ensemble et doit pouvoir être retiré immédiatement si nécessaire. Nous précisons qui garde la clé principale et comment la personne qui porte peut accéder à une solution de retrait, sans dépendre d’un délai de réponse.",
+          "faq": [
+            {
+              "question": "Et si la personne qui garde la clé vit loin ?",
+              "answer": "Précisez la communication et conservez une possibilité de retrait immédiat qui ne dépend pas d’un rendez-vous ou d’une réponse à distance."
+            }
+          ],
+          "prompts": [
+            "Quel dispositif est choisi ?",
+            "Qui garde la clé principale ?",
+            "Quelle solution de retrait reste disponible immédiatement ?"
+          ]
+        },
+        {
+          "id": "openings",
+          "title": "Les permissions et les ouvertures",
+          "help": "Décrivez les ouvertures prévues, qui peut les demander et les règles de jeu associées. Séparez-les des retraits nécessaires.",
+          "example": "Une ouverture de jeu peut être demandée le vendredi soir. Nous décidons ensemble de sa durée et du retour éventuel au port. Un retrait nécessaire au confort, à l’hygiène ou à la santé est immédiat et ne demande aucune permission de jeu.",
+          "default": "Les ouvertures de jeu et les permissions sont convenues ensemble. Le retrait nécessaire au confort, à l’hygiène ou à la santé n’est soumis ni à une permission de jeu ni à une sanction.",
+          "faq": [
+            {
+              "question": "Faut-il prévoir toutes les ouvertures à l’avance ?",
+              "answer": "Précisez au moins comment les demander et qui répond. Vous pouvez garder des créneaux souples, mais évitez « quand le détenteur de la clé le décide » sans autre règle."
+            }
+          ],
+          "prompts": [
+            "Quelles ouvertures de jeu sont prévues ?",
+            "Comment les demander ?",
+            "Quels retraits sont immédiats sans permission ?"
+          ]
+        },
+        {
+          "id": "everyday",
+          "title": "La chasteté au quotidien",
+          "help": "Écrivez les moments de port et les exceptions concrètes : sport, travail, déplacements, sommeil ou situation personnelle.",
+          "example": "Le port est prévu pendant nos créneaux privés. Il n’est pas prévu pour le sport, le travail ou les déplacements. Nous faisons un point chaque jour de port ; aucune prolongation n’est décidée par une seule personne.",
+          "default": "Les moments de port tiennent compte du quotidien de la personne qui porte. Nous prévoyons les exceptions utiles et faisons des points réguliers sur son confort. La durée n’est pas prolongée unilatéralement.",
+          "faq": [
+            {
+              "question": "Doit-on fixer une durée continue ?",
+              "answer": "Non. Vous pouvez choisir des créneaux courts et distincts. La durée souhaitée n’écarte jamais une demande de retrait."
+            }
+          ],
+          "prompts": [
+            "Quand le port est-il prévu ?",
+            "Quelles situations sont exclues ?",
+            "À quelle fréquence faites-vous un point ?"
+          ]
+        },
+        {
+          "id": "withdrawal",
+          "title": "Les exceptions et la fin du jeu",
+          "help": "Dites comment arrêter le port et prévenir le partenaire. La fin du jeu ne dépend pas de la disponibilité de la personne qui garde la clé.",
+          "example": "La personne qui porte peut retirer le dispositif et arrêter le jeu à tout moment. Elle prévient ensuite son partenaire dès qu’elle le peut. Une gêne inhabituelle entraîne le retrait immédiat ; aucun retrait nécessaire ne donne lieu à une punition.",
+          "default": "Une gêne inhabituelle, une douleur ou un engourdissement entraîne le retrait du dispositif et l’arrêt du jeu. La personne qui porte peut aussi demander la fin de l’accord sans avoir à justifier sa décision. Aucun retrait nécessaire ne donne lieu à une punition.",
+          "faq": [
+            {
+              "question": "Faut-il attendre une autorisation pour mettre fin au jeu ?",
+              "answer": "Non. Écrivez une procédure simple qui permet le retrait immédiatement, puis l’information du partenaire."
+            }
+          ],
+          "prompts": [
+            "Comment retirez-vous le dispositif ?",
+            "Comment prévenez-vous l’autre personne ?",
+            "Comment confirmez-vous que le jeu est terminé ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Que faut-il définir avant de commencer ?",
+          "answer": "Les moments de port, le dispositif, la garde de la clé, les ouvertures et une possibilité de retrait immédiat. Écrivez aussi les exceptions du quotidien."
+        },
+        {
+          "question": "Une durée écrite empêche-t-elle un retrait ?",
+          "answer": "Non. La durée décrit le jeu souhaité et reste adaptable. Une demande de retrait ne dépend pas d’une permission de jeu ou de la disponibilité du partenaire."
+        }
+      ]
+    },
+    {
+      "id": "seance",
+      "title": "Contrat de séance",
+      "short": "Séance",
+      "icon": "scenarios",
+      "tagline": "Une rencontre. Un cadre clair.",
+      "description": "Une version ciblée pour une rencontre : déroulement, matériel, timing et attentes de chacun.",
+      "intro": "Nous préparons une séance précise et choisissons ce que nous souhaitons y vivre. Cet accord concerne cette rencontre et ne crée aucune obligation pour une rencontre future. Il nous permet d’arriver avec des attentes claires et de modifier ou d’arrêter le jeu pendant la séance.",
+      "roles": [
+        "Partenaire 1",
+        "Partenaire 2"
+      ],
+      "fields": [
+        {
+          "id": "arrival",
+          "title": "Le rendez-vous et l’arrivée",
+          "help": "Notez la date, l’horaire, le type de lieu et l’organisation du départ. Une adresse privée n’est pas obligatoire dans le document.",
+          "example": "Nous nous retrouvons le [date] à [heure], dans le lieu confirmé en privé. Nous gardons quinze minutes pour parler avant le jeu. Chacun organise son transport et peut repartir librement.",
+          "default": "Nous confirmons l’horaire et l’organisation du rendez-vous avant de nous retrouver. Un temps d’échange précède le jeu. Chaque personne conserve la possibilité de repartir librement.",
+          "faq": [
+            {
+              "question": "Doit-on inscrire une adresse complète ?",
+              "answer": "Seulement si elle est utile. Vous pouvez écrire « lieu confirmé en privé » et partager l’adresse autrement."
+            }
+          ],
+          "prompts": [
+            "Quand vous retrouvez-vous ?",
+            "Combien de temps gardez-vous avant le jeu ?",
+            "Comment chacun arrive et repart ?"
+          ]
+        },
+        {
+          "id": "sequence",
+          "title": "Le déroulement souhaité",
+          "help": "Écrivez les grandes étapes dans l’ordre et leur durée approximative. Indiquez ce qui peut être supprimé ou raccourci.",
+          "example": "La séance prévoit un échange de quinze minutes, la présentation du matériel, environ quarante-cinq minutes de jeu et vingt minutes au calme. Les étapes et la durée sont ajustées selon les retours de chacun.",
+          "default": "La séance commence par un échange sur les envies du moment, puis le jeu progresse dans le cadre choisi. Le programme reste adaptable : une étape peut être raccourcie, retirée ou arrêtée à la demande de l’un de nous.",
+          "faq": [
+            {
+              "question": "Ce programme doit-il être suivi jusqu’au bout ?",
+              "answer": "Non. C’est un déroulement souhaité, que vous pouvez modifier pendant la séance. Une étape n’est jamais due parce qu’elle figure ici."
+            }
+          ],
+          "prompts": [
+            "Quelles étapes souhaitez-vous ?",
+            "Quelle durée approximative pour chacune ?",
+            "Quelles étapes sont facultatives ?"
+          ]
+        },
+        {
+          "id": "gear",
+          "title": "Ce que chacun apporte",
+          "help": "Listez le gear et les accessoires avec le nom de la personne qui les apporte. Ajoutez les préparatifs et le rangement.",
+          "example": "[Pseudo A] apporte le bandeau et les attaches ; [pseudo B] apporte son gear. Nous présentons les accessoires avant le jeu et convenons du rangement après. Les outils nécessaires au retrait restent à portée.",
+          "default": "Nous nous répartissons le matériel et les préparatifs convenus. Chaque accessoire est présenté avant son utilisation. Nous gardons à portée les moyens de retirer rapidement le matériel qui le nécessite.",
+          "faq": [
+            {
+              "question": "Le gear implique-t-il un rôle ?",
+              "answer": "Non. Indiquez le rôle choisi dans la première étape. Une tenue ne donne pas de permission supplémentaire."
+            }
+          ],
+          "prompts": [
+            "Qui apporte chaque accessoire ?",
+            "Que préparez-vous avant la rencontre ?",
+            "Qui range ou récupère le matériel ?"
+          ]
+        },
+        {
+          "id": "departure",
+          "title": "La fin de séance et la suite",
+          "help": "Prévoyez le temps de retour au calme, l’heure ou les conditions de départ et le contact éventuel ensuite.",
+          "example": "Nous gardons vingt minutes après le jeu avant le départ. Il n’est pas prévu de rester dormir. Un message le lendemain permet de faire le point, sans engagement à une nouvelle séance.",
+          "default": "Nous réservons un temps de retour au calme avant le départ. Un contact ultérieur est convenu selon les souhaits de chacun ; il ne suppose ni une nouvelle séance ni une relation suivie.",
+          "faq": [
+            {
+              "question": "Une séance engage-t-elle à se revoir ?",
+              "answer": "Non. Si vous souhaitez prévoir une suite, écrivez comment vous en reparlez, sans annoncer une nouvelle rencontre comme acquise."
+            }
+          ],
+          "prompts": [
+            "Combien de temps restez-vous après le jeu ?",
+            "Le départ ou la nuit sur place sont-ils prévus ?",
+            "Souhaitez-vous un message ensuite ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "À quoi sert ce contrat ?",
+          "answer": "À préparer une rencontre précise : rendez-vous, déroulement, matériel et départ. Il ne crée aucun engagement à une nouvelle séance."
+        },
+        {
+          "question": "Doit-on décrire chaque minute ?",
+          "answer": "Non. Donnez les étapes principales, leur durée approximative et les attentes de chacun. Le programme doit rester adaptable."
+        }
+      ]
+    },
+    {
+      "id": "bondage",
+      "title": "Contrat de bondage",
+      "short": "Bondage",
+      "icon": "bondage",
+      "tagline": "Attaches choisies. Règles claires.",
+      "description": "Pour une séance avec des attaches : matériel accepté, zones, positions, durée et retrait.",
+      "intro": "Nous choisissons une séance de bondage et décrivons les attaches, les positions et les sensations que nous souhaitons. Ce document précise le matériel accepté, les limites du jeu et la façon de retirer les attaches. Il ne remplace ni l’expérience nécessaire à l’utilisation du matériel ni les échanges pendant la séance.",
+      "roles": [
+        "Personne qui attache",
+        "Personne attachée"
+      ],
+      "fields": [
+        {
+          "id": "restraints",
+          "title": "Les attaches et les zones",
+          "help": "Listez les attaches acceptées et les zones concernées. Une autorisation pour les poignets ne vaut pas pour toutes les autres zones.",
+          "example": "Nous choisissons des attaches aux poignets uniquement. Les attaches au cou et la suspension sont exclues. Tout autre emplacement est discuté avant la séance.",
+          "default": "Attaches et zones acceptées : à préciser ensemble. Les zones et configurations non discutées ne sont pas ajoutées pendant le jeu.",
+          "faq": [
+            {
+              "question": "Peut-on laisser le choix de toutes les attaches au partenaire ?",
+              "answer": "Définissez au moins les zones et types de matériel acceptés, puis les exclusions. « Carte blanche » ne décrit pas ce que vous attendez."
+            }
+          ],
+          "prompts": [
+            "Quelles attaches ?",
+            "Sur quelles zones ?",
+            "Quels emplacements sont exclus ?"
+          ]
+        },
+        {
+          "id": "positions",
+          "title": "Les positions et le mouvement",
+          "help": "Indiquez les positions souhaitées, ce qui doit rester mobile et les positions refusées.",
+          "example": "Le jeu se déroule assis ou allongé. La personne attachée garde la possibilité de donner son signal d’arrêt avec la main. Toute position debout ou en suspension est exclue.",
+          "default": "Positions choisies : à préciser. Les mouvements nécessaires au signal d’arrêt restent possibles. Une position qui ne convient plus est quittée.",
+          "faq": [
+            {
+              "question": "Faut-il prévoir une position précise ?",
+              "answer": "Oui, si elle compte pour vous. Vous pouvez en choisir plusieurs, mais nommez les positions exclues au lieu de laisser supposer qu’elles sont acceptées."
+            }
+          ],
+          "prompts": [
+            "Quelles positions sont prévues ?",
+            "Quels mouvements doivent rester possibles ?",
+            "Quelles positions refusez-vous ?"
+          ]
+        },
+        {
+          "id": "timing",
+          "title": "La durée et les vérifications",
+          "help": "Précisez le temps souhaité, le rythme des échanges et les moments où les attaches sont ajustées ou retirées.",
+          "example": "Nous prévoyons un jeu bref, avec un échange à chaque changement de position et avant toute prolongation. Les attaches sont retirées à la demande de la personne attachée.",
+          "default": "Durée souhaitée et points de vérification : à préciser. Le temps prévu peut être raccourci à tout moment et ne retarde jamais le retrait.",
+          "faq": [
+            {
+              "question": "Une durée écrite oblige-t-elle à rester attaché jusqu’au bout ?",
+              "answer": "Non. C’est une durée souhaitée, pas un minimum à atteindre. Une demande d’arrêt prend le dessus sur le programme."
+            }
+          ],
+          "prompts": [
+            "Quelle durée souhaitez-vous ?",
+            "Quand échangez-vous ?",
+            "Qui peut proposer une prolongation ?"
+          ]
+        },
+        {
+          "id": "release",
+          "title": "Le retrait et la présence",
+          "help": "Indiquez qui reste présent, qui retire les attaches et où se trouvent les moyens de retrait.",
+          "example": "La personne qui attache reste présente pendant tout le jeu. Les moyens de retrait sont à portée. Au signal d’arrêt, le jeu cesse et les attaches sont retirées sans attendre.",
+          "default": "La personne qui attache reste présente et disponible. Les moyens de retrait sont préparés avant le jeu et utilisables immédiatement.",
+          "faq": [
+            {
+              "question": "Peut-on prévoir de laisser une personne attachée seule ?",
+              "answer": "Ce modèle prévoit une présence continue. Écrivez clairement qui reste sur place et conserve les moyens de retrait."
+            }
+          ],
+          "prompts": [
+            "Qui reste présent ?",
+            "Qui retire les attaches ?",
+            "Où sont les moyens de retrait ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Quand utiliser le modèle bondage ?",
+          "answer": "Lorsque les attaches sont au centre de la séance. Il aide à préciser les zones, positions, mouvements, durées et moyens de retrait."
+        },
+        {
+          "question": "Ce guide enseigne-t-il à attacher ?",
+          "answer": "Non. Il organise vos choix et vos limites. Il ne donne pas de technique d’attache ni de formation à l’utilisation du matériel."
+        }
+      ]
+    },
+    {
+      "id": "discipline",
+      "title": "Contrat de discipline",
+      "short": "Discipline",
+      "icon": "discipline",
+      "tagline": "Des consignes. Un jeu choisi.",
+      "description": "Pour définir des consignes et des conséquences de jeu : règles, suivi, réponses prévues et exclusions.",
+      "intro": "Nous choisissons un jeu de discipline avec des consignes et des conséquences que nous définissons ensemble. Seules les règles écrites ici font partie du jeu. Les conséquences ne sont ni improvisées ni utilisées pour régler un conflit personnel.",
+      "roles": [
+        "Personne qui donne les consignes",
+        "Personne qui suit les consignes"
+      ],
+      "fields": [
+        {
+          "id": "instructions",
+          "title": "Les consignes à suivre",
+          "help": "Écrivez chaque consigne comme une action vérifiable, avec son moment ou sa fréquence.",
+          "example": "Au début de la séance, la personne qui reçoit les consignes présente le gear prévu et demande avant d’utiliser le téléphone. Ces règles ne s’appliquent pas hors de la rencontre.",
+          "default": "Consignes choisies et fréquence : à renseigner ensemble. Une consigne nouvelle est discutée avant de s’appliquer.",
+          "faq": [
+            {
+              "question": "Comment rendre une consigne compréhensible ?",
+              "answer": "Remplacez « être obéissant » par l’action attendue, le moment concerné et les exceptions. Les deux personnes doivent pouvoir identifier la même chose."
+            }
+          ],
+          "prompts": [
+            "Quelle action est attendue ?",
+            "Quand ou à quelle fréquence ?",
+            "Quelles exceptions ?"
+          ]
+        },
+        {
+          "id": "followup",
+          "title": "Le suivi des consignes",
+          "help": "Décrivez comment vous faites le point et ce qui se passe lorsqu’une consigne ne peut pas être suivie.",
+          "example": "Nous faisons un point à la fin de la séance. Si une consigne ne peut pas être suivie, la personne concernée le dit. Une erreur ou une incompréhension est discutée avant toute conséquence de jeu.",
+          "default": "Le suivi se fait pendant les moments convenus. Une difficulté ou une incompréhension donne lieu à un échange, sans supposer automatiquement une faute.",
+          "faq": [
+            {
+              "question": "Faut-il surveiller la vie quotidienne ?",
+              "answer": "Uniquement le suivi de jeu choisi ici. N’ajoutez pas une disponibilité permanente ou une surveillance des activités personnelles par défaut."
+            }
+          ],
+          "prompts": [
+            "Comment faites-vous le point ?",
+            "Quand signalez-vous une difficulté ?",
+            "Qu’est-ce qui reste hors du suivi ?"
+          ]
+        },
+        {
+          "id": "consequences",
+          "title": "Les conséquences de jeu acceptées",
+          "help": "Nommez les conséquences choisies, leur durée ou intensité et les situations qui les déclenchent.",
+          "example": "Une consigne volontairement ignorée peut donner lieu au rituel convenu pendant cinq minutes. Aucune conséquence n’est ajoutée spontanément. Le jeu reste interrompable par le signal d’arrêt.",
+          "default": "Conséquences de jeu acceptées, durée et déclencheurs : à préciser. Toute conséquence absente de cette liste demande un accord préalable.",
+          "faq": [
+            {
+              "question": "Peut-on écrire « sanction au choix » ?",
+              "answer": "Définissez plutôt une liste limitée et les conditions de chaque conséquence. Un changement d’intensité ou une nouveauté exige une discussion."
+            }
+          ],
+          "prompts": [
+            "Quelle conséquence de jeu ?",
+            "Pour quelle consigne ?",
+            "Quelle durée et quelles limites ?"
+          ]
+        },
+        {
+          "id": "exceptions",
+          "title": "Ce qui ne constitue pas une faute",
+          "help": "Listez les indisponibilités, difficultés et demandes d’arrêt qui restent hors du jeu de discipline.",
+          "example": "Une indisponibilité professionnelle, une difficulté de santé, une limite exprimée ou une demande de pause ne constitue jamais une faute. Un désaccord personnel se discute hors du rôle.",
+          "default": "Les demandes de pause ou d’arrêt, les limites et les contraintes de vie ne déclenchent aucune conséquence de jeu. Les conflits personnels restent hors de la discipline.",
+          "faq": [
+            {
+              "question": "Une demande d’arrêt peut-elle être traitée comme de la désobéissance ?",
+              "answer": "Non. Les signaux d’arrêt et les limites doivent rester utilisables sans conséquence. Écrivez ce point explicitement."
+            }
+          ],
+          "prompts": [
+            "Quelles situations sont hors du jeu ?",
+            "Comment annoncer une indisponibilité ?",
+            "Comment séparez-vous un conflit du rôle ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Que couvre la discipline ici ?",
+          "answer": "Des consignes et des conséquences de jeu choisies à deux. Les conflits personnels et les difficultés de vie ne sont pas traités comme des fautes de jeu."
+        },
+        {
+          "question": "Que faut-il éviter dans une règle ?",
+          "answer": "Une consigne impossible à vérifier, une conséquence non définie ou une disponibilité permanente. Décrivez l’action attendue et le moment concerné."
+        }
+      ]
+    },
+    {
+      "id": "pup-play",
+      "title": "Contrat de pup play",
+      "short": "Pup play",
+      "icon": "pet",
+      "tagline": "Votre pup. Votre façon de jouer.",
+      "description": "Pour un jeu pup/handler : rôle, gear, signaux, activités et retour hors du personnage.",
+      "intro": "Nous choisissons un jeu de pup play entre adultes, selon les rôles et activités que nous définissons. Nous précisons le gear, les modes de communication et les moments où nous quittons les personnages. Le rôle de pup ne retire jamais la possibilité d’exprimer une limite ou de terminer le jeu.",
+      "roles": [
+        "Pup",
+        "Handler"
+      ],
+      "fields": [
+        {
+          "id": "character",
+          "title": "Le personnage et les appellations",
+          "help": "Écrivez le nom de jeu, les appellations acceptées et les comportements qui vous plaisent ou vous déplaisent.",
+          "example": "Le pup utilise le nom de jeu [nom] pendant la séance. Il aime les consignes courtes et les encouragements. Les insultes et l’humiliation sont exclues de ce rôle.",
+          "default": "Nom de jeu, appellations et comportements souhaités : à définir ensemble. Le personnage commence et se termine pendant les créneaux choisis.",
+          "faq": [
+            {
+              "question": "Faut-il rester pup toute la rencontre ?",
+              "answer": "Non. Écrivez les moments où vous êtes dans le personnage et ceux où vous reprenez votre pseudo et votre façon habituelle de parler."
+            }
+          ],
+          "prompts": [
+            "Quel nom ou quelles appellations ?",
+            "Quels comportements vous plaisent ?",
+            "Quand quittez-vous le personnage ?"
+          ]
+        },
+        {
+          "id": "pup-gear",
+          "title": "Le gear et les accessoires",
+          "help": "Listez le hood, le collier, la laisse et les autres accessoires choisis. Précisez qui les porte et quand ils sont retirés.",
+          "example": "Le pup porte le hood et le collier convenus. La laisse est utilisée seulement pendant le jeu privé. Chaque accessoire est présenté avant la séance et retiré dès qu’il ne convient plus.",
+          "default": "Gear et accessoires acceptés : à lister. Aucun équipement supplémentaire n’est ajouté sans discussion. Le retrait reste possible à tout moment.",
+          "faq": [
+            {
+              "question": "Le collier implique-t-il une relation suivie ?",
+              "answer": "Pas nécessairement. Dites s’il s’agit d’un accessoire de séance ou d’un symbole de relation ; un objet seul ne définit pas votre engagement."
+            }
+          ],
+          "prompts": [
+            "Quels accessoires ?",
+            "Qui les porte et à quels moments ?",
+            "Qu’est-ce qui est exclu ?"
+          ]
+        },
+        {
+          "id": "pup-activities",
+          "title": "Les activités et le cadre social",
+          "help": "Décrivez les activités, le lieu et la présence éventuelle d’autres personnes. Une séance privée n’autorise pas automatiquement un jeu en groupe.",
+          "example": "Le jeu prévoit des déplacements, des consignes simples et des moments de proximité. Il reste privé entre nous deux. Une rencontre avec d’autres pups ou un événement se discute séparément.",
+          "default": "Activités choisies, lieux et personnes présentes : à préciser. Tout passage à un contexte public ou à un groupe fait l’objet d’une nouvelle discussion.",
+          "faq": [
+            {
+              "question": "Peut-on jouer en événement avec le même contrat ?",
+              "answer": "Ajoutez ce contexte, les personnes concernées et les activités acceptées. Un accord privé à deux ne couvre pas automatiquement une soirée."
+            }
+          ],
+          "prompts": [
+            "Quelles activités ?",
+            "Dans quel lieu ?",
+            "À deux ou avec d’autres personnes ?"
+          ]
+        },
+        {
+          "id": "pup-signals",
+          "title": "La communication dans le rôle",
+          "help": "Choisissez les gestes et sons du personnage, puis un moyen clair de sortir du rôle et de parler normalement.",
+          "example": "Un geste de la main signifie pause ; le mot « Rouge » met fin au jeu. Le pup peut parler normalement à tout moment pour exprimer une difficulté. Nous faisons un échange hors du rôle à la fin.",
+          "default": "Signaux de pause et d’arrêt : à préciser. Le pup peut quitter le personnage et parler normalement à tout moment, sans conséquence de jeu.",
+          "faq": [
+            {
+              "question": "Peut-on parler quand on joue un pup ?",
+              "answer": "Oui. Le rôle ne doit pas empêcher une demande claire, une limite ou une pause. Écrivez comment revenir à un échange ordinaire."
+            }
+          ],
+          "prompts": [
+            "Quels gestes ou sons utilisez-vous ?",
+            "Comment demandez-vous une pause ?",
+            "Comment revenez-vous hors du rôle ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Faut-il forcément un pup et un handler ?",
+          "answer": "Ce sont les rôles proposés. Vous pouvez les renommer ou décrire un jeu entre pups ; expliquez alors comment chacun communique et quitte le personnage."
+        },
+        {
+          "question": "Que préciser si le jeu a lieu en groupe ?",
+          "answer": "Le lieu, les personnes présentes, les activités et les interactions acceptées. Un accord privé à deux ne couvre pas automatiquement un événement ou une meute."
+        }
+      ]
+    },
+    {
+      "id": "service",
+      "title": "Contrat de service",
+      "short": "Service",
+      "icon": "service",
+      "tagline": "Un rôle utile. Des attentes précises.",
+      "description": "Pour un jeu de service : tâches, horaires, moyens disponibles et attentes des deux partenaires.",
+      "intro": "Nous choisissons une dynamique de service qui fait partie de notre jeu. Nous décrivons les tâches souhaitées, les moyens nécessaires et les créneaux. Cet accord ne crée ni un emploi ni une dette ; il ne prévoit pas de service obligatoire en dehors du cadre choisi.",
+      "roles": [
+        "Personne qui reçoit le service",
+        "Personne qui rend le service"
+      ],
+      "fields": [
+        {
+          "id": "tasks",
+          "title": "Les tâches choisies",
+          "help": "Listez les tâches concrètes, leur fréquence et celles que vous excluez. Évitez les formulations comme « être à disposition ».",
+          "example": "Pendant nos rencontres privées, [pseudo B] prépare le gear, sert une boisson et range les accessoires convenus. Les tâches administratives, professionnelles et les courses personnelles sont exclues.",
+          "default": "Tâches de jeu acceptées et fréquence : à lister. Les tâches absentes de cette liste demandent une nouvelle discussion.",
+          "faq": [
+            {
+              "question": "Faut-il accepter toutes les tâches proposées ?",
+              "answer": "Non. Distinguez les tâches qui vous plaisent, celles à demander et celles que vous refusez, comme pour les autres pratiques."
+            }
+          ],
+          "prompts": [
+            "Quelles tâches ?",
+            "À quelle fréquence ?",
+            "Quelles tâches refusez-vous ?"
+          ]
+        },
+        {
+          "id": "service-time",
+          "title": "Les horaires et la durée",
+          "help": "Indiquez les créneaux, le temps maximal prévu et les moments où la personne n’est pas disponible.",
+          "example": "Le service s’applique pendant nos rencontres du samedi, pour deux heures au maximum. Il n’est pas attendu pendant le travail ni entre les séances. Une annulation est annoncée par message.",
+          "default": "Créneaux et durée du service : à préciser. Aucune disponibilité permanente n’est supposée. Les périodes d’indisponibilité sont respectées.",
+          "faq": [
+            {
+              "question": "Que signifie un service régulier ?",
+              "answer": "Écrivez les jours, les horaires et le temps prévu. Une fréquence réaliste est plus claire qu’un engagement général à « servir dès que demandé »."
+            }
+          ],
+          "prompts": [
+            "Quels jours et horaires ?",
+            "Quelle durée maximale ?",
+            "Quelles indisponibilités ?"
+          ]
+        },
+        {
+          "id": "resources",
+          "title": "Le matériel et les dépenses",
+          "help": "Précisez qui fournit le matériel. N’ajoutez pas une dépense ou un transfert d’argent simplement parce qu’il s’agit d’un rôle de service.",
+          "example": "La personne qui reçoit le service fournit le matériel. Aucun achat ni avance de frais n’est demandé. Une éventuelle dépense se discute séparément avant d’être engagée.",
+          "default": "Matériel nécessaire et personne qui le fournit : à préciser. Aucun achat, paiement ou remboursement n’est implicite dans ce rôle de jeu.",
+          "faq": [
+            {
+              "question": "Le service implique-t-il de payer des dépenses ?",
+              "answer": "Non. Si une organisation matérielle vous intéresse, décrivez-la distinctement avant tout achat, sans la déduire du rôle."
+            }
+          ],
+          "prompts": [
+            "Quel matériel est nécessaire ?",
+            "Qui le fournit ?",
+            "Y a-t-il des frais à discuter séparément ?"
+          ]
+        },
+        {
+          "id": "recognition",
+          "title": "Les retours et la réciprocité",
+          "help": "Décrivez comment la personne qui reçoit le service donne ses consignes et ses retours, puis comment chacun parle de son ressenti.",
+          "example": "Les consignes sont données clairement avant la tâche. Le retour se fait sans insulte ni dévalorisation. Nous faisons un point hors du rôle après la rencontre pour ajuster les tâches et la durée.",
+          "default": "La personne qui reçoit le service donne des consignes compréhensibles et reste attentive à l’autre. Les deux personnes peuvent demander un ajustement ou terminer le service.",
+          "faq": [
+            {
+              "question": "Que noter si le service est lui-même le kiff ?",
+              "answer": "Vous n’avez pas à inventer une récompense. Dites simplement les retours et l’attention que vous souhaitez, ainsi que la façon de faire le point."
+            }
+          ],
+          "prompts": [
+            "Comment sont données les consignes ?",
+            "Quel retour vous plaît ?",
+            "Quand faites-vous le point hors du rôle ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Quel type de service peut-on décrire ?",
+          "answer": "Les tâches qui font partie de votre jeu : préparer du gear, accueillir, servir ou ranger les accessoires choisis. Définissez les horaires et les exclusions."
+        },
+        {
+          "question": "Le service implique-t-il un paiement ?",
+          "answer": "Non. Ce modèle organise un rôle de jeu et ne crée ni un emploi ni une dette. Le matériel et d’éventuelles dépenses doivent être discutés séparément."
+        }
+      ]
+    },
+    {
+      "id": "collier",
+      "title": "Contrat de collier",
+      "short": "Collier",
+      "icon": "collar",
+      "tagline": "Votre collier. Votre signification.",
+      "description": "Pour donner un sens précis au collier : symbole, port, rituels et fin de la dynamique.",
+      "intro": "Nous choisissons de donner une signification à un collier dans notre relation de jeu. Nous écrivons ce qu’il représente, les moments où il est porté et les engagements associés. Ce symbole ne crée aucun droit de propriété sur une personne et ne donne pas d’autorité supplémentaire au-delà de l’accord écrit.",
+      "roles": [
+        "Personne qui offre ou remet le collier",
+        "Personne qui porte le collier"
+      ],
+      "fields": [
+        {
+          "id": "meaning",
+          "title": "La signification du collier",
+          "help": "Dites s’il représente une séance, une période d’essai ou une relation suivie, puis les engagements précis associés.",
+          "example": "Le collier représente notre dynamique de jeu suivie. Il ne signifie ni exclusivité ni disponibilité permanente. Ces sujets sont discutés dans des rubriques distinctes.",
+          "default": "Signification et engagements liés au collier : à définir ensemble. Un symbole ne donne pas de permission supplémentaire et ne remplace pas des règles écrites.",
+          "faq": [
+            {
+              "question": "Le collier signifie-t-il automatiquement une exclusivité ?",
+              "answer": "Non. Si vous choisissez une exclusivité, précisez-la séparément : rencontres, pratiques, durée et exceptions."
+            }
+          ],
+          "prompts": [
+            "Que représente le collier ?",
+            "Quels engagements y associez-vous ?",
+            "Qu’est-ce qu’il ne signifie pas ?"
+          ]
+        },
+        {
+          "id": "wear",
+          "title": "Les moments de port",
+          "help": "Indiquez les lieux et moments de port, les exceptions et la liberté de le retirer.",
+          "example": "Le collier est porté pendant nos séances privées. Il peut être retiré pour le travail, le sport, le sommeil ou sur simple souhait. Un retrait ne déclenche aucune conséquence de jeu.",
+          "default": "Moments et lieux de port : à préciser. La personne qui porte peut retirer le collier à tout moment. Les exceptions ne constituent pas une faute.",
+          "faq": [
+            {
+              "question": "Faut-il porter le collier en public ?",
+              "answer": "Seulement si vous le souhaitez tous les deux et l’écrivez. Le port privé et le port public sont deux choix différents."
+            }
+          ],
+          "prompts": [
+            "Quand est-il porté ?",
+            "Quels lieux et quelles exceptions ?",
+            "Comment le retirez-vous ?"
+          ]
+        },
+        {
+          "id": "collar-ritual",
+          "title": "La remise et les rituels",
+          "help": "Décrivez comment le collier est remis, les mots utilisés et la présence éventuelle d’autres personnes.",
+          "example": "La remise se fait en privé entre nous deux. Nous lisons notre accord et utilisons les appellations choisies. Aucune photo ni présence d’un tiers n’est prévue.",
+          "default": "Rituel, appellations et personnes présentes : à préciser. Les images et la diffusion font l’objet d’autorisations distinctes.",
+          "faq": [
+            {
+              "question": "Une cérémonie est-elle nécessaire ?",
+              "answer": "Non. Vous pouvez choisir un geste simple. Écrivez ce qui vous plaît, sans ajouter une cérémonie ou un public par défaut."
+            }
+          ],
+          "prompts": [
+            "Quel geste ou quelles paroles ?",
+            "En privé ou devant d’autres personnes ?",
+            "Quelles images sont autorisées ?"
+          ]
+        },
+        {
+          "id": "collar-return",
+          "title": "La fin de la dynamique et le collier",
+          "help": "Prévoyez comment annoncer la fin et ce que devient l’objet, sans conditionner la liberté de terminer la relation.",
+          "example": "La dynamique peut se terminer par un message clair. Le collier reste à la personne qui le porte. Aucun retour de l’objet ni échange en personne n’est requis pour que la fin prenne effet.",
+          "default": "Fin de la dynamique et devenir du collier : à convenir. La fin prend effet à la demande d’une personne et ne dépend ni du retour d’un objet ni d’une rencontre.",
+          "faq": [
+            {
+              "question": "Doit-on rendre le collier pour que le jeu se termine ?",
+              "answer": "Non. Distinguez la fin de la dynamique de l’organisation autour de l’objet. Le retour du collier ne doit pas retarder une fin demandée."
+            }
+          ],
+          "prompts": [
+            "Comment annoncez-vous la fin ?",
+            "Qui conserve le collier ?",
+            "Comment organisez-vous un éventuel retour ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Ce contrat remplace-t-il domination/soumission ?",
+          "answer": "Il précise surtout la signification du collier, son port et ses rituels. Pour détailler une dynamique, ajoutez ses consignes et responsabilités."
+        },
+        {
+          "question": "Peut-on choisir un collier sans relation suivie ?",
+          "answer": "Oui. Il peut être un accessoire de séance, un symbole d’essai ou un engagement suivi. Écrivez la signification que vous lui donnez, sans la supposer."
+        }
+      ]
+    },
+    {
+      "id": "exclusivite",
+      "title": "Accord d’exclusivité",
+      "short": "Exclusivité",
+      "icon": "restraints",
+      "tagline": "Un engagement défini ensemble.",
+      "description": "Pour préciser une exclusivité de jeu : pratiques, partenaires, durée, exceptions et évolution.",
+      "intro": "Nous choisissons une exclusivité dont nous définissons la portée. Nous écrivons les pratiques ou relations concernées, les exceptions et la durée. L’exclusivité ne donne pas accès aux messages privés ni le contrôle sur les autres relations ; chacun peut demander un changement ou terminer cet accord.",
+      "roles": [
+        "Partenaire 1",
+        "Partenaire 2"
+      ],
+      "fields": [
+        {
+          "id": "scope",
+          "title": "Ce qui est exclusif",
+          "help": "Distinguez les séances BDSM, certaines pratiques, une dynamique de rôle et une relation sentimentale. Écrivez exactement ce que vous choisissez.",
+          "example": "Nos séances de domination et de soumission sont exclusives entre nous pendant un mois. Cela ne s’applique pas à nos amitiés, aux échanges sur les apps ni aux événements auxquels nous participons.",
+          "default": "Pratiques ou relations concernées par l’exclusivité : à préciser. Toute situation absente de cette définition reste à discuter, sans présumer qu’elle est interdite.",
+          "faq": [
+            {
+              "question": "Une exclusivité de jeu est-elle une relation de couple ?",
+              "answer": "Pas automatiquement. Écrivez les pratiques et liens concernés au lieu de supposer un engagement sentimental ou sexuel plus large."
+            }
+          ],
+          "prompts": [
+            "Quelles pratiques ou quels liens sont concernés ?",
+            "Avec quelles personnes ?",
+            "Qu’est-ce qui reste hors de l’exclusivité ?"
+          ]
+        },
+        {
+          "id": "exceptions",
+          "title": "Les exceptions choisies",
+          "help": "Listez les situations autorisées en dehors de l’accord, ainsi que celles qui demandent une discussion avant.",
+          "example": "Les événements publics et les échanges amicaux restent libres. Une séance avec un autre partenaire demande une discussion avant d’être prévue. Aucune exception n’est supposée sans échange.",
+          "default": "Exceptions acceptées et situations à discuter : à définir. Une nouvelle exception est convenue avant d’être ajoutée au cadre.",
+          "faq": [
+            {
+              "question": "Que faire si une situation n’est pas prévue ?",
+              "answer": "En parler avant de supposer qu’elle est permise ou interdite. Ajoutez ensuite une formulation commune si vous souhaitez garder l’accord."
+            }
+          ],
+          "prompts": [
+            "Quelles exceptions sont acceptées ?",
+            "Les événements ou échanges en ligne sont-ils concernés ?",
+            "Quelles situations demandent un échange préalable ?"
+          ]
+        },
+        {
+          "id": "exclusivity-time",
+          "title": "La durée et le bilan",
+          "help": "Fixez une date de début, une date de fin et un moment pour décider d’une suite. Évitez le renouvellement implicite.",
+          "example": "L’exclusivité dure un mois à compter de la date indiquée. Nous faisons un point une semaine avant la fin. Elle ne se renouvelle pas automatiquement ; une suite est discutée ensemble.",
+          "default": "Durée et date de bilan : à préciser. Le renouvellement demande un nouvel échange et l’accord des deux personnes.",
+          "faq": [
+            {
+              "question": "Peut-on choisir une période d’essai ?",
+              "answer": "Oui. Une semaine, un mois ou une autre durée peuvent vous convenir. Précisez le bilan et ce qui se passe à la date de fin."
+            }
+          ],
+          "prompts": [
+            "Quelle durée ?",
+            "Quand faites-vous le bilan ?",
+            "Y a-t-il un renouvellement et comment est-il accepté ?"
+          ]
+        },
+        {
+          "id": "changes",
+          "title": "Les changements et la vie privée",
+          "help": "Décrivez comment annoncer une nouvelle envie, discuter d’un écart ou mettre fin à l’exclusivité, sans surveillance des échanges privés.",
+          "example": "Une nouvelle envie est annoncée hors du rôle. Nous en discutons avant de changer le cadre. Chacun garde ses messages et ses comptes privés. Un désaccord peut conduire à terminer l’accord, sans dette ni pénalité.",
+          "default": "Les changements se discutent hors du rôle. Chacun conserve sa vie privée. Une personne peut terminer l’exclusivité sans justification imposée ni pénalité.",
+          "faq": [
+            {
+              "question": "L’accord donne-t-il un droit de vérifier le téléphone de l’autre ?",
+              "answer": "Non. La communication prévue ici ne donne aucun accès aux messages, mots de passe ou comptes personnels."
+            }
+          ],
+          "prompts": [
+            "Comment annoncez-vous une envie différente ?",
+            "Comment parlez-vous d’un écart ou d’un désaccord ?",
+            "Comment préservez-vous la vie privée ?"
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "question": "Que peut-on rendre exclusif ?",
+          "answer": "Une dynamique, certaines pratiques ou certains partenaires de jeu. Dites ce qui est concerné et ce qui reste libre, sans supposer une relation de couple."
+        },
+        {
+          "question": "Comment éviter les malentendus ?",
+          "answer": "Distinguez rencontres, pratiques, événements et échanges en ligne. Ajoutez les exceptions, la durée et la façon d’annoncer un changement."
+        }
+      ]
+    }
+  ],
+  "closing": "Cet accord personnel décrit un jeu choisi ensemble. Il ne remplace pas l’accord donné au moment de jouer et ne rend aucune pratique obligatoire. Chaque personne peut demander une pause, refuser une pratique ou mettre fin à l’accord à tout moment, sans pénalité. Kinq fournit un modèle à adapter ; aucune valeur juridique ni certification d’identité n’est promise.",
+  "poweredBy": "Powered by Kinq\nMake it kinky.\nkinq-app.com",
+  "stepsFaq": [
+    [
+      {
+        "question": "Quel nom faut-il mettre ?",
+        "answer": "Un nom ou un pseudo qui vous identifie tous les deux suffit. Pour signer en ligne, retapez exactement celui inscrit dans le contrat."
+      },
+      {
+        "question": "Que faut-il écrire dans « Rôle choisi » ?",
+        "answer": "Le rôle concret dans ce jeu : dominant, soumis, switch, pup, handler, personne qui porte ou personne qui garde la clé. Vous pouvez renommer les propositions."
+      },
+      {
+        "question": "Comment choisir la durée ?",
+        "answer": "Notez la première et la dernière date, puis le rythme : une séance, chaque samedi ou deux semaines d’essai. Ajoutez ce qui se passe à la fin : arrêt ou discussion avant renouvellement."
+      }
+    ],
+    [
+      {
+        "question": "Faut-il conserver les textes proposés ?",
+        "answer": "Gardez ce qui correspond à votre jeu et remplacez le reste par vos règles. Les exemples sont là pour donner une forme concrète à votre réponse, pas pour choisir vos préférences."
+      },
+      {
+        "question": "Comment vérifier qu’une règle est assez précise ?",
+        "answer": "Les deux personnes doivent pouvoir répondre de la même façon à : qui fait quoi, quand, avec quoi et jusqu’où. Si une réponse manque, ajoutez-la."
+      },
+      {
+        "question": "Puis-je supprimer une clause qui ne nous concerne pas ?",
+        "answer": "Oui. Videz son champ : elle disparaîtra du contrat final. Gardez en revanche un moyen explicite de demander une pause et de terminer le jeu."
+      }
+    ],
+    [
+      {
+        "question": "Quelle différence entre « autorisé », « à demander » et « exclu » ?",
+        "answer": "« Autorisé » décrit ce qui peut être proposé dans le cadre choisi. « À demander » exige un nouvel échange avant. « Exclu » reste hors du jeu."
+      },
+      {
+        "question": "Une tenue ou un rôle donne-t-il une permission ?",
+        "answer": "Non. Écrivez les pratiques et les conditions, même si les deux personnes portent du gear ou utilisent des titres de jeu."
+      },
+      {
+        "question": "Faut-il remplir les clauses supplémentaires ?",
+        "answer": "Seulement si un point manque. Une rubrique laissée vide n’apparaît pas dans le document."
+      }
+    ],
+    [
+      {
+        "question": "Que vérifier avant de télécharger ou signer ?",
+        "answer": "Les noms ou pseudos, les rôles, les dates et toutes les occurrences de « à préciser », « à lister » ou de crochets. Relisez le texte à deux : un exemple copié doit aussi être adapté."
+      },
+      {
+        "question": "Quelle différence entre le PDF et la signature en ligne ?",
+        "answer": "Le PDF se télécharge immédiatement et peut être signé à la main. La version en ligne est figée, lue puis signée séparément après vérification de chaque adresse e-mail."
+      },
+      {
+        "question": "Puis-je changer le texte une fois le lien créé ?",
+        "answer": "La version partagée ne peut plus être modifiée. Retirez-la depuis la page de signature, puis créez une nouvelle version à relire et signer."
+      }
+    ]
+  ],
+  "faq": [
+    {
+      "question": "Quel contrat choisir ?",
+      "answer": "BDSM pose un cadre général ; domination/soumission définit une dynamique suivie ; séance prépare une rencontre. Chasteté, bondage, discipline, pup play et service détaillent un jeu précis. Collier définit un symbole de relation, et exclusivité décrit un engagement entre partenaires."
+    },
+    {
+      "question": "Peut-on combiner plusieurs modèles ?",
+      "answer": "Oui. Choisissez le modèle principal puis ajoutez les clauses utiles d’un autre dans « Vos clauses supplémentaires ». Évitez de signer deux textes qui donnent des règles contradictoires."
+    },
+    {
+      "question": "Que veut dire « utiliser cet exemple » ?",
+      "answer": "Le bouton remplace le texte de la rubrique par une formulation complète. Relisez-la, remplacez les crochets et changez les pratiques, durées ou conditions pour qu’elles correspondent à votre accord."
+    },
+    {
+      "question": "Le modèle vierge contient-il mes réponses ?",
+      "answer": "Non. « Télécharger le modèle vierge » reprend uniquement le modèle proposé. « Télécharger le PDF » inclut les modifications de l’onglet."
+    },
+    {
+      "question": "Doit-on utiliser une identité civile ?",
+      "answer": "Un pseudo suffit. La signature en ligne vérifie une adresse e-mail et enregistre un nom ou pseudo et une date ; elle ne certifie pas une identité civile."
+    },
+    {
+      "question": "Comment signer à deux à distance ?",
+      "answer": "Renseignez deux adresses distinctes et créez la version à signer. La première personne vérifie son adresse, puis partage le lien privé ou le QR code de la seconde. Chacune lit et signe la même version. Une copie du PDF final est envoyée séparément après les deux signatures."
+    },
+    {
+      "question": "Que se passe-t-il si nous changeons d’avis ?",
+      "answer": "Chaque personne peut arrêter le jeu ou la dynamique. Pour une version en ligne, « Retirer cet accord » révoque les liens et supprime son contenu du serveur ; les copies déjà téléchargées ou reçues restent chez leurs destinataires."
+    },
+    {
+      "question": "Le document a-t-il une valeur légale ?",
+      "answer": "Kinq propose un accord personnel de jeu, à adapter ensemble. Ce service ne fournit ni validation juridique ni certification d’identité."
+    }
+  ]
+}

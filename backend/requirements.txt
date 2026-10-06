@@ -9,3 +9,4 @@ itsdangerous==2.2.0
 python-multipart==0.0.20
 cryptography==50.0.2
 Pillow==12.3.0
+reportlab==4.4.9

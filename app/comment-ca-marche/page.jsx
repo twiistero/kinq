@@ -6,7 +6,7 @@ const steps = [
   {title:'Ton adresse e-mail. Et c’est tout.',icon:'service',text:'Crée ton compte avec ton adresse e-mail et vérifie-la avec le code reçu. Tu te connectes ensuite avec un code, sans mot de passe à retenir.',href:'/inscription',link:'Créer mon compte'},
   {title:'Un profil à ta façon.',icon:'leather',text:'Dans l’app, choisis tes photos, présente-toi et indique les univers qui te parlent. Tu peux préciser ta façon de vivre chaque kink et choisir la visibilité de tes informations.',href:'/profil-fetish',link:'Trouver les mots de mon profil'},
   {title:'Le feeling commence ici.',icon:'pup',text:'Découvre les profils et utilise les filtres pour retrouver les univers qui t’intéressent. La localisation est facultative et les distances dépendent de positions autorisées et récentes.',href:'/application',link:'Découvrir l’application'},
-  {title:'Discute. Échange. Rencontre.',icon:'body-worship',text:'Un Pin garde un profil dans tes connexions, un Hook exprime ton intérêt, un message ouvre la discussion. Les envies et les limites se parlent avant une rencontre.',href:'/kit-rencontre',link:'Préparer une discussion'},
+  {title:'Discute. Échange. Rencontre.',icon:'body-worship',text:'Un Pin garde un profil dans tes connexions, un Hook exprime ton intérêt, un message ouvre la discussion. Les envies et les limites se parlent avant une rencontre.',href:'/contrats',link:'Personnaliser un contrat'},
 ];
 
 export default function Page() {

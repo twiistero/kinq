@@ -8,8 +8,10 @@ from pathlib import Path
 from sqlalchemy.orm import Session
 
 from .main import Article, Base, Event, PageDocument, engine
+from .contracts import ContractBase
 
 Base.metadata.create_all(engine)
+ContractBase.metadata.create_all(engine)
 with engine.begin() as connection:
     connection.exec_driver_sql("ALTER TABLE articles ADD COLUMN IF NOT EXISTS art_words JSON NOT NULL DEFAULT '[]'")
     connection.exec_driver_sql("ALTER TABLE articles ADD COLUMN IF NOT EXISTS category VARCHAR(40) NOT NULL DEFAULT 'Entre nous'")

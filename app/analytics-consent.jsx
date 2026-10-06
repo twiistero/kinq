@@ -7,7 +7,7 @@ const storageKey = 'kinq_analytics_consent';
 
 export default function AnalyticsConsent({siteId}) {
   const pathname = usePathname();
-  const privateTool = ['/profil-fetish','/kit-rencontre'].includes(pathname);
+  const privateTool = ['/profil-fetish','/kit-rencontre'].includes(pathname) || pathname.startsWith('/contrats');
   const [choice, setChoice] = useState(null);
   const [open, setOpen] = useState(false);
 

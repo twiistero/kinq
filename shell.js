@@ -32,7 +32,7 @@ document.querySelector("#site-footer").innerHTML = `<footer class="site-footer">
           <a href="/lexique"><span>Le lexique</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
           <a href="/profil-fetish"><span>Ton profil fetish</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
           <a href="/univers-fetish"><span>Les univers fetish</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
-          <a href="/kit-rencontre"><span>Le kit de rencontre</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a href="/contrats"><span>Les contrats Kinq</span><svg aria-hidden="true"><use href="#arrow"/></svg></a>
 
 
         </div>
@@ -62,7 +62,7 @@ document.querySelector("#site-footer").innerHTML = `<footer class="site-footer">
     'rencontrer-en-confiance': 'Rencontrer en confiance',
     'profil-fetish': 'Ton profil fetish',
     'univers-fetish': 'Les univers fetish',
-    'kit-rencontre': 'Le kit de rencontre',
+    'contrats': 'Les contrats Kinq',
     application: 'L’application',
     inscription: 'Inscription',
     connexion: 'Connexion NO TABOO',
@@ -88,6 +88,9 @@ document.querySelector("#site-footer").innerHTML = `<footer class="site-footer">
       trail.push({ label: category, href: `/guides#${sections[category] || 'premiers-pas'}` });
       trail.push({ label: document.body.dataset.breadcrumbTitle || 'Article' });
     }
+  } else if (page === 'contrats' && location.pathname.replace(/\/$/,'') !== '/contrats') {
+    const label = location.pathname.startsWith('/contrats/signature/') ? 'Signature privée' : main.querySelector('h1')?.textContent || 'Contrat';
+    trail.push({ label: 'Les contrats Kinq', href: '/contrats' }, { label });
   } else if (page === 'profil') {
     trail.push({ label: 'Rencontres', href: '/rencontres' }, { label: 'Profil' });
   } else if (pages[page]) {

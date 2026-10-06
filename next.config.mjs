@@ -4,6 +4,13 @@ const documents = JSON.parse(fs.readFileSync(new URL('./content/page-documents.j
 const journalSlugs = new Set(['premiers-pas','parler-de-ses-limites','les-mots-pour-se-comprendre','profil-et-vie-privee','premiere-rencontre','aftercare']);
 
 export default {
+  async headers() {
+    return [{source:'/contrats/signature/:path*',headers:[
+      {key:'Referrer-Policy',value:'no-referrer'},
+      {key:'X-Robots-Tag',value:'noindex, nofollow'},
+      {key:'Cache-Control',value:'private, no-store'},
+    ]}];
+  },
   async redirects() {
     const legacyPages = Object.keys(documents)
       .filter(name => name.endsWith('.html'))
@@ -20,4 +27,3 @@ export default {
     return [...appRedirects, {source:'/p/:code([A-F0-9]{8})', destination:'/application?profil=KQ-:code', permanent:false}, ...legacyPages, {source:'/admin/index.html', destination:'/admin', permanent:true}];
   },
 };
-
