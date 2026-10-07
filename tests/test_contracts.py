@@ -13,6 +13,7 @@ from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 from backend.app import contracts as service
+from backend.app import member_contracts  # Registers all agreement tables before create_all.
 
 
 def draft(model="bdsm"):

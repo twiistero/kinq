@@ -979,6 +979,8 @@ def close_member_account(request: Request, member: Member = Depends(current_memb
 
 
 def erase_member(db: Session, member: Member):
+    from .member_contracts import erase_copies
+    erase_copies(db, member.id)
     for model, first, second in ((MemberBlock, MemberBlock.owner_id, MemberBlock.target_id), (MemberReport, MemberReport.reporter_id, MemberReport.target_id)):
         for record in db.scalars(select(model).where(or_(first == member.id, second == member.id))):
             db.delete(record)
@@ -1514,4 +1516,6 @@ from .wallet_card import register_kinqcard  # noqa: E402
 register_kinqcard(app, current_member, db_session, get_member_profile, Photo, PUBLIC_ORIGIN)
 
 from .contracts import install_contract_routes  # noqa: E402
-install_contract_routes(app, SessionLocal)
+from .member_contracts import install_member_contract_routes, archive_known_members  # noqa: E402
+install_contract_routes(app, SessionLocal, on_signed=lambda db, contract: archive_known_members(db, contract, Member))
+install_member_contract_routes(app, SessionLocal, current_member, Member)

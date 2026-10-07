@@ -26,8 +26,8 @@ def sections(draft):
     fields = [CATALOGUE["common"][0], *model["fields"], *CATALOGUE["common"][1:]]
     return [
         ("Notre accord", model["intro"]),
-        ("Les personnes et les rôles", f'{draft["nameA"].strip() or "________________________"} : {draft["roleA"]}.\n{draft["nameB"].strip() or "________________________"} : {draft["roleB"]}.'),
-        ("La durée", f'Début : {date(draft["start"])}. Fin : {date(draft["end"])}.\n{draft["duration"]}'),
+        ("Les personnes et les rôles", f'{draft["nameA"].strip() or "________________________"} : {draft["roleA"].strip() or model["roles"][0]}.\n{draft["nameB"].strip() or "________________________"} : {draft["roleB"].strip() or model["roles"][1]}.'),
+        ("La durée", f'Début : {date(draft["start"])}. Fin : {date(draft["end"])}.\n{draft["duration"].strip() or "Durée et renouvellement à convenir ensemble."}'),
         *[(field["title"], draft["fields"][field["id"]].strip()) for field in fields if draft["fields"].get(field["id"], "").strip()],
         ("Un accord qui reste libre", CATALOGUE["closing"]),
     ]

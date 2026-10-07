@@ -5,11 +5,11 @@ const journalSlugs = new Set(['premiers-pas','parler-de-ses-limites','les-mots-p
 
 export default {
   async headers() {
-    return [{source:'/contrats/signature/:path*',headers:[
+    return ['/contrats/signature/:path*','/mes-contrats','/compte'].map(source=>({source,headers:[
       {key:'Referrer-Policy',value:'no-referrer'},
       {key:'X-Robots-Tag',value:'noindex, nofollow'},
       {key:'Cache-Control',value:'private, no-store'},
-    ]}];
+    ]}));
   },
   async redirects() {
     const legacyPages = Object.keys(documents)
@@ -19,7 +19,7 @@ export default {
         destination: name === 'index.html' ? '/' : name === 'soirees.html' ? '/events' : journalSlugs.has(name.slice(0, -5)) ? `/guides/${name.slice(0, -5)}` : `/${name.slice(0, -5)}`,
         permanent: true,
       }));
-    const appPages = ['rencontres','profil','mon-profil','compte','messages','connexions','pins','hooks'];
+    const appPages = ['rencontres','profil','mon-profil','messages','connexions','pins','hooks'];
     const appRedirects = appPages.flatMap(page => [
       {source:`/${page}`, destination:'/application', permanent:false},
       {source:`/${page}.html`, destination:'/application', permanent:false},

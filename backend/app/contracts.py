@@ -145,6 +145,8 @@ def cleanup(db):
     db.execute(delete(Signer).where(Signer.contract_id.in_(expired)))
     db.execute(delete(Contract).where(Contract.expires_at<=int(time.time())))
     db.execute(delete(CodeDispatch).where(CodeDispatch.requested_at<=int(time.time())-3600))
+    from .member_contracts import cleanup_drafts
+    cleanup_drafts(db)
     db.commit()
 
 
@@ -195,7 +197,21 @@ async def deliver(db,contract):
         db.commit()
 
 
-def install_contract_routes(app,session_factory):
+def apply_signature(db, contract, signer, body):
+    stored=decrypt(contract.content);name=stored["document"]["nameA" if signer.slot==0 else "nameB"].strip()
+    if not body.accepted or body.name.strip()!=name or body.contentHash!=contract.content_hash:
+        raise HTTPException(409,"Relis cette version et signe avec le nom ou pseudo prévu.")
+    if not signer.signed_at:
+        signer.signed_at=int(time.time());signer.signature=encrypt(name);db.flush()
+    signers=list(db.scalars(select(Signer).where(Signer.contract_id==contract.id).order_by(Signer.slot)))
+    if all(s.signed_at for s in signers) and contract.status!="completed":
+        stamps=[{"name":decrypt(s.signature),"signedAt":iso(s.signed_at)} for s in signers]
+        pdf=render_pdf(stored["document"],stamps,reference(contract))
+        contract.pdf=encrypt(base64.b64encode(pdf).decode());contract.status="completed"
+        contract.expires_at=int(time.time())+30*86400
+
+
+def install_contract_routes(app,session_factory,on_signed=None):
     router=APIRouter(prefix="/api/contracts")
 
     def db_session():
@@ -275,17 +291,8 @@ def install_contract_routes(app,session_factory):
     @router.post("/{contract_id}/sign",dependencies=[Depends(same_origin)])
     async def sign(contract_id:str,body:SignRequest,request:Request,db=Depends(db_session)):
         contract,signer=get_contract(db,contract_id,request,access=True,lock=True)
-        stored=decrypt(contract.content);name=stored["document"]["nameA" if signer.slot==0 else "nameB"].strip()
-        if not body.accepted or body.name.strip()!=name or body.contentHash!=contract.content_hash:
-            raise HTTPException(409,"Relis cette version et signe avec le nom ou pseudo prévu.")
-        if not signer.signed_at:
-            signer.signed_at=int(time.time());signer.signature=encrypt(name);db.flush()
-        signers=list(db.scalars(select(Signer).where(Signer.contract_id==contract.id).order_by(Signer.slot)))
-        if all(s.signed_at for s in signers) and contract.status!="completed":
-            stamps=[{"name":decrypt(s.signature),"signedAt":iso(s.signed_at)} for s in signers]
-            pdf=render_pdf(stored["document"],stamps,reference(contract))
-            contract.pdf=encrypt(base64.b64encode(pdf).decode());contract.status="completed"
-            contract.expires_at=int(time.time())+30*86400
+        apply_signature(db, contract, signer, body)
+        if on_signed: on_signed(db, contract)
         db.commit()
         await deliver(db,contract)
         return projection(db,contract,signer)
@@ -300,6 +307,8 @@ def install_contract_routes(app,session_factory):
     @router.post("/{contract_id}/withdraw",dependencies=[Depends(same_origin)])
     def withdraw(contract_id:str,request:Request,db=Depends(db_session)):
         contract,signer=get_contract(db,contract_id,request,access=True,lock=True)
+        from .member_contracts import remove_agreement_copies
+        remove_agreement_copies(db, contract.id)
         contract.status="withdrawn";contract.content=encrypt({});contract.pdf=None
         for s in db.scalars(select(Signer).where(Signer.contract_id==contract.id)):
             s.email=encrypt("");s.signature=None;s.access_hash=None;s.invite_hash=digest(secrets.token_urlsafe(32))

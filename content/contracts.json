@@ -1259,7 +1259,15 @@
     },
     {
       "question": "Que se passe-t-il si nous changeons d’avis ?",
-      "answer": "Chaque personne peut arrêter le jeu ou la dynamique. Pour une version en ligne, « Retirer cet accord » révoque les liens et supprime son contenu du serveur ; les copies déjà téléchargées ou reçues restent chez leurs destinataires."
+      "answer": "Chaque personne peut arrêter le jeu ou la dynamique. Pour une version en ligne, « Retirer cet accord » révoque les liens et supprime le document ainsi que ses copies dans Mes contrats. Les PDF déjà téléchargés ou reçus par e-mail restent chez leurs destinataires."
+    },
+    {
+      "question": "Comment retrouver mon contrat dans mon compte et dans l’app ?",
+      "answer": "Après le téléchargement ou l’impression, cliquez sur « Conserver dans Mes contrats », ou créez votre compte et connectez-vous via l’encart proposé. Les contrats signés apparaissent automatiquement dans le compte associé à l’adresse utilisée pour signer. Vous pouvez aussi conserver votre copie depuis la page du contrat signé. Retrouvez ensuite vos documents dans Mon compte → Mes contrats, sur le site et dans l’app Kinq."
+    },
+    {
+      "question": "Ma copie reste-t-elle disponible après l’expiration du lien ?",
+      "answer": "Oui, une copie conservée dans Mes contrats reste accessible avec votre compte, même après l’expiration du lien privé. « Retirer de Mes contrats » supprime uniquement votre copie du compte. L’autre personne garde la sienne ; les PDF déjà téléchargés restent sur vos appareils."
     },
     {
       "question": "Le document a-t-il une valeur légale ?",

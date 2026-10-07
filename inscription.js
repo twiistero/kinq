@@ -36,6 +36,8 @@ document.querySelector('#signup-code-form').addEventListener('submit', async eve
   signupStatus.textContent = '';
   try {
     await memberAuth('verify', {email: signupForm.elements.email.value.trim(), code: event.currentTarget.elements.code.value});
+    const next = new URLSearchParams(location.search).get('next');
+    if (['/mes-contrats','/compte'].includes(next)) {location.href=next;return;}
     signupNextView.hidden = true;
     const success = document.querySelector('#signup-success-view');
     success.hidden = false;

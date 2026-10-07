@@ -12,16 +12,20 @@ from backend.app.main import (Base, Member, MemberProfile, MemberLoginCode, Memb
     MemberConsent, MemberActivity, MemberLocation, MemberSignal, MemberMessage,
     MemberNotification, Photo, PrivatePhoto, PhotoAccessRequest, Article, Comment,
     erase_member, close_member_account, verify_email_change, EmailChange, code_digest)
+from backend.app.contracts import ContractBase, encrypt
+from backend.app.member_contracts import SavedContract
 
 class MemberAccountTests(unittest.TestCase):
     def setUp(self):
         self.engine = create_engine('sqlite://')
         @event.listens_for(self.engine, 'connect')
         def foreign_keys(connection, _): connection.execute('PRAGMA foreign_keys=ON')
-        Base.metadata.create_all(self.engine); self.db = Session(self.engine)
+        Base.metadata.create_all(self.engine); ContractBase.metadata.create_all(self.engine); self.db = Session(self.engine)
         self.members = [Member(email=f'account-{n}@example.test', name=f'Unit {n}') for n in range(3)]
         self.db.add_all(self.members); self.db.flush()
         self.a, self.b, self.c = self.members
+        for member in self.members:
+            self.db.add(SavedContract(id=f'copy-{member.id}', member_id=member.id, source_key='unit', content=encrypt({}), pdf=None, created_at=1, removed=False))
         now = datetime.now(timezone.utc)
         for member in self.members:
             self.db.add_all([
@@ -59,6 +63,8 @@ class MemberAccountTests(unittest.TestCase):
         self.assertEqual(self.count(MemberSignal),2)
         for model in (MemberMessage,MemberNotification,PhotoAccessRequest,Comment): self.assertEqual(self.count(model),1)
         self.assertEqual(self.count(Photo),2); self.assertEqual(self.count(PrivatePhoto),0)
+        self.assertEqual(self.count(SavedContract),2)
+        self.assertIsNone(self.db.get(SavedContract,f'copy-{self.a.id}'))
         message=self.db.scalar(select(MemberMessage))
         self.assertEqual((message.sender_id,message.recipient_id),(self.b.id,self.c.id))
         deleted=self.db.get(Member,self.a.id)
@@ -68,6 +74,7 @@ class MemberAccountTests(unittest.TestCase):
         erase_member(self.db,self.a); self.db.flush(); self.db.rollback(); self.db.expire_all()
         self.assertEqual(self.a.status,'active'); self.assertEqual(self.count(MemberMessage),3)
         self.assertEqual(self.count(Photo),3); self.assertEqual(self.count(PrivatePhoto),1)
+        self.assertEqual(self.count(SavedContract),3)
         self.assertIsNotNone(self.db.get(MemberProfile,self.a.id))
     def challenge(self):
         value=self.db.get(MemberCode,'new-address@example.test')

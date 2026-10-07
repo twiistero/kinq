@@ -81,3 +81,29 @@ et le symbole partagé ; sa version PNG transparente sert au PDF serveur.
 Le catalogue utilise dix pictogrammes distincts, sans numéros de catégories.
 Chaque champ conserve une consigne et une aide « Exemple et conseils » repliée
 par défaut ; elle permet de reprendre la formulation proposée en un clic.
+
+## Mes contrats — compte web et iOS
+
+Les copies personnelles sont enregistrées chiffrées dans `member_contract_copies`.
+Une version à imprimer est conservée sur demande, avec un PDF généré par le serveur.
+Les signatures terminées conservent exactement le PDF signé canonique, sans en
+régénérer la date. Les comptes existants des deux signataires reçoivent leur copie ;
+un nouveau compte peut retrouver l'accord via son adresse vérifiée ou revendiquer
+sa copie avec son accès de signataire vérifié.
+
+Les copies du compte restent accessibles après l'expiration du lien privé, jusqu'à
+leur retrait ou la suppression du compte. Retirer sa copie de Mes contrats ne
+retire pas la copie de l'autre personne. Retirer l'accord depuis sa page de signature
+efface aussi ses copies conservées côté serveur ; les PDF déjà exportés restent
+chez leurs destinataires.
+
+Après un PDF ou une impression, l'encart propose la connexion/inscription et conserve
+le document chiffré pendant 24 heures dans `contract_account_drafts`. Le navigateur
+ne conserve qu'un jeton opaque de retour, à usage unique. Aucun texte de contrat
+n'est placé dans l'URL ou dans le stockage du navigateur. Le retour de connexion
+est limité à `/compte`, `/mes-contrats` et aux chemins éditoriaux déjà autorisés.
+
+Les routes `/api/member/contracts` réutilisent la session membre et la protection
+CSRF ordinaires. Lecture, PDF et retrait vérifient systématiquement le propriétaire.
+La rubrique native iOS utilise les mêmes routes, les mêmes documents et les dates
+serveur, sans modèles de données de démonstration ni copie locale en repli.

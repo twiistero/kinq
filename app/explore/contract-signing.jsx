@@ -6,6 +6,7 @@ import {Arrow} from './frame';
 import {contractApi, ContractDocument, ContractFaq, CopyableText, download} from './contracts';
 import {copyText} from './export';
 import {formatSignedAt} from './contract-model.mjs';
+import ContractAccountCTA from './contract-account-cta';
 
 export default function ContractSigning({id}) {
   const [invitation,setInvitation]=useState(''),[access,setAccess]=useState(''),[record,setRecord]=useState(null);
@@ -33,6 +34,7 @@ export default function ContractSigning({id}) {
       {record.status==='completed' && <div className="kc-completed"><h2>Votre copie.</h2><p>{record.delivery==='sent' ? 'Ta copie a été acceptée par le service d’envoi. Vérifie ta boîte e-mail.' : 'L’envoi de ta copie est en attente. Le PDF est déjà téléchargeable ici.'}</p><button type="button" className="button" disabled={busy} onClick={()=>action(async()=>download(await contractApi(`/${id}/pdf`,{token:access,verified:true}),`accord-${record.reference}-kinq.pdf`))}>Télécharger le PDF signé <Arrow/></button><p className="kx-note">Accès au document jusqu’au {formatSignedAt(record.expiresAt)}. Les copies déjà reçues par e-mail restent chez leurs destinataires.</p></div>}
       <button type="button" className="text-button" disabled={busy} onClick={()=>action(refresh)}><RefreshCw size={15} aria-hidden="true"/> Actualiser les signatures</button><button type="button" className="text-button" onClick={()=>setConfirmWithdraw(true)}>Retirer cet accord</button>{confirmWithdraw && <div className="kx-reset"><p>Retirer cet accord rend les liens inutilisables et efface son contenu sur le serveur. Les copies déjà reçues restent chez leurs destinataires.</p><button type="button" className="button" disabled={busy} onClick={()=>action(async()=>{await contractApi(`/${id}/withdraw`,{token:access,method:'POST'});setRecord(null);setAccess('');setInvitation('');setStatus('L’accord a été retiré. Les liens ne sont plus utilisables.');setConfirmWithdraw(false);})}>Retirer l’accord</button><button type="button" className="text-button" onClick={()=>setConfirmWithdraw(false)}>Garder l’accord</button></div>}
     </aside><ContractDocument draft={record.document} signatures={record.signatures} reference={record.reference}/></div>}
+    {record?.status==='completed' && <ContractAccountCTA signed={{id,access}}/>}
     <p className="kx-status" role="status" aria-live="polite">{status}</p>
   </section>;
 }
