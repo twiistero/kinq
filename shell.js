@@ -77,19 +77,9 @@ document.querySelector("#site-footer").innerHTML = `<footer class="site-footer">
     'centre-aide': 'Centre d’aide'
   };
   if (page === 'journal') {
-    const category = document.body.dataset.breadcrumbCategory;
-    trail.push({ label: 'NO TABOO', href: category ? '/guides' : null });
-    if (category) {
-      const sections = {
-        'Premiers pas': 'a-la-une',
-        'Entre nous': 'entre-nous',
-        'Le lexique': 'les-mots',
-        'Vie privée': 'vie-privee',
-        Rencontres: 'rencontres'
-      };
-      trail.push({ label: category, href: `/guides#${sections[category] || 'premiers-pas'}` });
-      trail.push({ label: document.body.dataset.breadcrumbTitle || 'Article' });
-    }
+    const articleTitle = document.body.dataset.breadcrumbTitle || (location.pathname.startsWith('/guides/') ? main.querySelector('h1')?.textContent : '');
+    trail.push({ label: 'NO TABOO', href: articleTitle ? '/guides' : null });
+    if (articleTitle) trail.push({ label: articleTitle });
   } else if (page === 'contrats' && location.pathname.replace(/\/$/,'') !== '/contrats') {
     const label = location.pathname.startsWith('/contrats/signature/') ? 'Signature privée' : main.querySelector('h1')?.textContent || 'Contrat';
     trail.push({ label: 'Les contrats Kinq', href: '/contrats' }, { label });
@@ -124,56 +114,47 @@ document.querySelector("#site-footer").innerHTML = `<footer class="site-footer">
   nav.append(list);
   header.after(nav);
 
-  // Keep every crumb readable: slide only when the trail exceeds its space.
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let timer;
-  let lastTime = 0;
-  let pauseUntil = 0;
-  let direction = -1;
-  let pointerOver = false;
-  let focused = false;
-  let userScrolling = false;
+})();
 
-  function slide(time) {
-    const end = nav.scrollWidth - nav.clientWidth;
-    if (end <= 1 || userScrolling) return;
-    if (!pointerOver && !focused && time >= pauseUntil) {
-      nav.scrollLeft += direction * Math.min(time - (lastTime || time), 50) * 0.055;
-      if (nav.scrollLeft <= 0 || nav.scrollLeft >= end) {
-        nav.scrollLeft = direction < 0 ? 0 : end;
-        direction *= -1;
-        pauseUntil = time + 1600;
-      }
-    }
-    lastTime = time;
-    timer = setTimeout(() => slide(Date.now()), 32);
+// Published article documents use the shell without app.js or its modal dialog.
+// Keep their header and drawer operational with the same slide transitions.
+(() => {
+  if (document.querySelector('#dialog')) return;
+  const menu = document.querySelector('#mega-menu');
+  const toggle = document.querySelector('.menu-toggle');
+  if (!menu || !toggle) return;
+  const duration = value => matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : value;
+  let closing = null;
+  function openMenu() {
+    if (menu.open) return;
+    menu.showModal();
+    toggle.setAttribute('aria-expanded', 'true');
+    menu.animate([{transform:'translateX(-100%)'}, {transform:'translateX(0)'}], {duration:duration(420), easing:'cubic-bezier(.22,1,.36,1)'});
   }
-
-  function measure() {
-    clearTimeout(timer);
-    const end = nav.scrollWidth - nav.clientWidth;
-    if (end <= 1) {
-      nav.removeAttribute('tabindex');
-      nav.scrollLeft = 0;
-      return;
-    }
-    nav.tabIndex = 0;
-    if (userScrolling) return;
-    nav.scrollLeft = end;
-    if (reducedMotion) return;
-    direction = -1;
-    lastTime = 0;
-    pauseUntil = Date.now() + 1600;
-    timer = setTimeout(() => slide(Date.now()), 32);
+  function closeMenu() {
+    if (!menu.open) return Promise.resolve();
+    if (closing) return closing;
+    menu.getAnimations().forEach(animation => animation.cancel());
+    closing = menu.animate([{transform:'translateX(0)'}, {transform:'translateX(-100%)'}], {duration:duration(320), easing:'cubic-bezier(.64,0,.78,0)', fill:'forwards'}).finished.catch(() => {}).then(() => {
+      menu.close();
+      menu.getAnimations().forEach(animation => animation.cancel());
+      closing = null;
+    });
+    return closing;
   }
-
-  nav.addEventListener('pointerenter', () => { pointerOver = true; });
-  nav.addEventListener('pointerleave', () => { pointerOver = false; lastTime = 0; });
-  nav.addEventListener('focusin', () => { focused = true; });
-  nav.addEventListener('focusout', () => { focused = false; lastTime = 0; });
-  for (const eventName of ['pointerdown', 'touchstart', 'wheel', 'keydown']) {
-    nav.addEventListener(eventName, () => { userScrolling = true; clearTimeout(timer); }, { passive: true });
-  }
-  document.fonts.ready.then(measure);
-  window.addEventListener('resize', measure);
+  toggle.addEventListener('click', openMenu);
+  menu.querySelector('.menu-close').addEventListener('click', closeMenu);
+  menu.addEventListener('cancel', event => { event.preventDefault(); closeMenu(); });
+  menu.addEventListener('close', () => toggle.setAttribute('aria-expanded', 'false'));
+  menu.addEventListener('click', async event => {
+    if (event.target === menu) { closeMenu(); return; }
+    const link = event.target.closest('a');
+    if (link) { event.preventDefault(); await closeMenu(); location.href = link.href; }
+  });
+  document.querySelectorAll('#site-header [data-modal]').forEach(button => {
+    button.addEventListener('click', async () => {
+      await closeMenu();
+      location.href = button.dataset.modal === 'join' ? '/inscription' : '/#app';
+    });
+  });
 })();

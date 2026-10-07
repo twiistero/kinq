@@ -1,17 +1,9 @@
-import {CoverWords,coverFor} from './no-taboo-covers';
+import {JournalBrand, JournalMark, JournalTopics} from './no-taboo-shell';
 import {parseFragment} from 'parse5';
 import {RenderNode} from './page-document';
 import JournalComments from './journal-comments';
 import ArticleToc from './article-toc';
 
-const legacyLabels = {
-  'premiers-pas': ['Premiers pas', 'DÉBUT'],
-  'parler-de-ses-limites': ['Entre nous', 'LIMITES'],
-  'les-mots-pour-se-comprendre': ['Le lexique', 'MOTS'],
-  'profil-et-vie-privee': ['Vie privée', 'PRIVÉ'],
-  'premiere-rencontre': ['Rencontres', 'RDV'],
-  aftercare: ['Entre nous', 'APRÈS'],
-};
 const allowed = new Set(['p','h2','h3','strong','b','em','i','a','ul','ol','li','blockquote','br']);
 
 function textOf(node) {
@@ -84,14 +76,13 @@ export default function ArticleContent({article, document, slug, comments, comme
   const {intro, sections} = normalizeSections(raw.map(withoutPhotos).filter(node => node !== null));
   const firstIntroParagraph = intro.findIndex(node => typeof node !== 'string' && node.tag === 'p');
   const toc = sections.map((section, index) => ({...section, id: `${slugify(section.title)}-${index + 1}`}));
-  const [category, coverWord] = legacyLabels[slug] || ['NO TABOO', 'KINQ'];
   return <div className="nt-site nt-reading nt-unified wrap">
-    <header className="nt-masthead"><a href="/guides" aria-label="NO TABOO, accueil du journal"><strong>NO TABOO<span>.</span></strong><small>LE JOURNAL KINQ</small></a></header>
     <article>
-      <header className="nt-unified-hero">
-        <div className="nt-unified-hero-copy"><h1>{title}</h1><p className="nt-unified-deck">{summary}</p><div className="nt-unified-actions"><a className="button" href="#article">Lire l’article <svg aria-hidden="true"><use href="#arrow"/></svg></a><a className="nt-unified-comment-link" href="#commentaires">Commentaires ({commentCount ?? comments?.length ?? 0}) <svg aria-hidden="true"><use href="#arrow"/></svg></a></div></div>
-        <div className={`nt-unified-cover nt-cover-${coverFor(slug, article?.art_words).theme}`} aria-label={`Illustration ${coverWord}`}><CoverWords slug={slug} words={article?.art_words}/></div>
+      <header className="nt-unified-hero journal-full-hero">
+        <div className="nt-unified-hero-copy journal-full-copy"><JournalBrand/><p className="journal-hero-themes">Culture Kink / Pratiques / Rencontres</p><h1>{title}</h1><p className="nt-unified-deck">{summary}</p><div className="nt-unified-actions"><a className="button" href="#article">Lire l’article <svg aria-hidden="true"><use href="#arrow"/></svg></a><a className="nt-unified-comment-link" href="#commentaires">Commentaires ({commentCount ?? comments?.length ?? 0}) <svg aria-hidden="true"><use href="#arrow"/></svg></a></div></div>
+        <JournalMark/>
       </header>
+      <JournalTopics/>
       <div className="nt-unified-layout" id="article"><aside className="nt-unified-rail"><ArticleToc items={toc.map(({id,title})=>({id,title}))}/><div className="nt-author"><strong>Auteur : Kinq Team</strong></div></aside>
         <div className="nt-unified-body"><div className="nt-editorial-intro">{intro.length ? intro.map((node,index) => <RenderNode key={index} node={!legacy && index === firstIntroParagraph ? {...node,attrs:{...node.attrs,class:'nt-dropcap'}} : node}/>) : <p className="nt-dropcap">{summary}</p>}</div>{toc.map(item => <section className="nt-editorial-section" id={item.id} key={item.id}>{item.nodes.length ? item.nodes.map((node,index) => <RenderNode key={index} node={node}/>) : <h2>{item.title}</h2>}</section>)}</div>
       </div>

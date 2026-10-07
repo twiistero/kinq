@@ -16,5 +16,5 @@ export default async function RootLayout({children}) {
     const response = await fetch(`${api}/api/public/settings/analytics`, {cache: 'no-store'});
     if (response.ok) siteId = (await response.json()).site_id || '';
   } catch { /* Keep the site available if analytics settings cannot be read. */ }
-  return <html lang="fr"><body>{children}<Disclosures/><AnalyticsConsent siteId={siteId}/></body></html>;
+  return <html lang="fr"><body>{children}<link rel="stylesheet" href="/header-coherence.css?v=20261007"/><Disclosures/><AnalyticsConsent siteId={siteId}/></body></html>;
 }
