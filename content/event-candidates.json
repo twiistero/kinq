@@ -763,7 +763,7 @@
   },
   {
     "id": "maspalomas-545",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -783,7 +783,7 @@
   },
   {
     "id": "maspalomas-546",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -803,7 +803,7 @@
   },
   {
     "id": "maspalomas-547",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -823,7 +823,7 @@
   },
   {
     "id": "maspalomas-548",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -843,7 +843,7 @@
   },
   {
     "id": "maspalomas-549",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
