@@ -6,5 +6,13 @@
     "detected_at": "2026-09-28T14:01:28+00:00",
     "status": "pending",
     "note": "Page source modifiée : vérifier les dates, annulations et nouveaux événements."
+  },
+  {
+    "source_id": "redzone",
+    "source_name": "REDZONE Paris",
+    "url": "https://redzone-bar.com/agenda/",
+    "detected_at": "2026-10-10T12:36:54+00:00",
+    "status": "pending",
+    "note": "Page source modifiée : vérifier les dates, annulations et nouveaux événements."
   }
 ]
