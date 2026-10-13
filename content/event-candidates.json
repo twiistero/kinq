@@ -1344,7 +1344,7 @@
   },
   {
     "id": "maspalomas-1118",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -1364,7 +1364,7 @@
   },
   {
     "id": "maspalomas-625",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -1384,7 +1384,7 @@
   },
   {
     "id": "maspalomas-941",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -1606,7 +1606,7 @@
   },
   {
     "id": "darklands-fury-2027",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
