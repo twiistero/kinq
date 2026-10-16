@@ -1485,7 +1485,7 @@
   },
   {
     "id": "fetish-strasbourg-5962",
-    "status": "source_missing",
+    "status": "pending",
     "mode": "new",
     "target_id": null,
     "first_seen": "2026-09-27",
@@ -1586,7 +1586,7 @@
   },
   {
     "id": "darklands-rage-2027",
-    "status": "pending",
+    "status": "source_missing",
     "mode": "new",
     "first_seen": "2026-09-27",
     "event": {
@@ -1626,7 +1626,7 @@
   },
   {
     "id": "fetish-strasbourg-5965",
-    "status": "source_missing",
+    "status": "pending",
     "mode": "new",
     "target_id": null,
     "first_seen": "2026-09-27",
