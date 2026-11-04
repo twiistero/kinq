@@ -1427,6 +1427,7 @@
     "id": "fetish-lyon-2946",
     "status": "pending",
     "mode": "new",
+    "target_id": null,
     "first_seen": "2026-09-27",
     "event": {
       "id": "fetish-lyon-2946",
@@ -1434,7 +1435,7 @@
       "origin_id": "2946",
       "name": "Weekend Tied Up! 6 – Apéro Fetish – Tombola",
       "start": "2026-11-06T18:30+01:00",
-      "end": "2026-11-06T23:00+01:00",
+      "end": "2026-11-06T23:59+01:00",
       "city": "Lyon",
       "country": "France",
       "scope": "france",
@@ -1481,6 +1482,48 @@
       "kind": "Rencontre",
       "summary": "Événement annoncé par Association Fetish Lyon. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
       "source": "https://fetishlyon.fr/evenement/apero-fetish-decembre-2026/"
+    }
+  },
+  {
+    "id": "fetish-lyon-3267",
+    "status": "pending",
+    "mode": "new",
+    "target_id": null,
+    "first_seen": "2026-11-04",
+    "event": {
+      "id": "fetish-lyon-3267",
+      "source_id": "fetish-lyon",
+      "origin_id": "3267",
+      "name": "Assemblée Générale 2027",
+      "start": "2027-01-09T16:30+01:00",
+      "end": "2027-01-09T18:30+01:00",
+      "city": "Lyon",
+      "country": "France",
+      "scope": "france",
+      "kind": "Soirée",
+      "summary": "Événement annoncé par Association Fetish Lyon. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
+      "source": "https://fetishlyon.fr/evenement/%f0%9f%97%b3%ef%b8%8f-assemblee-generale-2027/"
+    }
+  },
+  {
+    "id": "fetish-lyon-3276",
+    "status": "pending",
+    "mode": "new",
+    "target_id": null,
+    "first_seen": "2026-11-04",
+    "event": {
+      "id": "fetish-lyon-3276",
+      "source_id": "fetish-lyon",
+      "origin_id": "3276",
+      "name": "Apéro Fetish – Janvier 2027",
+      "start": "2027-01-09T18:30+01:00",
+      "end": "2027-01-09T22:00+01:00",
+      "city": "Lyon",
+      "country": "France",
+      "scope": "france",
+      "kind": "Rencontre",
+      "summary": "Événement annoncé par Association Fetish Lyon. Horaires et conditions d’accès à vérifier sur la fiche officielle.",
+      "source": "https://fetishlyon.fr/evenement/apero-fetish-janvier-2027/"
     }
   },
   {
