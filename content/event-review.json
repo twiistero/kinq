@@ -14,5 +14,13 @@
     "detected_at": "2026-10-10T12:36:54+00:00",
     "status": "pending",
     "note": "Page source modifiée : vérifier les dates, annulations et nouveaux événements."
+  },
+  {
+    "source_id": "poteau-rose",
+    "source_name": "Le Poteau Rose Toulouse",
+    "url": "https://lepoteaurose.fr/nos-events/",
+    "detected_at": "2026-11-05T14:42:58+00:00",
+    "status": "pending",
+    "note": "Page source modifiée : vérifier les dates, annulations et nouveaux événements."
   }
 ]
